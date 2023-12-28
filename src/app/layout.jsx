@@ -3,7 +3,7 @@ import Header from "@/Components/Header/Header";
 import Providers from "@/Components/Providers";
 import { Tajawal } from "next/font/google";
 
-import "@/styles/globals.css";
+import "@/globals.css";
 const tajawal = Tajawal({
   weight: ["200", "300", "400", "500", "700", "800", "900"],
   preload: false,
