@@ -1,7 +1,7 @@
-import PostListing from "@/Components/Post/PostListing";
+import PostListing from "@/components/Post/PostListing";
 
 import React, { Suspense } from "react";
-import { PostListingSkeleton } from "@/Components/Skeleton/Skeleton";
+import { PostListingSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const revalidate = 0;
 

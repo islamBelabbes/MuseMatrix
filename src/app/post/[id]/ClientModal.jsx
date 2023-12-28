@@ -1,11 +1,11 @@
 "use client";
-import Conditional from "@/Components/Conditional";
+import Conditional from "@/components/Conditional";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
 
 const DeletePostModal = dynamic(() =>
-  import("@/Components/Post/DeletePostModal")
+  import("@/components/Post/DeletePostModal")
 );
 
 function ClientModal({ id }) {

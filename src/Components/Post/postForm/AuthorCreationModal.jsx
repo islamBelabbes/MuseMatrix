@@ -1,6 +1,6 @@
-import Conditional from "@/Components/Conditional";
-import { SingleImageUploader } from "@/Components/ImageUploader";
-import Modal from "@/Components/Modal/Modal";
+import Conditional from "@/components/Conditional";
+import { SingleImageUploader } from "@/components/ImageUploader";
+import Modal from "@/components/Modal/Modal";
 import Image from "next/image";
 import React, { useState } from "react";
 

@@ -1,4 +1,4 @@
-import PostForm from "@/Components/Post/postForm/PostForm";
+import PostForm from "@/components/Post/postForm/PostForm";
 import prisma from "@/lib/prisma";
 import { tryCatch } from "@/lib/utils";
 import { notFound } from "next/navigation";

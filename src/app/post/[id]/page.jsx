@@ -1,5 +1,5 @@
-import PostContentView from "@/Components/Post/PostContentView";
-import Tag from "@/Components/Tag";
+import PostContentView from "@/components/Post/PostContentView";
+import Tag from "@/components/Tag";
 import prisma from "@/lib/prisma";
 import { tryCatch } from "@/lib/utils";
 import Image from "next/image";

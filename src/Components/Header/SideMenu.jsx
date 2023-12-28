@@ -1,5 +1,5 @@
 "use client";
-import { NAV_LINKS } from "@/Constants/Constants";
+import { NAV_LINKS } from "@/constants/constants";
 import SideModal from "../Modal/SideModal";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/context/GlobalModalProvider";

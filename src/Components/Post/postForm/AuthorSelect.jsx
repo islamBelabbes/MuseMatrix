@@ -1,10 +1,10 @@
-import BlockUi from "@/Components/BlockUi";
+import BlockUi from "@/components/BlockUi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import AuthorCreationModal from "./AuthorCreationModal";
-import Conditional from "@/Components/Conditional";
+import Conditional from "@/components/Conditional";
 import { AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 const optionsX = [

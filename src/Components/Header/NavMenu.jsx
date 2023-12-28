@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NAV_LINKS } from "@/Constants/Constants";
+import { NAV_LINKS } from "@/constants/constants";
 import { twMerge } from "tailwind-merge";
 
 function NavMenu({ className = null, itemClassName }) {

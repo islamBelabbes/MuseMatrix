@@ -1,4 +1,4 @@
-import PostForm from "@/Components/Post/postForm/PostForm";
+import PostForm from "@/components/Post/postForm/PostForm";
 
 function page() {
   return <PostForm type="create" />;

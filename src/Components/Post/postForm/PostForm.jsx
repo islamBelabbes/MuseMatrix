@@ -1,7 +1,7 @@
 "use client";
-import PostContentView from "@/Components/Post/PostContentView";
+import PostContentView from "@/components/Post/PostContentView";
 import Image from "next/image";
-import { SingleImageUploader } from "@/Components/ImageUploader";
+import { SingleImageUploader } from "@/components/ImageUploader";
 import Conditional from "../../Conditional";
 import BlockUi from "../../BlockUi";
 import usePostForm from "./usePostForm";

@@ -1,4 +1,4 @@
-import BlockUi from "@/Components/BlockUi";
+import BlockUi from "@/components/BlockUi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useEffect } from "react";

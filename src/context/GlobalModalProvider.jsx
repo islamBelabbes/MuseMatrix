@@ -2,11 +2,11 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { manipulateSearchParams } from "@/lib/utils";
-import Conditional from "@/Components/Conditional";
+import Conditional from "@/components/Conditional";
 import dynamic from "next/dynamic";
 
 // Modals
-const SideMenu = dynamic(() => import("@/Components/Header/SideMenu"));
+const SideMenu = dynamic(() => import("@/components/Header/SideMenu"));
 
 const MODALS = {
   sidemenu: <SideMenu />,

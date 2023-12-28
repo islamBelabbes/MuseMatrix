@@ -1,6 +1,6 @@
-import Footer from "@/Components/Footer/Footer";
-import Header from "@/Components/Header/Header";
-import Providers from "@/Components/Providers";
+import Footer from "@/components/Footer/Footer";
+import Header from "@/components/Header/Header";
+import Providers from "@/components/Providers";
 import { Tajawal } from "next/font/google";
 
 import "@/globals.css";
