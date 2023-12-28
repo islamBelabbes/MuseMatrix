@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <div id="modal"></div>
           <Header />
-          <main>{children}</main>
+          <main>{process.env.NODE_ENV === "production" ? null : children}</main>
           <Footer />
         </Providers>
       </body>
