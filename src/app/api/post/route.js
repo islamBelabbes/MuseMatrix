@@ -3,6 +3,8 @@ import { sendNoContent, sendOk, sendServerError } from "@/lib/responseHelper";
 import { UTApi } from "uploadthing/server";
 export const utapi = new UTApi();
 import { dataURLtoFile, tryCatch } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
+import prisma from "@/lib/prisma";
 export async function POST(req) {
   const { genre, author, title, cover, content } = await req.json();
 
@@ -59,5 +61,6 @@ export async function PUT(req) {
     console.log(error);
     return sendServerError();
   }
+  revalidatePath(`/post/${id}`);
   return sendNoContent();
 }
