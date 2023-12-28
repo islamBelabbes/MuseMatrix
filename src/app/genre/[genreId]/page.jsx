@@ -3,6 +3,8 @@ import PostListing from "@/Components/Post/PostListing";
 import React, { Suspense } from "react";
 import { PostListingSkeleton } from "@/Components/Skeleton/Skeleton";
 
+export const revalidate = 0;
+
 const booksId = 16;
 
 const query = {
