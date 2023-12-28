@@ -46,7 +46,7 @@ function ModalsProvider({ children }) {
     ) {
       setActiveModal(searchParams.get("modal"));
     }
-  }, []);
+  }, [searchParams]);
 
   const values = {
     openModal,
