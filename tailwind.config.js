@@ -7,6 +7,7 @@ module.exports = withUt({
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  important: true,
   darkMode: "class",
   theme: {
     extend: {
