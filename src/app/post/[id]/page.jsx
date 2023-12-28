@@ -6,19 +6,39 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ClientModal from "./ClientModal";
+import { cache } from "react";
 
+const getPost = cache(async (id) => {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+    include: {
+      genre: true,
+      author: true,
+    },
+  });
+  return post;
+});
+
+export async function generateStaticParams() {
+  const posts = await prisma.post.findMany();
+  return posts.map((post) => ({
+    id: post.id.toString(),
+  }));
+}
+
+export async function generateMetadata({ params }) {
+  const { id } = params;
+  const [post, error] = await tryCatch(getPost(id));
+  if (error) throw new Error("Something went wrong");
+  return {
+    title: post.title,
+  };
+}
 async function page({ params }) {
-  const [post, error] = await tryCatch(
-    prisma.post.findUnique({
-      where: {
-        id: parseInt(params.id),
-      },
-      include: {
-        genre: true,
-        author: true,
-      },
-    })
-  );
+  const { id } = params;
+  const [post, error] = await tryCatch(getPost(id));
   if (error || !post) {
     notFound();
   }
@@ -51,6 +71,7 @@ async function page({ params }) {
               height={24}
               src="/edit.svg"
               className="white_filter"
+              alt="post edit"
             />
           </Link>
           <ClientModal id={parseInt(params.id)} />
