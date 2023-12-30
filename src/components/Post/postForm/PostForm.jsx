@@ -9,6 +9,7 @@ import { INITIAL_STATE } from "@/reducer/postFormReducer";
 import GenreSelect from "./GenreSelect";
 import AuthorSelect from "./AuthorSelect";
 import { useIsMutating, useIsFetching } from "@tanstack/react-query";
+import Link from "next/link";
 function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
   const [richTextEditorInit, data, dispatch, mutate, isMutatingLoading] =
     usePostForm({
@@ -17,6 +18,7 @@ function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
       type,
       postId,
     });
+
   const isAuthorMutating = useIsMutating({ mutationKey: ["author"] });
   const isAuthorFetching = useIsFetching({ queryKey: ["authors"] });
   const isGenreMutating = useIsMutating({ mutationKey: ["genre"] });
@@ -107,6 +109,19 @@ function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
           >
             {type === "create" ? "انشاء المقالة " : "تعديل المقالة"}
           </button>
+
+          <Conditional
+            condition={type === "update"}
+            onTrue={
+              <Link
+                href={`/post/${postId}`}
+                prefetch={false}
+                className="w-full button_secondary"
+              >
+                قراءة المقال
+              </Link>
+            }
+          />
         </div>
       </BlockUi>
     </div>
