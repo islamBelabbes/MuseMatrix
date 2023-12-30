@@ -5,13 +5,7 @@ import { useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import AuthorCreationModal from "./AuthorCreationModal";
 import Conditional from "@/components/Conditional";
-import { AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
-const optionsX = [
-  { value: "1", label: "Chocolate" },
-  { value: "2", label: "Strawberry" },
-  { value: "3", label: "Vanilla" },
-];
 
 function AuthorSelect({ state, dispatch }) {
   const [modal, setModal] = useState({ isOpen: false, state: null });

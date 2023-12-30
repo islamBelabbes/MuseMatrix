@@ -1,7 +1,7 @@
 import BlockUi from "@/components/BlockUi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect } from "react";
+import React from "react";
 import CreatableSelect from "react-select/creatable";
 import { toast } from "react-toastify";
 
