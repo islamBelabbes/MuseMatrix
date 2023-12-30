@@ -17,7 +17,7 @@ const usePostForm = ({ initializedData, richEditorArea, type, postId }) => {
       direction: "rtl",
       colorsText: ["#000000"],
       placeholderText: "ابدا بالكتابة",
-
+      fontSize: ["14", , "16", "18", "20"],
       toolbarButtons: [
         "bold",
         "italic",
@@ -42,8 +42,13 @@ const usePostForm = ({ initializedData, richEditorArea, type, postId }) => {
         keyup: function () {
           dispatch({ type: "CONTENT", payload: this.html.get() });
         },
-        contentChanged: function () {
-          dispatch({ type: "CONTENT", payload: this.html.get() });
+        contentChanged: async function () {
+          // dispatch({ type: "CONTENT", payload: this.html.get() });
+          if (type !== "update" || !postId || !this.html.get()) return;
+          return axios.put("/api/post", {
+            id: postId,
+            content: this.html.get(),
+          });
         },
       },
     });
