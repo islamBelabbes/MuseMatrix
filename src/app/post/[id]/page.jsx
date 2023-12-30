@@ -32,6 +32,7 @@ export async function generateMetadata({ params }) {
   const { id } = params;
   const [post, error] = await tryCatch(getPost(id));
   if (error) throw new Error("Something went wrong");
+  if (!post) notFound();
   return {
     title: post.title,
   };
