@@ -18,12 +18,13 @@ const query = {
 };
 
 function CategoryListing({ params }) {
+  const genreId = parseInt(params.genreId);
   return (
     <div className="flex flex-col gap-5 app">
       <Suspense fallback={<PostListingSkeleton count={6} />}>
         <PostListing
-          isBook={parseInt(params.genreId) === booksId}
-          query={{ ...query, where: { genreId: parseInt(params.genreId) } }}
+          isBook={genreId === booksId}
+          query={{ ...query, where: { genreId: genreId } }}
         />
       </Suspense>
     </div>
