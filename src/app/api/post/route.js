@@ -43,18 +43,26 @@ export async function DELETE(req) {
 
 export async function PUT(req) {
   const { id, content, cover, title, genre, author } = await req.json();
+
+  // check for fields to update
+  const fields = { cover, title, genreId: genre, authorId: author };
+
+  const query = Object.keys(fields).reduce(
+    (acc, filter) => {
+      if (fields[filter]) {
+        acc = { ...acc, [filter]: fields[filter] };
+      }
+      return acc;
+    },
+    { content }
+  );
+
   const [_, error] = await tryCatch(
     prisma.post.update({
       where: {
         id,
       },
-      data: {
-        content,
-        cover,
-        title,
-        genreId: parseInt(genre),
-        authorId: parseInt(author),
-      },
+      data: query,
     })
   );
   if (error) {
