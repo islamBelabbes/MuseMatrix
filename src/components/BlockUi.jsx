@@ -5,12 +5,12 @@ import { cn } from "@/lib/utils";
 
 function BlockUi({
   children,
-  className = { container: null, spinner: null },
+  classNames = { container: null, spinner: null },
   isBlock,
 }) {
   return (
     <div
-      className={cn("relative ", className.container, {
+      className={cn("relative ", classNames.container, {
         "cursor-not-allowed": isBlock,
       })}
     >
@@ -20,7 +20,7 @@ function BlockUi({
           <div
             className={cn(
               "absolute z-10 flex items-center justify-center w-full h-full bg-black/30 dark:bg-white/30",
-              className.spinner
+              classNames.spinner
             )}
           >
             <ClipLoader color="#4B6BFB" />
