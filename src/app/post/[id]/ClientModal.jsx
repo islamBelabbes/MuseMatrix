@@ -1,5 +1,5 @@
 "use client";
-import Conditional from "@/components/Conditional";
+import { AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
@@ -21,10 +21,11 @@ function ClientModal({ id }) {
           className="white_filter"
         />
       </button>
-      <Conditional
-        condition={isOpen}
-        onTrue={<DeletePostModal id={id} setIsOpen={setIsOpen} />}
-      />
+
+      {/* using normal conditional rendering for animatePresence */}
+      <AnimatePresence>
+        {isOpen && <DeletePostModal id={id} setIsOpen={setIsOpen} />}
+      </AnimatePresence>
     </>
   );
 }
