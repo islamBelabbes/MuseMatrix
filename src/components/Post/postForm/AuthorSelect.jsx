@@ -4,11 +4,12 @@ import axios from "axios";
 import { useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import AuthorCreationModal from "./AuthorCreationModal";
-import Conditional from "@/components/Conditional";
 import { toast } from "react-toastify";
+import { AnimatePresence } from "framer-motion";
 
 function AuthorSelect({ state, dispatch }) {
-  const [modal, setModal] = useState({ isOpen: false, state: null });
+  const [isOpen, setIsOpen] = useState(false);
+  const [authorName, setAuthorName] = useState(null);
   const {
     isLoading,
     data: authors,
@@ -25,6 +26,7 @@ function AuthorSelect({ state, dispatch }) {
     },
     mutationKey: ["author"],
   });
+
   const handleCreate = async ({ name, avatar }) => {
     const { data } = await toast.promise(() => mutateAsync({ name, avatar }), {
       pending: "الرجاء الانتظار",
@@ -40,22 +42,24 @@ function AuthorSelect({ state, dispatch }) {
   };
 
   const handleOnCreate = (inputValue) => {
-    setModal({ state: inputValue, isOpen: true });
+    setIsOpen(true);
+    setAuthorName(inputValue);
   };
+
   const isBlock = isPending || isLoading;
 
   return (
     <div className="flex items-center gap-2">
-      <Conditional
-        condition={modal.isOpen}
-        onTrue={
+      {/* using normal conditional rendering for animatePresence */}
+      <AnimatePresence>
+        {isOpen && (
           <AuthorCreationModal
             mutate={handleCreate}
-            modal={modal}
-            setModal={setModal}
+            authorName={authorName}
+            setIsOpen={setIsOpen}
           />
-        }
-      />
+        )}
+      </AnimatePresence>
 
       <label
         htmlFor="author"
@@ -65,7 +69,7 @@ function AuthorSelect({ state, dispatch }) {
       </label>
       <BlockUi
         isBlock={isBlock}
-        className={{ container: "w-full", spinner: "rounded" }}
+        classNames={{ container: "w-full", spinner: "rounded" }}
       >
         <CreatableSelect
           placeholder="اختيار"

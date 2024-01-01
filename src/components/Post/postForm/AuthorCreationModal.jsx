@@ -4,15 +4,15 @@ import Modal from "@/components/Modal/Modal";
 import Image from "next/image";
 import React, { useState } from "react";
 
-function AuthorCreationModal({ mutate, modal, setModal }) {
+function AuthorCreationModal({ mutate, authorName, setIsOpen }) {
   const [image, setImage] = useState(null);
 
-  const clickHandler = () => {
-    setModal(false);
-    mutate({ name: modal.state, avatar: image });
+  const deleteHandler = () => {
+    setIsOpen(false);
+    mutate({ name: authorName, avatar: image });
   };
   return (
-    <Modal isGlobal={false} localOnClose={() => setModal(false)}>
+    <Modal isGlobal={false} localOnClose={() => setIsOpen(false)}>
       <div className="flex flex-col gap-3">
         <div className="flex gap-[12px] items-center">
           <div className="w-[36px] h-[36px] rounded-full border  bg-slate-400">
@@ -29,7 +29,7 @@ function AuthorCreationModal({ mutate, modal, setModal }) {
               }
             />
           </div>
-          <span className="text-base font-medium">{modal.state}</span>
+          <span className="text-base font-medium">{authorName}</span>
           <SingleImageUploader
             images={image}
             setImages={setImage}
@@ -39,7 +39,7 @@ function AuthorCreationModal({ mutate, modal, setModal }) {
         <button
           className="w-full button_primary"
           disabled={!image}
-          onClick={clickHandler}
+          onClick={deleteHandler}
         >
           انشاء
         </button>
