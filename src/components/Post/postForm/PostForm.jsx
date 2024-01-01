@@ -29,7 +29,7 @@ function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
     <div className="app">
       <BlockUi
         isBlock={isMutatingLoading}
-        className={{ spinner: "rounded-md" }}
+        classNames={{ spinner: "rounded-md" }}
       >
         <div className="flex flex-col gap-3 ">
           <form className="flex flex-col gap-4 p-3 border rounded-md border-Primary sm:flex-row">
@@ -110,6 +110,7 @@ function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
             {type === "create" ? "انشاء المقالة " : "تعديل المقالة"}
           </button>
 
+          {/* readMore Button */}
           <Conditional
             condition={type === "update"}
             onTrue={

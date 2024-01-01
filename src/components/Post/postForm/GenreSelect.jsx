@@ -43,7 +43,7 @@ function GenreSelect({ state, dispatch }) {
       </label>
       <BlockUi
         isBlock={isBlock}
-        className={{ container: "w-full", spinner: "rounded" }}
+        classNames={{ container: "w-full", spinner: "rounded" }}
       >
         <CreatableSelect
           placeholder="اختيار"
