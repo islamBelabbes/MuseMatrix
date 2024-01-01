@@ -4,7 +4,7 @@ import Overlay from "./Overlay";
 import { useModal } from "@/context/GlobalModalProvider";
 
 function Modal({ children, keyProp, isGlobal = false, localOnClose = null }) {
-  const { closeModals } = useModal();
+  const { closeModals } = useModal(); // aka globalOnClose
   return (
     <Overlay styles={"flex justify-center items-center"} keyProp={keyProp}>
       <div className="p-6 bg-white border border-Secondary min-w-[500px] relative">
