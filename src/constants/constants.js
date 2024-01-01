@@ -22,6 +22,6 @@ export const NAV_LINKS = [
   {
     id: 5,
     name: "اقتباسات",
-    href: "/quots",
+    href: "/quotes",
   },
 ];
