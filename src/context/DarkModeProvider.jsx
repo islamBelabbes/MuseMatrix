@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useLayoutEffect, useState } from "react";
 import { toast } from "react-toastify";
 const DarkModeContext = createContext(null);
 export const useDarkMode = () => {
