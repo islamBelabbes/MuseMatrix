@@ -41,7 +41,7 @@ model Quote {
   text String
   postId Int?
   post Post? @relation(fields: [postId], references: [id])
-
+  author String? // the author here can be anything we are not limiteing it to the post author
 }
 enum STATUS {
  Draft
