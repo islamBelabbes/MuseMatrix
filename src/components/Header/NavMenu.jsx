@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { NAV_LINKS } from "@/constants/constants";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 function NavMenu({ className = null, itemClassName }) {
   return (
@@ -8,7 +8,7 @@ function NavMenu({ className = null, itemClassName }) {
       {NAV_LINKS.map((link) => (
         <li
           key={link.id}
-          className={twMerge(
+          className={cn(
             "text-base font-medium leading-6 text-Secondary/600 dark:text-[#F0F2F5]",
             itemClassName
           )}

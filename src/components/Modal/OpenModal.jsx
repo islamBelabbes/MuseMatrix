@@ -1,7 +1,7 @@
 "use client";
 import { useModal } from "@/context/GlobalModalProvider";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { twMerge } from "tailwind-merge";
 
 function OpenModal({ modal, icon, alt = "modal button", styles }) {
   const { openModal } = useModal();
@@ -9,7 +9,7 @@ function OpenModal({ modal, icon, alt = "modal button", styles }) {
   return (
     <div
       onClick={() => openModal(modal)}
-      className={twMerge(`cursor-pointer`, styles)}
+      className={cn(`cursor-pointer`, styles)}
     >
       <Image
         src={icon}
