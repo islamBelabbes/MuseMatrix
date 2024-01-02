@@ -14,9 +14,24 @@ export const createAuthor = async ({ name, avatar }) => {
   }
 };
 
-export const getAuthors = async () => {
+export const getAuthors = async (search) => {
+  const query = search
+    ? {
+        where: {
+          name: {
+            contains: search,
+          },
+        },
+      }
+    : {};
   try {
-    const authors = await prisma.author.findMany();
+    const authors = await prisma.author.findMany({
+      ...query,
+      take: 8,
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
     return authors;
   } catch (err) {
     throw err;
@@ -52,8 +67,25 @@ export const createGenre = async ({ title }) => {
   return data;
 };
 
-export const getGenres = async () => {
-  const [data, error] = await tryCatch(prisma.genre.findMany());
+export const getGenres = async (genre) => {
+  const query = genre
+    ? {
+        where: {
+          title: {
+            contains: genre,
+          },
+        },
+      }
+    : {};
+  const [data, error] = await tryCatch(
+    prisma.genre.findMany({
+      ...query,
+      take: 8,
+      orderBy: {
+        updatedAt: "desc",
+      },
+    })
+  );
   if (error) throw error;
   return data;
 };
