@@ -9,16 +9,18 @@ export async function POST(req) {
   // convert dataUrl fo File Object
   const file = dataURLtoFile(avatar, `${crypto.randomUUID()}.jpg`);
 
-  // Uploading Post Media
+  // Uploading avatar Media
   const [data, error] = await tryCatch(utapi.uploadFiles([file]));
   if (error) {
     console.log("error uploading ");
     return sendServerError();
   }
 
+  const authorAvatar = data[0]?.data?.url;
+
   // creating author
   const [authorData, authorError] = await tryCatch(
-    createAuthor({ name, avatar: data[0]?.data?.url })
+    createAuthor({ name, avatar: authorAvatar })
   );
   if (authorError) return sendServerError();
 
@@ -28,9 +30,15 @@ export async function POST(req) {
 }
 
 export async function GET(req) {
-  const [data, error] = await tryCatch(getAuthors());
+  const { searchParams } = new URL(req.url);
+  const authorName = searchParams.get("name");
 
-  if (error) return sendServerError();
+  const [data, error] = await tryCatch(getAuthors(authorName));
+
+  if (error) {
+    console.log(error);
+    return sendServerError();
+  }
 
   return sendOk({
     data,
