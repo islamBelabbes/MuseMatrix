@@ -7,7 +7,7 @@ import BlockUi from "../../BlockUi";
 import usePostForm from "./usePostForm";
 import { INITIAL_STATE } from "@/reducer/postFormReducer";
 import GenreSelect from "./GenreSelect";
-import AuthorSelect from "./AuthorSelect";
+import AuthorSelect from "../../Author/AuthorSelect";
 import { useIsMutating, useIsFetching } from "@tanstack/react-query";
 import Link from "next/link";
 function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
@@ -71,7 +71,12 @@ function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
               />
 
               {/* Post Genre */}
-              <GenreSelect state={data} dispatch={dispatch} />
+              <GenreSelect
+                genre={data?.genre}
+                setGenre={(payload) => {
+                  return dispatch({ type: "GENRE", payload: payload });
+                }}
+              />
 
               {/* Post Title */}
               <div className="flex items-center gap-2">
@@ -91,7 +96,12 @@ function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
               </div>
 
               {/* Post Author */}
-              <AuthorSelect state={data} dispatch={dispatch} />
+              <AuthorSelect
+                author={data?.author}
+                setAuthor={(payload) => {
+                  return dispatch({ type: "AUTHOR", payload: payload });
+                }}
+              />
             </div>
           </form>
 
