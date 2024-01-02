@@ -13,8 +13,11 @@ export async function POST(req) {
   });
 }
 
-export async function GET() {
-  const [data, error] = await tryCatch(getGenres());
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const genre = searchParams.get("genre");
+
+  const [data, error] = await tryCatch(getGenres(genre));
 
   if (error) return sendServerError();
 
