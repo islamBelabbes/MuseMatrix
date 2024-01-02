@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -17,6 +18,9 @@ model Author {
   avatar String
   name String
   posts Post[]
+  quotes Quote[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
 model Post {
   id Int @id @default(autoincrement())
@@ -29,11 +33,15 @@ model Post {
   genreId Int
   genre Genre @relation(fields: [genreId] , references: [id])
   quotes Quote[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
 model Genre {
   id Int @id @default(autoincrement())
   title String
   posts Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
 
 model Quote {
@@ -41,7 +49,10 @@ model Quote {
   text String
   postId Int?
   post Post? @relation(fields: [postId], references: [id])
-  author String? // the author here can be anything we are not limiteing it to the post author
+  authorId Int
+  author Author @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
 enum STATUS {
  Draft
