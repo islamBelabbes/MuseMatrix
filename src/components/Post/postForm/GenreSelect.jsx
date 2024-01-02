@@ -1,20 +1,18 @@
 import BlockUi from "@/components/BlockUi";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
-import CreatableSelect from "react-select/creatable";
+import React, { useState } from "react";
+import AsyncCreatableSelect from "react-select/async-creatable";
 import { toast } from "react-toastify";
 
-function GenreSelect({ state, dispatch }) {
-  const {
-    data: genres,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ["genres"],
-    queryFn: () => axios.get("/api/genre"),
-    refetchOnWindowFocus: false,
-  });
+function GenreSelect({ genre, setGenre }) {
+  const [lastUpdate, setLastUpdate] = useState(null);
+  const getOptions = async (inputValue) => {
+    const response = await axios.get(`/api/genre?genre=${inputValue}`);
+    return response.data.data.map((item) => {
+      return { value: item.id, label: item.title };
+    });
+  };
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (title) => axios.post("/api/genre", { title }),
@@ -28,14 +26,11 @@ function GenreSelect({ state, dispatch }) {
       error: "حدث خطأ",
     });
     if (Boolean(data.success) !== true) return;
-    await refetch();
-    dispatch({
-      type: "GENRE",
-      payload: { value: data.data.id, label: data.data.title },
-    });
+    setLastUpdate(new Date().getTime());
+    setGenre({ value: data.data.id, label: data.data.title });
   };
 
-  const isBlock = isPending || isLoading;
+  const isBlock = isPending;
   return (
     <div className="flex items-center gap-2">
       <label htmlFor="genre" className="whitespace-nowrap w-[60px]">
@@ -45,7 +40,8 @@ function GenreSelect({ state, dispatch }) {
         isBlock={isBlock}
         classNames={{ container: "w-full", spinner: "rounded" }}
       >
-        <CreatableSelect
+        <AsyncCreatableSelect
+          key={lastUpdate}
           placeholder="اختيار"
           id="genre"
           className="flex-1 font-bold dark:bg-transparent "
@@ -56,15 +52,10 @@ function GenreSelect({ state, dispatch }) {
           isDisabled={isBlock}
           isLoading={isBlock}
           onCreateOption={handleCreate}
-          onChange={(e) => dispatch({ type: "GENRE", payload: e })}
-          options={
-            genres?.data?.data?.map((item) => ({
-              value: item.id,
-              label: item.title,
-            })) || []
-          }
-          defaultValue={state?.genre}
-          value={state?.genre}
+          onChange={(e) => setGenre(e)}
+          loadOptions={getOptions}
+          defaultOptions
+          value={genre}
         />
       </BlockUi>
     </div>
