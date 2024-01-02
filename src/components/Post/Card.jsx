@@ -33,7 +33,7 @@ function Card({ isBook = false, item }) {
             />
           </Link>
         </div>
-        <Link className="mr-auto" href={`/post/${id}`}>
+        <Link href={`/post/${id}`}>
           <h1 className={`text-[18px] font-bold landscape-[50px] `}>{title}</h1>
         </Link>
 
