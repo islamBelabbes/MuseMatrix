@@ -70,7 +70,7 @@ function AuthorSelect({ author, setAuthor }) {
         classNames={{ container: "w-full", spinner: "rounded" }}
       >
         <AsyncCreatableSelect
-          placeholder="اختيار"
+          placeholder="اختيار او بحث"
           id="author"
           className="flex-1 font-bold dark:bg-transparent"
           classNames={{
