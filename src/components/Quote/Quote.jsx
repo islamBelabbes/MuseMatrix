@@ -2,12 +2,20 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 import Conditional from "../Conditional";
-
-function Quote({ background = "#262D33", avatar, content, author, book }) {
+import Link from "next/link";
+const DEFAULT_COLOR = "#262D33";
+function Quote({
+  background = DEFAULT_COLOR,
+  avatar,
+  content,
+  author,
+  postTitle,
+  postId,
+}) {
   return (
     <li
       className="flex items-center gap-5 flex-col h-[370px]  rounded-xl py-7 "
-      style={{ background: background }}
+      style={{ background: background || DEFAULT_COLOR }}
     >
       <div
         className={cn("w-[156px] h-[156px]", {
@@ -37,9 +45,16 @@ function Quote({ background = "#262D33", avatar, content, author, book }) {
           {content}
         </span>
       </div>
-      <div className="flex items-center self-stretch justify-center mt-auto text-center text-white border-t">
-        <span className="mt-2">{book}</span>
-      </div>
+      <Conditional
+        condition={postTitle && postId}
+        onTrue={
+          <div className="flex items-center self-stretch justify-center mt-auto text-center text-white border-t">
+            <Link href={`/post/${postId}`} className="mt-2 line-clamp-1">
+              {postTitle}
+            </Link>
+          </div>
+        }
+      />
     </li>
   );
 }
