@@ -1,5 +1,6 @@
 import Quote from "@/components/Quote/Quote";
-import { cn } from "@/lib/utils";
+import { getQuotes } from "@/lib/db";
+import { cn, tryCatch } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -16,7 +17,10 @@ const QUOTES = [
     book: "الانسان والبحث عن معنى",
   },
 ];
-function page() {
+async function page() {
+  const [quotes, error] = await tryCatch(getQuotes());
+  if (error) throw error;
+
   return (
     <div className="app">
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(263px,1fr))] justify-center gap-5">
@@ -31,13 +35,14 @@ function page() {
             />
           </Link>
         </li>
-        {QUOTES.map((item) => (
+        {quotes.map((item) => (
           <Quote
             key={item.id}
-            author={item.author}
-            content={item.content}
-            book={item.book}
-            avatar={item.authorAvatar}
+            author={item.author.name}
+            content={item.quote}
+            postTitle={item.post.title}
+            postId={item.post.id}
+            avatar={item.author.avatar}
             background={item?.color}
           />
         ))}
