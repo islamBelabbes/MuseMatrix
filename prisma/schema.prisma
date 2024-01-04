@@ -46,7 +46,8 @@ model Genre {
 
 model Quote {
   id Int @id @default(autoincrement())
-  text String
+  quote String
+  color String?
   postId Int?
   post Post? @relation(fields: [postId], references: [id])
   authorId Int
