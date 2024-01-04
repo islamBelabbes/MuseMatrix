@@ -1,4 +1,4 @@
-import { createPost } from "@/lib/db";
+import { createPost, getPosts } from "@/lib/db";
 import { sendNoContent, sendOk, sendServerError } from "@/lib/responseHelper";
 import { UTApi } from "uploadthing/server";
 export const utapi = new UTApi();
@@ -71,4 +71,13 @@ export async function PUT(req) {
   }
   revalidatePath(`/post/${id}`);
   return sendNoContent();
+}
+
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const title = searchParams.get("title");
+  const [data, error] = await tryCatch(getPosts(title));
+  console.log(error);
+  if (error) return sendServerError();
+  return sendOk({ data });
 }
