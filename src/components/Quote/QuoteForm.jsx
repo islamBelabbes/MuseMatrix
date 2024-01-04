@@ -1,21 +1,47 @@
 "use client";
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import BlockUi from "../BlockUi";
 import Quote from "./Quote";
 import AuthorSelect from "../Author/AuthorSelect";
 import { HexColorPicker } from "react-colorful";
 import { INITIAL_STATE, reducer } from "@/reducer/quoteReducer";
+import PostsSelect from "../PostsSelect";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 function QuoteForm() {
+  const router = useRouter();
   const [data, dispatch] = useReducer(reducer, INITIAL_STATE);
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (data) => axios.post("/api/quote", data),
+  });
+
+  const onClickHandler = async (e) => {
+    e.preventDefault();
+    const response = await mutateAsync({
+      authorId: data.author.value,
+      postId: data.post.value,
+      quote: data.content,
+      color: data.color,
+    });
+    if (response.status === 201) {
+      toast.success("تم انشاء الإقتباس بنجاح");
+      router.push(`/quotes`);
+      router.refresh();
+    }
+  };
   return (
     <div>
-      <BlockUi>
+      <BlockUi isBlock={isPending} classNames={{ spinner: "rounded-md" }}>
         <form className="flex flex-col w-full gap-4 p-3 border rounded-md border-Primary sm:flex-row">
           <div className="w-full md:w-[263px]">
             <Quote
               author={data?.author?.label}
               avatar={data?.author?.avatar}
-              book={data?.book}
+              postId={data?.post?.value}
+              postTitle={data?.post?.label}
               background={data?.color}
               content={data?.content}
             />
@@ -46,10 +72,10 @@ function QuoteForm() {
               />
             </div>
             <div className="flex flex-col items-start justify-between gap-5 md:flex-row">
-              <AuthorSelect
-                author={data.author}
-                setAuthor={(payload) => {
-                  return dispatch({ type: "AUTHOR", payload });
+              <PostsSelect
+                post={data.post}
+                setPost={(payload) => {
+                  return dispatch({ type: "POST", payload });
                 }}
               />
               <HexColorPicker
@@ -61,6 +87,13 @@ function QuoteForm() {
             </div>
           </div>
         </form>
+        <button
+          className="w-full button_primary mt-3"
+          onClick={onClickHandler}
+          disabled={isPending}
+        >
+          انشاء اقتباس
+        </button>
       </BlockUi>
     </div>
   );
