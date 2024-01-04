@@ -55,6 +55,28 @@ export const createPost = async ({ genre, author, title, cover, content }) => {
   return data;
 };
 
+export const getPosts = async (title) => {
+  const query = title
+    ? {
+        where: {
+          title: {
+            contains: title,
+          },
+        },
+      }
+    : {};
+  const [data, error] = await tryCatch(
+    prisma.post.findMany({
+      ...query,
+      take: 8,
+      orderBy: {
+        updatedAt: "desc",
+      },
+    })
+  );
+  if (error) throw error;
+  return data;
+};
 export const createGenre = async ({ title }) => {
   const [data, error] = await tryCatch(
     prisma.genre.create({
@@ -83,6 +105,43 @@ export const getGenres = async (genre) => {
       take: 8,
       orderBy: {
         updatedAt: "desc",
+      },
+    })
+  );
+  if (error) throw error;
+  return data;
+};
+
+export const createQuote = async ({ authorId, postId, quote, color }) => {
+  const [data, error] = await tryCatch(
+    prisma.quote.create({
+      data: {
+        authorId,
+        postId,
+        quote,
+        color,
+      },
+    })
+  );
+  if (error) throw error;
+  return data;
+};
+
+export const getQuotes = async () => {
+  const [data, error] = await tryCatch(
+    prisma.quote.findMany({
+      take: 8,
+      orderBy: {
+        updatedAt: "desc",
+      },
+      include: {
+        author: true,
+        post: {
+          select: {
+            title: true,
+            id: true,
+          },
+        },
       },
     })
   );
