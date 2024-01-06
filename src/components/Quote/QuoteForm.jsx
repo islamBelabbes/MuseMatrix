@@ -23,7 +23,7 @@ function QuoteForm() {
     const response = await mutateAsync({
       authorId: data.author.value,
       postId: data.post.value,
-      quote: data.content,
+      quote: data.quote,
       color: data.color,
     });
     if (response.status === 201) {
@@ -32,19 +32,25 @@ function QuoteForm() {
       router.refresh();
     }
   };
+
+  const quoteProp = {
+    author: {
+      name: data?.author?.label,
+      avatar: data?.author?.avatar,
+    },
+    post: {
+      id: data?.post?.value,
+      title: data?.post?.label,
+    },
+    color: data?.color,
+    quote: data?.quote,
+  };
   return (
     <div>
       <BlockUi isBlock={isPending} classNames={{ spinner: "rounded-md" }}>
         <form className="flex flex-col w-full gap-4 p-3 border rounded-md border-Primary sm:flex-row">
           <div className="w-full md:w-[263px]">
-            <Quote
-              author={data?.author?.label}
-              avatar={data?.author?.avatar}
-              postId={data?.post?.value}
-              postTitle={data?.post?.label}
-              background={data?.color}
-              content={data?.content}
-            />
+            <Quote quote={quoteProp} />
           </div>
           <div className="flex flex-col flex-1 gap-3">
             <AuthorSelect
@@ -65,9 +71,9 @@ function QuoteForm() {
                 placeholder="الإقتباس"
                 id="quote"
                 className="w-full input_primary"
-                value={data.content}
+                value={data.quote}
                 onChange={(e) => {
-                  return dispatch({ type: "CONTENT", payload: e.target.value });
+                  return dispatch({ type: "QUOTE", payload: e.target.value });
                 }}
               />
             </div>

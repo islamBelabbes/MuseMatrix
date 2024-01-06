@@ -1,52 +1,14 @@
-import Quote from "@/components/Quote/Quote";
+import QuotesView from "@/components/Quote/QuotesView";
 import { getQuotes } from "@/lib/db";
-import { cn, tryCatch } from "@/lib/utils";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import { tryCatch } from "@/lib/utils";
 
-const QUOTES = [
-  {
-    id: 1,
-    content:
-      "اعظم الضلال ليس من اخطاء في جواب الغاية وعاش طبقا عنه بل من اخطاء جواب الغاية وضل يعيش وفق جوابه كاطار للحياة",
-    author: "سامي العامري",
-    authorAvatar:
-      "https://utfs.io/f/0c4d2bfc-5cf0-477f-bdfc-92846f8f0a7b-8xaqvb.jpg",
-    color: "#5f738d",
-    book: "الانسان والبحث عن معنى",
-  },
-];
 async function page() {
   const [quotes, error] = await tryCatch(getQuotes());
   if (error) throw error;
 
   return (
     <div className="app">
-      <ul className="grid grid-cols-[repeat(auto-fill,minmax(263px,1fr))] justify-center gap-5">
-        <li className="flex border border-black  items-center gap-5 flex-col max-h-[370px] rounded-xl py-7  justify-center">
-          <Link prefetch={false} href="/quotes/create">
-            <Image
-              alt="add new"
-              src="/add-new.png"
-              width={100}
-              height={100}
-              className="object-contain cursor-pointer"
-            />
-          </Link>
-        </li>
-        {quotes.map((item) => (
-          <Quote
-            key={item.id}
-            author={item.author.name}
-            content={item.quote}
-            postTitle={item.post.title}
-            postId={item.post.id}
-            avatar={item.author.avatar}
-            background={item?.color}
-          />
-        ))}
-      </ul>
+      <QuotesView initialData={quotes} />
     </div>
   );
 }

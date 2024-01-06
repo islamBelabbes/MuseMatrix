@@ -3,6 +3,7 @@ import Image from "next/image";
 import Tag from "../Tag";
 import Link from "next/link";
 import avatar from "../../../public/avatar.jpg";
+import { cn } from "@/lib/utils";
 function Card({ isBook = false, item }) {
   const { title, cover, genre, author, id } = item;
   return (
@@ -12,10 +13,13 @@ function Card({ isBook = false, item }) {
           <Image
             src={cover}
             alt="listing image"
-            className={`${
-              isBook ? "object-contain" : "object-cover"
-            }  rounded-xl hover:animate-circle`}
-            fill={true}
+            className={cn("rounded-xl hover:animate-circle w-full h-full", {
+              "object-contain": isBook,
+              "object-cover ": !isBook,
+            })}
+            width={500}
+            height={500}
+            placeholder="empty"
           />
         </Link>
       </div>

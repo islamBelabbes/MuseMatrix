@@ -4,10 +4,10 @@ import Overlay from "./Overlay";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useModal } from "@/context/GlobalModalProvider";
-function SideModal({ children, keyProp }) {
+function SideModal({ children }) {
   const { closeModals } = useModal();
   return (
-    <Overlay keyProp={keyProp}>
+    <Overlay>
       <motion.div
         initial={{ translateX: "100vw", opacity: 0 }}
         animate={{ translateX: 0, opacity: 1 }}

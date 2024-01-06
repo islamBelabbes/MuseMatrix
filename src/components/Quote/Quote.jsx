@@ -4,29 +4,41 @@ import React from "react";
 import Conditional from "../Conditional";
 import Link from "next/link";
 const DEFAULT_COLOR = "#262D33";
-function Quote({
-  background = DEFAULT_COLOR,
-  avatar,
-  content,
-  author,
-  postTitle,
-  postId,
-}) {
+function Quote({ quote = {}, modal = {} }) {
+  const { author, quote: quoteContent, post, color } = quote;
+  const { id: postId, title: postTitle } = post;
+  const { name: authorName, avatar: authorAvatar } = author;
+  const { openModal, closeModal } = modal;
+  const isModal = Boolean(closeModal);
   return (
     <li
-      className="flex items-center gap-5 flex-col h-[370px]  rounded-xl py-7 "
-      style={{ background: background || DEFAULT_COLOR }}
+      className={cn(
+        "flex items-center gap-5 flex-col min-h-[370px]  rounded-xl py-7 relative",
+        {
+          "w-fit max-w-[500px]": isModal,
+        }
+      )}
+      style={{ background: color || DEFAULT_COLOR }}
     >
+      {isModal && (
+        <button
+          onClick={closeModal}
+          className="absolute font-bold right-3 top-3"
+        >
+          {"عودة"}
+        </button>
+      )}
+
       <div
         className={cn("w-[156px] h-[156px]", {
-          "rounded-full bg-white border": !avatar,
+          "rounded-full bg-white border": !authorAvatar,
         })}
       >
         <Conditional
-          condition={avatar}
+          condition={authorAvatar}
           onTrue={
             <Image
-              src={avatar}
+              src={authorAvatar}
               alt="author avatar"
               width={156}
               height={156}
@@ -37,13 +49,32 @@ function Quote({
         />
       </div>
       <div className="px-3 text-center text-white">
-        <p className="text-xs font-medium leading-4 line-clamp-1">{author}</p>
-        <span
-          className="text-base font-bold leading-6 line-clamp-3"
-          style={{ overflowWrap: "anywhere" }}
-        >
-          {content}
-        </span>
+        <p className={cn("text-xs font-medium leading-4 line-clamp-1")}>
+          {authorName}
+        </p>
+
+        <Conditional
+          condition={isModal}
+          onTrue={
+            <span
+              className="text-base font-bold leading-6 "
+              style={{ overflowWrap: "anywhere" }}
+            >
+              {quoteContent}
+            </span>
+          }
+          onFalse={
+            <span
+              onClick={openModal}
+              className={cn(
+                "text-base font-bold leading-6 cursor-pointer line-clamp-3"
+              )}
+              style={{ overflowWrap: "anywhere" }}
+            >
+              {quoteContent}
+            </span>
+          }
+        />
       </div>
       <Conditional
         condition={postTitle && postId}

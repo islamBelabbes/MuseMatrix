@@ -1,23 +1,36 @@
 "use client";
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-function Overlay({ children, styles, onClick }) {
+function Overlay({ children, className, onClickOutside, animate = true }) {
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
     document.querySelector("html").style = "overflow : hidden";
-
+    setIsMounted(true);
     return () => (document.querySelector("html").style = "overflow : ''");
   }, []);
-  if (!document.getElementById("modal")) return;
+
+  const animation = animate
+    ? {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+        transition: { duration: 0.5, ease: "easeInOut" },
+      }
+    : {};
+
+  if (!isMounted) return;
+
   return createPortal(
     <motion.div
-      onClick={onClick}
-      className={`overlay ${styles}`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
+      onClick={onClickOutside}
+      className={cn("overlay", className, {
+        "cursor-pointer": onClickOutside,
+      })}
+      {...animation}
     >
       {children}
     </motion.div>,
