@@ -4,7 +4,7 @@ import AsyncSelect from "react-select/async";
 
 function PostsSelect({ post, setPost }) {
   const getOptions = async (inputValue) => {
-    const response = await axios.get(`/api/post?title=${inputValue}`);
+    const response = await axios.get(`/api/posts?title=${inputValue}`);
     return response.data.data.map((item) => {
       return { value: item.id, label: item.title };
     });

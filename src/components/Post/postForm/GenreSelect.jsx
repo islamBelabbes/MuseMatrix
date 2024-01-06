@@ -8,14 +8,14 @@ import { toast } from "react-toastify";
 function GenreSelect({ genre, setGenre }) {
   const [lastUpdate, setLastUpdate] = useState(null);
   const getOptions = async (inputValue) => {
-    const response = await axios.get(`/api/genre?genre=${inputValue}`);
+    const response = await axios.get(`/api/genres?genre=${inputValue}`);
     return response.data.data.map((item) => {
       return { value: item.id, label: item.title };
     });
   };
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (title) => axios.post("/api/genre", { title }),
+    mutationFn: (title) => axios.post("/api/genres", { title }),
     mutationKey: ["genre"],
   });
 

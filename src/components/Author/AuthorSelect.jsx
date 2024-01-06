@@ -1,7 +1,7 @@
 import BlockUi from "@/components/BlockUi";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import AuthorCreationModal from "./AuthorCreationModal";
 import { toast } from "react-toastify";
@@ -12,7 +12,7 @@ function AuthorSelect({ author, setAuthor }) {
   const [authorName, setAuthorName] = useState(null);
 
   const getOptions = async (inputValue) => {
-    const response = await axios.get(`/api/author?name=${inputValue}`);
+    const response = await axios.get(`/api/authors?name=${inputValue}`);
     return response.data.data.map((item) => {
       return { value: item.id, label: item.name, avatar: item.avatar };
     });
@@ -20,7 +20,7 @@ function AuthorSelect({ author, setAuthor }) {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ({ name, avatar }) => {
-      return axios.post("/api/author", { name, avatar });
+      return axios.post("/api/authors", { name, avatar });
     },
     mutationKey: ["author"],
   });

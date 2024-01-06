@@ -15,7 +15,7 @@ function QuoteForm() {
   const [data, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data) => axios.post("/api/quote", data),
+    mutationFn: (data) => axios.post("/api/quotes", data),
   });
 
   const onClickHandler = async (e) => {
@@ -88,7 +88,7 @@ function QuoteForm() {
           </div>
         </form>
         <button
-          className="w-full button_primary mt-3"
+          className="w-full mt-3 button_primary"
           onClick={onClickHandler}
           disabled={isPending}
         >
