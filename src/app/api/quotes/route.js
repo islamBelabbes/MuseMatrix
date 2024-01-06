@@ -20,8 +20,10 @@ export async function POST(req) {
 }
 
 export async function GET(req) {
-  const [data, error] = await tryCatch(getQuotes());
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get("id");
 
+  const [data, error] = await tryCatch(getQuotes({ id }));
   if (error) return sendServerError();
 
   return sendOk({ data });
