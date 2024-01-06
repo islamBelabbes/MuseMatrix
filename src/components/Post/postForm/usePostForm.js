@@ -45,7 +45,7 @@ const usePostForm = ({ initializedData, richEditorArea, type, postId }) => {
         contentChanged: async function () {
           // dispatch({ type: "CONTENT", payload: this.html.get() });
           if (type !== "update" || !postId || !this.html.get()) return;
-          return axios.put("/api/post", {
+          return axios.put("/api/posts", {
             id: postId,
             content: this.html.get(),
           });
@@ -57,14 +57,14 @@ const usePostForm = ({ initializedData, richEditorArea, type, postId }) => {
   const { mutateAsync: mutateAsyncCreate, isPending: isLoadingCreate } =
     useMutation({
       mutationFn: (newPost) => {
-        return axios.post("/api/post", newPost);
+        return axios.post("/api/posts", newPost);
       },
     });
 
   const { mutateAsync: mutateAsyncUpdate, isPending: isLoadingUpdate } =
     useMutation({
       mutationFn: (data) => {
-        return axios.put("/api/post", data);
+        return axios.put("/api/posts", data);
       },
     });
 
