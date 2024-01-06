@@ -5,6 +5,8 @@ export function middleware(request) {
   const password = request.cookies.get("mx_password")?.value;
   if (password !== "123") {
     return NextResponse.redirect(new URL("/not-found", request.url));
+  } else {
+    return NextResponse.next();
   }
 }
 
