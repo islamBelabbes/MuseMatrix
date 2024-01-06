@@ -1,12 +1,12 @@
 const actionType = {
-  CONTENT: "CONTENT",
+  QUOTE: "QUOTE",
   AUTHOR: "AUTHOR",
   COLOR: "COLOR",
   POST: "POST",
 };
 
 export const INITIAL_STATE = {
-  content: "",
+  quote: "",
   author: "",
   color: "#262D33",
   post: "",
@@ -14,8 +14,8 @@ export const INITIAL_STATE = {
 
 export function reducer(state, action) {
   switch (action.type) {
-    case actionType.CONTENT:
-      return { ...state, content: action.payload };
+    case actionType.QUOTE:
+      return { ...state, quote: action.payload };
     case actionType.AUTHOR:
       return { ...state, author: action.payload };
     case actionType.COLOR:
