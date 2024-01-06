@@ -1,0 +1,11 @@
+import { NextResponse } from "next/server";
+
+// This function can be marked `async` if using `await` inside
+export function middleware(request) {
+  const password = request.cookies.get("mx_password")?.value;
+  if (password !== "123") {
+    return NextResponse.redirect(new URL("/not-found", request.url));
+  }
+}
+
+// See "Matching Paths" below to learn more
