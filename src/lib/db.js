@@ -127,13 +127,29 @@ export const createQuote = async ({ authorId, postId, quote, color }) => {
   return data;
 };
 
-export const getQuotes = async () => {
+export const getQuotes = async (filter = {}) => {
+  // get fields
+  const { id } = filter;
+
+  // create object
+  const filters = {
+    id: id ? parseInt(id) : undefined,
+  };
+
+  // check for selected fields
+  const selectedFilter = Object.keys(filters).reduce((acc, field) => {
+    if (filters[field]) {
+      return { ...acc, [field]: filters[field] };
+    }
+  }, {});
+
   const [data, error] = await tryCatch(
     prisma.quote.findMany({
       take: 8,
       orderBy: {
         updatedAt: "desc",
       },
+      where: { ...selectedFilter },
       include: {
         author: true,
         post: {
@@ -145,6 +161,7 @@ export const getQuotes = async () => {
       },
     })
   );
+
   if (error) throw error;
   return data;
 };
