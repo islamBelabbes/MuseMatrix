@@ -1,10 +1,13 @@
 import { createPost, getPosts } from "@/lib/db";
 import { sendNoContent, sendOk, sendServerError } from "@/lib/responseHelper";
-import { UTApi } from "uploadthing/server";
-export const utapi = new UTApi();
-import { dataURLtoFile, tryCatch } from "@/lib/utils";
+import {
+  dataURLtoFile,
+  tryCatch,
+  uploadThingGetFileKeyFromUrl,
+} from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
+import { utapi } from "@/lib/uploadThing";
 export async function POST(req) {
   const { genre, author, title, cover, content } = await req.json();
 
@@ -30,6 +33,28 @@ export async function POST(req) {
 
 export async function DELETE(req) {
   const { id } = await req.json();
+
+  // get Cover (file) Url
+  const [fileData, fileError] = await tryCatch(
+    prisma.post.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        cover: true,
+      },
+    })
+  );
+  if (fileError) sendServerError();
+
+  // get file key - uploadThing
+  const fileKey = uploadThingGetFileKeyFromUrl(fileData?.cover);
+  if (fileKey) {
+    // delete cover from UploadThing
+    const [__, fileDelateError] = await tryCatch(utapi.deleteFiles(fileKey));
+    if (fileDelateError) return sendServerError();
+  }
+
   const [_, error] = await tryCatch(
     prisma.post.delete({
       where: {
@@ -37,6 +62,7 @@ export async function DELETE(req) {
       },
     })
   );
+
   if (error) return sendServerError();
   return sendNoContent();
 }
