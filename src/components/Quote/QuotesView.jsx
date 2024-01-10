@@ -4,12 +4,13 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Quote from "./Quote";
 import Image from "next/image";
-import QuoteModal from "./QuoteModal";
+import ViewQuoteModal from "./ViewQuoteModal";
 import { getQuotes } from "@/lib/api";
 import { AnimatePresence } from "framer-motion";
 
 function QuotesView({ initialData }) {
   const [selectedQuote, setSelectedQuote] = useState(null);
+
   const {
     data: quotes,
     isLoading,
@@ -19,6 +20,7 @@ function QuotesView({ initialData }) {
     queryFn: () => getQuotes(),
     initialData: initialData,
   });
+
   if (error) return "An error has occurred: " + error.message;
   if (isLoading) return;
   return (
@@ -26,7 +28,7 @@ function QuotesView({ initialData }) {
       {/* view quote modal */}
       <AnimatePresence mode="wait">
         {selectedQuote && (
-          <QuoteModal
+          <ViewQuoteModal
             quote={selectedQuote}
             closeModal={() => setSelectedQuote(null)}
           />

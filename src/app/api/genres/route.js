@@ -5,7 +5,7 @@ export async function POST(req) {
   const { title } = await req.json();
 
   // creating author
-  const [data, error] = await tryCatch(createGenre({ title }));
+  const [data, error] = await tryCatch(createGenre(title));
   if (error) return sendServerError();
 
   return sendOk({

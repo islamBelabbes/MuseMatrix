@@ -8,7 +8,10 @@ function Modal({ children, onClickOutside, animate = true }) {
       onClickOutside={onClickOutside}
       animate={animate}
     >
-      <div className="cursor-auto" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="relative cursor-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {children}
       </div>
     </Overlay>

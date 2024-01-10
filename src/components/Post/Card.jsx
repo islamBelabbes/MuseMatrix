@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import Tag from "../Tag";
 import Link from "next/link";
-import avatar from "../../../public/avatar.jpg";
 import { cn } from "@/lib/utils";
 function Card({ isBook = false, item }) {
   const { title, cover, genre, author, id } = item;

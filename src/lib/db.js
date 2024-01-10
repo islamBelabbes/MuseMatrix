@@ -14,12 +14,12 @@ export const createAuthor = async ({ name, avatar }) => {
   }
 };
 
-export const getAuthors = async (search) => {
-  const query = search
+export const getAuthors = async (authorName) => {
+  const query = authorName
     ? {
         where: {
           name: {
-            contains: search,
+            contains: authorName,
           },
         },
       }
@@ -77,7 +77,7 @@ export const getPosts = async (title) => {
   if (error) throw error;
   return data;
 };
-export const createGenre = async ({ title }) => {
+export const createGenre = async (title) => {
   const [data, error] = await tryCatch(
     prisma.genre.create({
       data: {

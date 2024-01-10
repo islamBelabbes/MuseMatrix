@@ -22,7 +22,6 @@ function ClientModal({ id }) {
         />
       </button>
 
-      {/* using normal conditional rendering for animatePresence */}
       <AnimatePresence>
         {isOpen && <DeletePostModal id={id} setIsOpen={setIsOpen} />}
       </AnimatePresence>

@@ -5,9 +5,16 @@ import Conditional from "../Conditional";
 import Link from "next/link";
 const DEFAULT_COLOR = "#262D33";
 function Quote({ quote = {}, modal = {} }) {
+  // quote
   const { author, quote: quoteContent, post, color } = quote;
+
+  // post
   const { id: postId, title: postTitle } = post;
+
+  // author
   const { name: authorName, avatar: authorAvatar } = author;
+
+  // modal
   const { openModal, closeModal } = modal;
   const isModal = Boolean(closeModal);
   return (
