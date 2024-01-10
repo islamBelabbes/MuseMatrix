@@ -1,6 +1,12 @@
-import { createQuote, getQuotes } from "@/lib/db";
+import { createQuote, delateQuote, getQuotes } from "@/lib/db";
+import prisma from "@/lib/prisma";
 
-import { sendCreated, sendOk, sendServerError } from "@/lib/responseHelper";
+import {
+  sendCreated,
+  sendNoContent,
+  sendOk,
+  sendServerError,
+} from "@/lib/responseHelper";
 
 import { tryCatch } from "@/lib/utils";
 
@@ -27,4 +33,11 @@ export async function GET(req) {
   if (error) return sendServerError();
 
   return sendOk({ data });
+}
+
+export async function DELETE(req) {
+  const { id } = await req.json();
+  const [_, error] = await tryCatch(delateQuote(id));
+  if (error) return sendServerError();
+  return sendNoContent();
 }

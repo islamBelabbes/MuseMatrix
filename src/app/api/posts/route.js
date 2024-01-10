@@ -1,4 +1,4 @@
-import { createPost, getPosts } from "@/lib/db";
+import { createPost, getPosts, updatePost } from "@/lib/db";
 import { sendNoContent, sendOk, sendServerError } from "@/lib/responseHelper";
 import {
   dataURLtoFile,
@@ -83,18 +83,10 @@ export async function PUT(req) {
     { content }
   );
 
-  const [_, error] = await tryCatch(
-    prisma.post.update({
-      where: {
-        id,
-      },
-      data: query,
-    })
-  );
-  if (error) {
-    console.log(error);
-    return sendServerError();
-  }
+  const [_, error] = await tryCatch(updatePost(id, query));
+
+  if (error) return sendServerError();
+
   revalidatePath(`/post/${id}`);
   return sendNoContent();
 }
