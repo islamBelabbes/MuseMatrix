@@ -30,7 +30,7 @@ function QuoteForm() {
         }),
       {
         pending: "المرجو الانتظار",
-        success: "تم الحذف بنجاح",
+        success: "تم انشاء اقتباس بنجاح",
         error: "حدث خطأ",
       }
     );
@@ -53,10 +53,13 @@ function QuoteForm() {
   return (
     <div>
       <BlockUi isBlock={isPending} classNames={{ spinner: "rounded-md" }}>
-        <form className="flex flex-col w-full gap-4 p-3 border rounded-md border-Primary sm:flex-row">
+        <form className="flex flex-col w-full gap-4 p-3 border rounded-md border-Primary md:flex-row">
+          {/* quote card */}
           <div className="w-full md:w-[263px]">
             <Quote quote={quoteProp} />
           </div>
+
+          {/* Fields */}
           <div className="flex flex-col flex-1 gap-3">
             <AuthorSelect
               author={data.author}
@@ -64,6 +67,7 @@ function QuoteForm() {
                 return dispatch({ type: "AUTHOR", payload });
               }}
             />
+
             <div className="flex items-center gap-2">
               <label
                 htmlFor="quote"
@@ -82,6 +86,7 @@ function QuoteForm() {
                 }}
               />
             </div>
+
             <div className="flex flex-col items-start justify-between gap-5 md:flex-row">
               <PostsSelect
                 post={data.post}
@@ -94,10 +99,12 @@ function QuoteForm() {
                 onChange={(color) => {
                   return dispatch({ type: "COLOR", payload: color });
                 }}
+                className="hidden"
               />
             </div>
           </div>
         </form>
+
         <button
           className="w-full mt-3 button_primary"
           onClick={onClickHandler}

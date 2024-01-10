@@ -4,10 +4,11 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Quote from "./Quote";
 import Image from "next/image";
-import ViewQuoteModal from "./ViewQuoteModal";
 import { getQuotes } from "@/lib/api";
 import { AnimatePresence } from "framer-motion";
+import dynamic from "next/dynamic";
 
+const ViewQuoteModal = dynamic(() => import("./ViewQuoteModal"));
 function QuotesView({ initialData }) {
   const [selectedQuote, setSelectedQuote] = useState(null);
 
@@ -19,6 +20,7 @@ function QuotesView({ initialData }) {
     queryKey: ["quotes"],
     queryFn: () => getQuotes(),
     initialData: initialData,
+    refetchOnWindowFocus: false,
   });
 
   if (error) return "An error has occurred: " + error.message;
@@ -50,11 +52,13 @@ function QuotesView({ initialData }) {
 
       {/* quotes */}
       {quotes.map((quote) => (
-        <Quote
+        <div
           key={quote.id}
-          quote={quote}
-          modal={{ openModal: () => setSelectedQuote(quote) }}
-        />
+          className="cursor-pointer"
+          onClick={() => setSelectedQuote(quote)}
+        >
+          <Quote quote={quote} className={"h-full"} />
+        </div>
       ))}
     </ul>
   );

@@ -37,24 +37,6 @@ export const getAuthors = async (authorName) => {
     throw err;
   }
 };
-
-export const createPost = async ({ genre, author, title, cover, content }) => {
-  const [data, error] = await tryCatch(
-    prisma.post.create({
-      data: {
-        genreId: parseInt(genre),
-        authorId: parseInt(author),
-        title,
-        cover,
-        content,
-      },
-    })
-  );
-  if (error) throw error;
-
-  return data;
-};
-
 export const getPosts = async (title) => {
   const query = title
     ? {
@@ -77,6 +59,38 @@ export const getPosts = async (title) => {
   if (error) throw error;
   return data;
 };
+
+export const createPost = async ({ genre, author, title, cover, content }) => {
+  const [data, error] = await tryCatch(
+    prisma.post.create({
+      data: {
+        genreId: parseInt(genre),
+        authorId: parseInt(author),
+        title,
+        cover,
+        content,
+      },
+    })
+  );
+  if (error) throw error;
+
+  return data;
+};
+
+export const updatePost = async (id, data) => {
+  const [postData, error] = await tryCatch(
+    prisma.post.update({
+      where: {
+        id,
+      },
+      data,
+    })
+  );
+  if (error) throw error;
+
+  return postData;
+};
+
 export const createGenre = async (title) => {
   const [data, error] = await tryCatch(
     prisma.genre.create({
@@ -162,6 +176,18 @@ export const getQuotes = async (filter = {}) => {
     })
   );
 
+  if (error) throw error;
+  return data;
+};
+
+export const delateQuote = async (id) => {
+  const [data, error] = await tryCatch(
+    prisma.quote.delete({
+      where: {
+        id,
+      },
+    })
+  );
   if (error) throw error;
   return data;
 };

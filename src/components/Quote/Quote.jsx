@@ -4,38 +4,23 @@ import React from "react";
 import Conditional from "../Conditional";
 import Link from "next/link";
 const DEFAULT_COLOR = "#262D33";
-function Quote({ quote = {}, modal = {} }) {
-  // quote
+function Quote({ quote = {}, isModal = false, children, className, ...props }) {
   const { author, quote: quoteContent, post, color } = quote;
-
-  // post
   const { id: postId, title: postTitle } = post;
-
-  // author
   const { name: authorName, avatar: authorAvatar } = author;
-
-  // modal
-  const { openModal, closeModal } = modal;
-  const isModal = Boolean(closeModal);
   return (
     <li
       className={cn(
         "flex items-center gap-5 flex-col min-h-[370px]  rounded-xl py-7 relative",
+        className,
         {
           "w-fit max-w-[500px]": isModal,
         }
       )}
       style={{ background: color || DEFAULT_COLOR }}
+      {...props}
     >
-      {isModal && (
-        <button
-          onClick={closeModal}
-          className="absolute font-bold right-3 top-3"
-        >
-          {"عودة"}
-        </button>
-      )}
-
+      <div className="w-full top__bar">{children}</div>
       <div
         className={cn("w-[156px] h-[156px]", {
           "rounded-full bg-white border": !authorAvatar,
@@ -59,34 +44,22 @@ function Quote({ quote = {}, modal = {} }) {
         <p className={cn("text-xs font-medium leading-4 line-clamp-1")}>
           {authorName}
         </p>
-
-        <Conditional
-          condition={isModal}
-          onTrue={
-            <span
-              className="text-base font-bold leading-6 "
-              style={{ overflowWrap: "anywhere" }}
-            >
-              {quoteContent}
-            </span>
-          }
-          onFalse={
-            <span
-              onClick={openModal}
-              className={cn(
-                "text-base font-bold leading-6 cursor-pointer line-clamp-3"
-              )}
-              style={{ overflowWrap: "anywhere" }}
-            >
-              {quoteContent}
-            </span>
-          }
-        />
+        <span
+          className={cn("text-base font-bold leading-6", {
+            "line-clamp-3": !isModal,
+          })}
+          style={{ overflowWrap: "anywhere" }}
+        >
+          {quoteContent}
+        </span>
       </div>
       <Conditional
         condition={postTitle && postId}
         onTrue={
-          <div className="flex items-center self-stretch justify-center mt-auto text-center text-white border-t">
+          <div
+            className="flex items-center self-stretch justify-center px-2 mt-auto text-center text-white border-t"
+            onClick={(e) => e.stopPropagation()}
+          >
             <Link href={`/post/${postId}`} className="mt-2 line-clamp-1">
               {postTitle}
             </Link>
