@@ -26,6 +26,7 @@ async function Home() {
             entry={"اخر الكتب"}
             isBook
             query={{ ...query, where: { genreId: 16 } }}
+            genreId={16}
           />
         </Suspense>
 
@@ -33,6 +34,7 @@ async function Home() {
           <PostListing
             entry={"اخر المقالات"}
             query={{ ...query, where: { genreId: 17 } }}
+            genreId={17}
           />
         </Suspense>
 
@@ -40,6 +42,7 @@ async function Home() {
           <PostListing
             entry={"اخر الصوتيات"}
             query={{ ...query, where: { genreId: 18 } }}
+            genreId={18}
           />
         </Suspense>
       </div>
