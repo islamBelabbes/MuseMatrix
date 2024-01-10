@@ -86,3 +86,9 @@ article#content blockquote {
 article#content blockquote p {
   color: #5e35b1;
 }
+
+@media screen and (max-width: 1000px) {
+  .react-colorful {
+    width: 100% !important;
+  }
+}
