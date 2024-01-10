@@ -57,3 +57,8 @@ export const tryCatch = async (Promise) => {
 export const cn = (...args) => {
   return twMerge(clsx(args));
 };
+
+export const uploadThingGetFileKeyFromUrl = (url) => {
+  const fileKey = url.split("/f/");
+  return fileKey[1];
+};
