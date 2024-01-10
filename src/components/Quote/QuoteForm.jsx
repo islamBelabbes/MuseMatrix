@@ -20,17 +20,22 @@ function QuoteForm() {
 
   const onClickHandler = async (e) => {
     e.preventDefault();
-    const response = await mutateAsync({
-      authorId: data.author.value,
-      postId: data.post.value,
-      quote: data.quote,
-      color: data.color,
-    });
-    if (response.status === 201) {
-      toast.success("تم انشاء الإقتباس بنجاح");
-      router.push(`/quotes`);
-      router.refresh();
-    }
+    await toast.promise(
+      () =>
+        mutateAsync({
+          authorId: data.author.value,
+          postId: data.post.value,
+          quote: data.quote,
+          color: data.color,
+        }),
+      {
+        pending: "المرجو الانتظار",
+        success: "تم الحذف بنجاح",
+        error: "حدث خطأ",
+      }
+    );
+    router.push(`/quotes`);
+    router.refresh();
   };
 
   const quoteProp = {
