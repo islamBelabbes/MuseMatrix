@@ -3,6 +3,7 @@ import Card from "./Card";
 import Conditional from "../Conditional";
 import prisma from "@/lib/prisma";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const QUERY = {
   include: {
@@ -10,7 +11,12 @@ const QUERY = {
     author: true,
   },
 };
-async function PostListing({ entry = null, isBook = false, query = QUERY }) {
+async function PostListing({
+  entry = null,
+  isBook = false,
+  query = QUERY,
+  genreId,
+}) {
   const data = await prisma.post.findMany(query);
 
   return (
@@ -20,7 +26,7 @@ async function PostListing({ entry = null, isBook = false, query = QUERY }) {
         onTrue={
           <div className="flex justify-between">
             <h1 className="text-2xl font-bold dark:text-white ">{entry}</h1>
-            <span>{"المزيد"}</span>
+            <Link href={`/genre/${genreId}`}>{"المزيد"}</Link>
           </div>
         }
       />
