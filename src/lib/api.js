@@ -7,6 +7,7 @@ export const getQuotes = async (quoteId) => {
       : "http://localhost:3000";
 
   const url = new URL(`${base}/api/quotes`);
+  console.log(url);
   if (quoteId) {
     url.searchParams.append("limit", 10);
   }
