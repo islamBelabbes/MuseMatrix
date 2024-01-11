@@ -1,42 +1,21 @@
 "use client";
-import { useReducer } from "react";
 import BlockUi from "../BlockUi";
 import Quote from "./Quote";
 import AuthorSelect from "../Author/AuthorSelect";
 import { HexColorPicker } from "react-colorful";
-import { INITIAL_STATE, reducer } from "@/reducer/quoteReducer";
+import { INITIAL_STATE } from "@/reducer/quoteReducer";
 import PostsSelect from "../PostsSelect";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
-function QuoteForm() {
-  const router = useRouter();
-  const [data, dispatch] = useReducer(reducer, INITIAL_STATE);
-
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data) => axios.post("/api/quotes", data),
-  });
-
-  const onClickHandler = async (e) => {
-    e.preventDefault();
-    await toast.promise(
-      () =>
-        mutateAsync({
-          authorId: data.author.value,
-          postId: data.post.value,
-          quote: data.quote,
-          color: data.color,
-        }),
-      {
-        pending: "المرجو الانتظار",
-        success: "تم انشاء اقتباس بنجاح",
-        error: "حدث خطأ",
-      }
-    );
-    router.push(`/quotes`);
-    router.refresh();
-  };
+import useQuoteForm from "./useQuoteForm";
+function QuoteForm({
+  isUpdate = false,
+  initialData = INITIAL_STATE,
+  quoteId = null,
+}) {
+  const [data, dispatch, isLoading, mutate] = useQuoteForm(
+    initialData,
+    isUpdate,
+    quoteId
+  );
 
   const quoteProp = {
     author: {
@@ -52,7 +31,7 @@ function QuoteForm() {
   };
   return (
     <div>
-      <BlockUi isBlock={isPending} classNames={{ spinner: "rounded-md" }}>
+      <BlockUi isBlock={isLoading} classNames={{ spinner: "rounded-md" }}>
         <form className="flex flex-col w-full gap-4 p-3 border rounded-md border-Primary md:flex-row">
           {/* quote card */}
           <div className="w-full md:w-[263px]">
@@ -107,10 +86,10 @@ function QuoteForm() {
 
         <button
           className="w-full mt-3 button_primary"
-          onClick={onClickHandler}
-          disabled={isPending}
+          onClick={mutate}
+          disabled={isLoading}
         >
-          انشاء اقتباس
+          {isUpdate ? "تعديل" : "انشاء"}
         </button>
       </BlockUi>
     </div>
