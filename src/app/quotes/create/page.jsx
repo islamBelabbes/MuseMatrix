@@ -1,10 +1,13 @@
+import IsAdmin from "@/components/IsAdmin";
 import QuoteForm from "@/components/Quote/QuoteForm";
 import React from "react";
 
 function page() {
   return (
     <div className="app">
-      <QuoteForm />
+      <IsAdmin>
+        <QuoteForm />
+      </IsAdmin>
     </div>
   );
 }

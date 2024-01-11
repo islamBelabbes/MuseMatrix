@@ -1,3 +1,4 @@
+import IsAdmin from "@/components/IsAdmin";
 import QuoteForm from "@/components/Quote/QuoteForm";
 import { getQuotes } from "@/lib/db";
 import { tryCatch } from "@/lib/utils";
@@ -25,7 +26,9 @@ async function page({ params }) {
   };
   return (
     <div className="app">
-      <QuoteForm initialData={quoteFormData} isUpdate quoteId={id} />
+      <IsAdmin>
+        <QuoteForm initialData={quoteFormData} isUpdate quoteId={id} />
+      </IsAdmin>
     </div>
   );
 }

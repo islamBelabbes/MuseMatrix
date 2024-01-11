@@ -1,7 +1,12 @@
+import IsAdmin from "@/components/IsAdmin";
 import PostForm from "@/components/Post/postForm/PostForm";
 
-function page() {
-  return <PostForm />;
+async function page() {
+  return (
+    <IsAdmin>
+      <PostForm />
+    </IsAdmin>
+  );
 }
 
 export default page;

@@ -1,3 +1,4 @@
+import IsAdmin from "@/components/IsAdmin";
 import PostForm from "@/components/Post/postForm/PostForm";
 import prisma from "@/lib/prisma";
 import { tryCatch } from "@/lib/utils";
@@ -20,17 +21,19 @@ async function page({ params }) {
 
   const { title, content, cover, genre, author, id } = post;
   return (
-    <PostForm
-      isUpdate
-      initializedData={{
-        content,
-        cover,
-        title,
-        genre: { value: genre?.id, label: genre?.title },
-        author: { value: author?.id, label: author?.name },
-      }}
-      postId={id}
-    />
+    <IsAdmin>
+      <PostForm
+        isUpdate
+        initializedData={{
+          content,
+          cover,
+          title,
+          genre: { value: genre?.id, label: genre?.title },
+          author: { value: author?.id, label: author?.name },
+        }}
+        postId={id}
+      />
+    </IsAdmin>
   );
 }
 
