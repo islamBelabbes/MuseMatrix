@@ -5,7 +5,8 @@ export const getQuotes = async (quoteId) => {
     process.env.NODE_ENV === "development"
       ? process.env.LIVE_URL
       : "http://localhost:3000";
-  const url = new URL("http://localhost:3000/api/quotes");
+
+  const url = new URL(`${base}/api/quotes`);
   if (quoteId) {
     url.searchParams.append("limit", 10);
   }
