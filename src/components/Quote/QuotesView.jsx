@@ -7,9 +7,12 @@ import Image from "next/image";
 import { getQuotes } from "@/lib/api";
 import { AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useUser } from "@clerk/nextjs";
 
 const ViewQuoteModal = dynamic(() => import("./ViewQuoteModal"));
 function QuotesView({ initialData }) {
+  const { user, isLoaded } = useUser();
+
   const [selectedQuote, setSelectedQuote] = useState(null);
 
   const {
@@ -24,7 +27,8 @@ function QuotesView({ initialData }) {
   });
 
   if (error) return "An error has occurred: " + error.message;
-  if (isLoading) return;
+  if (isLoading || !isLoaded) return;
+  const isAdmin = user?.publicMetadata?.isAdmin;
   return (
     <ul className="grid grid-cols-[repeat(auto-fill,minmax(263px,1fr))] justify-center gap-5">
       {/* view quote modal */}
@@ -38,17 +42,19 @@ function QuotesView({ initialData }) {
       </AnimatePresence>
 
       {/* Add New Quote */}
-      <li className="flex flex-col items-center self-stretch justify-center gap-5 border border-black rounded-xl py-7">
-        <Link prefetch={false} href="/quotes/create">
-          <Image
-            alt="add new"
-            src="/add-new.png"
-            width={100}
-            height={100}
-            className="object-contain cursor-pointer"
-          />
-        </Link>
-      </li>
+      {isAdmin && (
+        <li className="flex flex-col items-center self-stretch justify-center gap-5 border border-black rounded-xl py-7">
+          <Link prefetch={false} href="/quotes/create">
+            <Image
+              alt="add new"
+              src="/add-new.png"
+              width={100}
+              height={100}
+              className="object-contain cursor-pointer"
+            />
+          </Link>
+        </li>
+      )}
 
       {/* quotes */}
       {quotes.map((quote) => (

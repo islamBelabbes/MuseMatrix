@@ -3,8 +3,8 @@ import Image from "next/image";
 import Tag from "../Tag";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-function Card({ isBook = false, item }) {
-  const { title, cover, genre, author, id } = item;
+function Card({ isBook = false, post, isAdmin }) {
+  const { title, cover, genre, author, id } = post;
   return (
     <div className="flex flex-col items-center gap-4 p-4 border rounded-xl border-Secondary">
       <div className="w-full h-[240px] relative">
@@ -26,15 +26,17 @@ function Card({ isBook = false, item }) {
       <div className="flex flex-col flex-1 w-full gap-5 p-2">
         <div className="flex justify-between">
           <Tag name={genre?.title} variation="Secondary" />
-          <Link href={`/post/update/${id}`}>
-            <Image
-              width={24}
-              height={24}
-              src="/edit.svg"
-              className="white_filter"
-              alt="post edit"
-            />
-          </Link>
+          {isAdmin && (
+            <Link href={`/post/update/${id}`}>
+              <Image
+                width={24}
+                height={24}
+                src="/edit.svg"
+                className="white_filter"
+                alt="post edit"
+              />
+            </Link>
+          )}
         </div>
         <Link href={`/post/${id}`}>
           <h1 className={`text-[18px] font-bold landscape-[50px] `}>{title}</h1>

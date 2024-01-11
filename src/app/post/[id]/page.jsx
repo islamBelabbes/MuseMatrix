@@ -7,6 +7,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ClientModal from "./ClientModal";
 import { cache } from "react";
+import { currentUser } from "@clerk/nextjs";
 
 const getPost = cache(async (id) => {
   const post = await prisma.post.findUnique({
@@ -38,6 +39,9 @@ export async function generateMetadata({ params }) {
   };
 }
 async function page({ params }) {
+  const user = await currentUser();
+  const isAdmin = user?.publicMetadata.isAdmin;
+
   const { id } = params;
   const [post, error] = await tryCatch(getPost(id));
   if (error || !post) {
@@ -65,18 +69,20 @@ async function page({ params }) {
             </div>
           </div>
         </div>
-        <div className="flex self-end gap-3 md:self-auto">
-          <Link href={`/post/update/${params.id}`}>
-            <Image
-              width={24}
-              height={24}
-              src="/edit.svg"
-              className="white_filter"
-              alt="post edit"
-            />
-          </Link>
-          <ClientModal id={parseInt(params.id)} />
-        </div>
+        {isAdmin && (
+          <div className="flex self-end gap-3 md:self-auto">
+            <Link href={`/post/update/${params.id}`} prefetch={false}>
+              <Image
+                width={24}
+                height={24}
+                src="/edit.svg"
+                className="white_filter"
+                alt="post edit"
+              />
+            </Link>
+            <ClientModal id={parseInt(params.id)} />
+          </div>
+        )}
       </div>
       <PostContentView htmlContent={content} Minimized={false} />
     </div>

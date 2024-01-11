@@ -2,6 +2,7 @@ import Hero from "@/components/Hero/Hero";
 import PostListing from "@/components/Post/PostListing";
 import { Suspense } from "react";
 import { PostListingSkeleton } from "@/components/Skeleton/Skeleton";
+import { currentUser } from "@clerk/nextjs";
 
 export const revalidate = 0;
 
@@ -16,6 +17,8 @@ const query = {
   take: 3,
 };
 async function Home() {
+  const user = await currentUser();
+  const isAdmin = user?.publicMetadata.isAdmin;
   return (
     <>
       <div className="flex flex-col gap-[3rem] app">
@@ -27,6 +30,7 @@ async function Home() {
             isBook
             query={{ ...query, where: { genreId: 16 } }}
             genreId={16}
+            isAdmin={isAdmin}
           />
         </Suspense>
 
@@ -35,6 +39,7 @@ async function Home() {
             entry={"اخر المقالات"}
             query={{ ...query, where: { genreId: 17 } }}
             genreId={17}
+            isAdmin={isAdmin}
           />
         </Suspense>
 
@@ -43,6 +48,7 @@ async function Home() {
             entry={"اخر الصوتيات"}
             query={{ ...query, where: { genreId: 18 } }}
             genreId={18}
+            isAdmin={isAdmin}
           />
         </Suspense>
       </div>

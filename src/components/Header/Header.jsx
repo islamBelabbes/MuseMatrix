@@ -2,8 +2,12 @@ import Link from "next/link";
 import DarkMode from "./DarkMode";
 import NavMenu from "./NavMenu";
 import OpenModal from "../Modal/OpenModal";
+import { UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs";
 
-function Header() {
+async function Header() {
+  const user = await currentUser();
+  const isAdmin = user?.publicMetadata?.isAdmin;
   return (
     <header className="sticky z-20 bg-white dark:bg-[#161513] w-full inset-0">
       <div className="flex items-center justify-between app">
@@ -29,9 +33,15 @@ function Header() {
 
         {/* Left */}
         <div className="flex items-center gap-x-8">
-          <Link href="/post/create" className="button_primary">
-            انشاء مقالة
-          </Link>
+          {isAdmin && (
+            <>
+              <UserButton />
+              <Link href="/post/create" className="button_primary">
+                انشاء مقالة
+              </Link>
+            </>
+          )}
+
           <DarkMode />
         </div>
       </div>

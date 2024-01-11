@@ -16,6 +16,7 @@ async function PostListing({
   isBook = false,
   query = QUERY,
   genreId,
+  isAdmin,
 }) {
   const data = await prisma.post.findMany(query);
 
@@ -40,8 +41,8 @@ async function PostListing({
       >
         <Conditional
           condition={data?.length > 0}
-          onTrue={data?.map((item) => (
-            <Card key={item.id} item={item} isBook={isBook} />
+          onTrue={data?.map((post) => (
+            <Card key={post.id} post={post} isBook={isBook} isAdmin={isAdmin} />
           ))}
           onFalse={<span>لا يوجد</span>}
         />
