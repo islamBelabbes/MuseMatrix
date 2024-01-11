@@ -1,4 +1,4 @@
-import { createQuote, delateQuote, getQuotes } from "@/lib/db";
+import { createQuote, delateQuote, getQuotes, updateQuote } from "@/lib/db";
 import prisma from "@/lib/prisma";
 
 import {
@@ -8,7 +8,7 @@ import {
   sendServerError,
 } from "@/lib/responseHelper";
 
-import { tryCatch } from "@/lib/utils";
+import { removeEmptyObjectValues, tryCatch } from "@/lib/utils";
 
 export async function POST(req) {
   const { authorId, postId, quote, color } = await req.json();
@@ -39,5 +39,23 @@ export async function DELETE(req) {
   const { id } = await req.json();
   const [_, error] = await tryCatch(delateQuote(id));
   if (error) return sendServerError();
+  return sendNoContent();
+}
+
+export async function PUT(req) {
+  const body = await req.json();
+
+  const fieldsToUpdate = {
+    authorId: body.authorId,
+    postId: body.postId,
+    quote: body.quote,
+    color: body.color,
+  };
+
+  const query = removeEmptyObjectValues(fieldsToUpdate);
+
+  const [_, error] = await tryCatch(updateQuote(parseInt(body.id), query));
+  if (error) return sendServerError();
+
   return sendNoContent();
 }

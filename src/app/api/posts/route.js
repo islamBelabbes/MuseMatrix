@@ -2,6 +2,7 @@ import { createPost, getPosts, updatePost } from "@/lib/db";
 import { sendNoContent, sendOk, sendServerError } from "@/lib/responseHelper";
 import {
   dataURLtoFile,
+  removeEmptyObjectValues,
   tryCatch,
   uploadThingGetFileKeyFromUrl,
 } from "@/lib/utils";
@@ -73,15 +74,7 @@ export async function PUT(req) {
   // check for fields to update
   const fields = { cover, title, genreId: genre, authorId: author };
 
-  const query = Object.keys(fields).reduce(
-    (acc, filter) => {
-      if (fields[filter]) {
-        acc = { ...acc, [filter]: fields[filter] };
-      }
-      return acc;
-    },
-    { content }
-  );
+  const query = { ...removeEmptyObjectValues(fields), content: content };
 
   const [_, error] = await tryCatch(updatePost(id, query));
 
