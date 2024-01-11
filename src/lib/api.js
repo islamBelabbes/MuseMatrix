@@ -1,13 +1,7 @@
 import axios from "axios";
 
 export const getQuotes = async (quoteId) => {
-  const base =
-    process.env.NODE_ENV === "production"
-      ? process.env.LIVE_URL
-      : "http://localhost:3000";
-
-  const url = new URL(`${base}/api/quotes`);
-  console.log(url);
+  const url = new URL(`https://muse-matrix-blog.vercel.app/api/quotes`);
   if (quoteId) {
     url.searchParams.append("limit", 10);
   }
