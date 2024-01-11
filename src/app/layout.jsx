@@ -15,7 +15,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  if (process.env.NODE_ENV === "production") return null;
   return (
     <html lang="ar" dir="rtl">
       <body className={`dark:bg-[#161513] ${tajawal.className}`}>
