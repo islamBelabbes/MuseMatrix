@@ -18,8 +18,7 @@ function DeleteQuoteModal({ id, closeModal }) {
       error: "حدث خطأ",
     });
 
-    // this line after the post is deleted
-    router.push("/quotes");
+    closeModal();
   };
 
   return (

@@ -10,12 +10,16 @@ import GenreSelect from "./GenreSelect";
 import AuthorSelect from "../../Author/AuthorSelect";
 import { useIsMutating, useIsFetching } from "@tanstack/react-query";
 import Link from "next/link";
-function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
+function PostForm({
+  isUpdate,
+  initializedData = INITIAL_STATE,
+  postId = null,
+}) {
   const [richTextEditorInit, data, dispatch, mutate, isMutatingLoading] =
     usePostForm({
       initializedData,
       richEditorArea: "content",
-      type,
+      isUpdate,
       postId,
     });
 
@@ -54,7 +58,7 @@ function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
             <div className="flex flex-col flex-1 gap-3">
               {/* Image Uploader */}
               <Conditional
-                condition={type === "create"}
+                condition={!isUpdate}
                 onTrue={
                   <SingleImageUploader
                     images={data?.cover}
@@ -109,7 +113,7 @@ function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
           <PostContentView
             HtmlContent={data?.content}
             initialization={richTextEditorInit}
-            Minimized={type !== "create"}
+            Minimized={isUpdate}
           />
           {/* Submit Button */}
           <button
@@ -117,12 +121,12 @@ function PostForm({ type, initializedData = INITIAL_STATE, postId = null }) {
             onClick={mutate}
             disabled={isLoading}
           >
-            {type === "create" ? "انشاء المقالة " : "تعديل المقالة"}
+            {isUpdate ? "تعديل" : "انشاء"}
           </button>
 
           {/* readMore Button */}
           <Conditional
-            condition={type === "update"}
+            condition={isUpdate}
             onTrue={
               <Link
                 href={`/post/${postId}`}

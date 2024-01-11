@@ -62,3 +62,12 @@ export const uploadThingGetFileKeyFromUrl = (url) => {
   const fileKey = url.split("/f/");
   return fileKey[1];
 };
+
+export const removeEmptyObjectValues = (obj) => {
+  return Object.keys(obj).reduce((acc, filter) => {
+    if (obj[filter]) {
+      acc = { ...acc, [filter]: obj[filter] };
+    }
+    return acc;
+  }, {});
+};

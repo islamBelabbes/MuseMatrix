@@ -14,7 +14,7 @@ function Quote({ quote = {}, isModal = false, children, className, ...props }) {
         "flex items-center gap-5 flex-col min-h-[370px]  rounded-xl py-7 relative",
         className,
         {
-          "w-fit max-w-[500px]": isModal,
+          "sm:w-[500px] w-[90vw] ": isModal,
         }
       )}
       style={{ background: color || DEFAULT_COLOR }}

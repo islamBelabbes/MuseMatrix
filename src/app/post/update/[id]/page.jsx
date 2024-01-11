@@ -21,7 +21,7 @@ async function page({ params }) {
   const { title, content, cover, genre, author, id } = post;
   return (
     <PostForm
-      type="update"
+      isUpdate
       initializedData={{
         content,
         cover,

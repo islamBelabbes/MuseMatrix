@@ -25,3 +25,10 @@ export const NAV_LINKS = [
     href: "/quotes",
   },
 ];
+
+export const PrivetRoutes = [
+  "post/create",
+  "post/update",
+  "quotes/create",
+  "quotes/update",
+];

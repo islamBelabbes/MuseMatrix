@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
-const usePostForm = ({ initializedData, richEditorArea, type, postId }) => {
+const usePostForm = ({ initializedData, richEditorArea, isUpdate, postId }) => {
   const router = useRouter();
   const [data, dispatch] = useReducer(reducer, initializedData);
 
@@ -44,7 +44,7 @@ const usePostForm = ({ initializedData, richEditorArea, type, postId }) => {
         },
         contentChanged: async function () {
           // dispatch({ type: "CONTENT", payload: this.html.get() });
-          if (type !== "update" || !postId || !this.html.get()) return;
+          if (!isUpdate || !postId || !this.html.get()) return;
           return axios.put("/api/posts", {
             id: postId,
             content: this.html.get(),
@@ -112,7 +112,7 @@ const usePostForm = ({ initializedData, richEditorArea, type, postId }) => {
   };
 
   const isMutatingLoading = isLoadingCreate || isLoadingUpdate;
-  const mutate = type === "create" ? mutateCreate : mutateUpdate;
+  const mutate = isUpdate ? mutateUpdate : mutateCreate;
 
   return [richTextEditorInit, data, dispatch, mutate, isMutatingLoading];
 };

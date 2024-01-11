@@ -1,7 +1,7 @@
 import PostForm from "@/components/Post/postForm/PostForm";
 
 function page() {
-  return <PostForm type="create" />;
+  return <PostForm />;
 }
 
 export default page;

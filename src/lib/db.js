@@ -37,6 +37,7 @@ export const getAuthors = async (authorName) => {
     throw err;
   }
 };
+
 export const getPosts = async (title) => {
   const query = title
     ? {
@@ -190,4 +191,17 @@ export const delateQuote = async (id) => {
   );
   if (error) throw error;
   return data;
+};
+
+export const updateQuote = async (id, data) => {
+  const [quoteData, error] = await tryCatch(
+    prisma.quote.update({
+      where: {
+        id,
+      },
+      data,
+    })
+  );
+  if (error) throw error;
+  return quoteData;
 };
