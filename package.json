@@ -9,13 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.29.2",
     "@prisma/client": "^5.7.1",
     "@tanstack/react-query": "^5.14.6",
     "@tanstack/react-query-devtools": "^5.14.7",
     "@uploadthing/react": "^6.0.2",
     "axios": "^1.6.2",
     "clsx": "^2.0.0",
-    "framer-motion": "^10.16.5",
+    "framer-motion": "^10.18.0",
     "next": "^14.0.4",
     "next13-progressbar": "^1.1.1",
     "nextjs-toploader": "^1.6.4",
