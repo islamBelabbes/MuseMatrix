@@ -1,5 +1,4 @@
 import { createQuote, delateQuote, getQuotes, updateQuote } from "@/lib/db";
-import prisma from "@/lib/prisma";
 
 import {
   sendCreated,
