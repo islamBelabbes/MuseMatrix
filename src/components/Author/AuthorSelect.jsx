@@ -50,9 +50,10 @@ function AuthorSelect({ author, setAuthor }) {
           isDisabled={isBlock}
           isLoading={isBlock}
           onCreateOption={handleOnCreate}
-          onChange={(e) => setAuthor(e)}
+          onChange={setAuthor}
           loadOptions={getOptions}
           defaultOptions
+          value={author}
         />
       </BlockUi>
     </div>

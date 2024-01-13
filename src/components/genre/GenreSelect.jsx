@@ -35,6 +35,7 @@ function GenreSelect({ genre, setGenre }) {
           onChange={setGenre}
           loadOptions={getOptions}
           defaultOptions
+          value={genre}
         />
       </BlockUi>
     </div>
