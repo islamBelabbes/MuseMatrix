@@ -1,5 +1,5 @@
 import IsAdmin from "@/components/IsAdmin";
-import QuoteForm from "@/components/Quote/QuoteForm";
+import QuoteForm from "@/components/Quote/QuoteForm/QuoteForm";
 import React from "react";
 
 function page() {

@@ -1,5 +1,5 @@
 import IsAdmin from "@/components/IsAdmin";
-import QuoteForm from "@/components/Quote/QuoteForm";
+import QuoteForm from "@/components/Quote/QuoteForm/QuoteForm";
 import { getQuotes } from "@/lib/db";
 import { tryCatch } from "@/lib/utils";
 import { notFound } from "next/navigation";

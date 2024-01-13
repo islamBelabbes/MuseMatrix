@@ -1,10 +1,10 @@
 "use client";
-import BlockUi from "../BlockUi";
-import Quote from "./Quote";
-import AuthorSelect from "../Author/AuthorSelect";
+import BlockUi from "../../BlockUi";
+import Quote from "../Quote";
+import AuthorSelect from "../../Author/AuthorSelect";
 import { HexColorPicker } from "react-colorful";
 import { INITIAL_STATE } from "@/reducer/quoteReducer";
-import PostsSelect from "../PostsSelect";
+import PostsSelect from "../../PostsSelect";
 import useQuoteForm from "./useQuoteForm";
 function QuoteForm({
   isUpdate = false,
