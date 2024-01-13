@@ -24,7 +24,9 @@ function NewsLetter() {
             className="absolute top-[50%] left-0 translate-x-[10px] translate-y-[-50%]"
           />
         </div>
-        <button className="w-full button_primary">اشتراك الان</button>
+        <button className="w-full button_primary" disabled>
+          اشتراك الان
+        </button>
       </form>
     </div>
   );
