@@ -46,9 +46,8 @@ function QuoteSlider({ initializedData = [] }) {
       {/* quote slider */}
       <swiper-container init="false" ref={swiperRef} className="hidden">
         {initializedData.map((quote) => (
-          <swiper-slide>
+          <swiper-slide key={quote.id}>
             <div
-              key={quote.id}
               className="cursor-pointer"
               onClick={() => setSelectedQuote(quote)}
             >
