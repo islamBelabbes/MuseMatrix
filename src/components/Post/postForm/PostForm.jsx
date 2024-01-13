@@ -2,14 +2,14 @@
 import PostContentView from "@/components/Post/PostContentView";
 import Image from "next/image";
 import { SingleImageUploader } from "@/components/ImageUploader";
-import Conditional from "../../Conditional";
-import BlockUi from "../../BlockUi";
 import usePostForm from "./usePostForm";
 import { INITIAL_STATE } from "@/reducer/postFormReducer";
-import GenreSelect from "./GenreSelect";
-import AuthorSelect from "../../Author/AuthorSelect";
 import { useIsMutating, useIsFetching } from "@tanstack/react-query";
 import Link from "next/link";
+import GenreSelect from "@/components/genre/GenreSelect";
+import AuthorSelect from "@/components/Author/AuthorSelect";
+import Conditional from "@/components/Conditional";
+import BlockUi from "@/components/BlockUi";
 function PostForm({
   isUpdate,
   initializedData = INITIAL_STATE,

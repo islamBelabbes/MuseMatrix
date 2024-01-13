@@ -1,36 +1,16 @@
 import BlockUi from "@/components/BlockUi";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import React, { useState } from "react";
 import AsyncCreatableSelect from "react-select/async-creatable";
-import { toast } from "react-toastify";
+import useGenreSelect from "./useGenreSelect";
 
 function GenreSelect({ genre, setGenre }) {
   const [lastUpdate, setLastUpdate] = useState(null);
-  const getOptions = async (inputValue) => {
-    const response = await axios.get(`/api/genres?genre=${inputValue}`);
-    return response.data.data.map((item) => {
-      return { value: item.id, label: item.title };
-    });
-  };
-
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: (title) => axios.post("/api/genres", { title }),
-    mutationKey: ["genre"],
+  const { getOptions, handleCreate, isLoading } = useGenreSelect({
+    onCreateSuccess: () => setLastUpdate(new Date().getTime()),
+    setGenre,
   });
 
-  const handleCreate = async (inputValue) => {
-    const { data } = await toast.promise(() => mutateAsync(inputValue), {
-      pending: "الرجاء الانتظار",
-      success: "تم انشاء التصنيف بنجاح 👌",
-      error: "حدث خطأ",
-    });
-    if (Boolean(data.success) !== true) return;
-    setLastUpdate(new Date().getTime());
-    setGenre({ value: data.data.id, label: data.data.title });
-  };
-
-  const isBlock = isPending;
+  const isBlock = isLoading;
   return (
     <div className="flex items-center gap-2">
       <label htmlFor="genre" className="whitespace-nowrap w-[60px]">
