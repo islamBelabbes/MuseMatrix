@@ -1,8 +1,9 @@
-import Hero from "@/components/Hero/Hero";
 import PostListing from "@/components/Post/PostListing";
 import { Suspense } from "react";
 import { PostListingSkeleton } from "@/components/Skeleton/Skeleton";
 import { currentUser } from "@clerk/nextjs";
+import QuoteSlider from "@/components/Quote/QuoteSlider";
+import { getQuotes } from "@/lib/db";
 
 export const revalidate = 0;
 
@@ -19,10 +20,11 @@ const query = {
 async function Home() {
   const user = await currentUser();
   const isAdmin = user?.publicMetadata.isAdmin;
+  const quotes = await getQuotes();
   return (
     <>
       <div className="flex flex-col gap-[3rem] app">
-        <Hero />
+        <QuoteSlider initializedData={quotes} />
 
         <Suspense fallback={<PostListingSkeleton count={3} hasEntry />}>
           <PostListing
