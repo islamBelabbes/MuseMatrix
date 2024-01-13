@@ -32,10 +32,9 @@ function GenreSelect({ genre, setGenre }) {
           isDisabled={isBlock}
           isLoading={isBlock}
           onCreateOption={handleCreate}
-          onChange={(e) => setGenre(e)}
+          onChange={setGenre}
           loadOptions={getOptions}
           defaultOptions
-          value={genre}
         />
       </BlockUi>
     </div>
