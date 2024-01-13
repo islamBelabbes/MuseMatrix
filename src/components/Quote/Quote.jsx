@@ -4,7 +4,7 @@ import React from "react";
 import Conditional from "../Conditional";
 import Link from "next/link";
 const DEFAULT_COLOR = "#262D33";
-function Quote({ quote = {}, isModal = false, children, className, ...props }) {
+function Quote({ quote = {}, isModal = false, children, className }) {
   const { author, quote: quoteContent, post, color } = quote;
   const { id: postId, title: postTitle } = post;
   const { name: authorName, avatar: authorAvatar } = author;
@@ -18,7 +18,6 @@ function Quote({ quote = {}, isModal = false, children, className, ...props }) {
         }
       )}
       style={{ background: color || DEFAULT_COLOR }}
-      {...props}
     >
       <div className="w-full top__bar">{children}</div>
       <div
