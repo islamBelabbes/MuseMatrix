@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { register } from "swiper/element/bundle";
 import Quote from "./Quote";
+import ViewQuoteModal from "./ViewQuoteModal";
+import { AnimatePresence } from "framer-motion";
 
 const params = {
   slidesPerView: 1.1,
@@ -15,6 +17,7 @@ const params = {
 
 function QuoteSlider({ initializedData = [] }) {
   const [isMounted, setIsMounted] = useState(false);
+  const [selectedQuote, setSelectedQuote] = useState(null);
   const swiperRef = useRef(null);
 
   useEffect(() => {
@@ -29,11 +32,28 @@ function QuoteSlider({ initializedData = [] }) {
 
   if (!isMounted) return;
   return (
-    <div className="">
+    <div className="w-full">
+      {/* view quote modal */}
+      <AnimatePresence mode="wait">
+        {selectedQuote && (
+          <ViewQuoteModal
+            quote={selectedQuote}
+            closeModal={() => setSelectedQuote(null)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* quote slider */}
       <swiper-container init="false" ref={swiperRef} className="hidden">
         {initializedData.map((quote) => (
           <swiper-slide>
-            <Quote quote={quote} />
+            <div
+              key={quote.id}
+              className="cursor-pointer"
+              onClick={() => setSelectedQuote(quote)}
+            >
+              <Quote quote={quote} className={"h-full"} />
+            </div>
           </swiper-slide>
         ))}
       </swiper-container>
