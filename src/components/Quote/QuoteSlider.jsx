@@ -80,7 +80,7 @@ const Navigation = () => {
           height={navigationSvgDimensions.height}
         />
       </button>
-      <button className="absolute z-20 swiper-button-next left-0 top-[50%] translate-y-[-50%] disabled:opacity-30 disabled:cursor-not-allowed">
+      <button className="absolute z-10 swiper-button-next left-0 top-[50%] translate-y-[-50%] disabled:opacity-30 disabled:cursor-not-allowed">
         <Image
           src="/arrow-left.svg"
           alt="quote"
