@@ -4,15 +4,20 @@ import { register } from "swiper/element/bundle";
 import Quote from "./Quote";
 import ViewQuoteModal from "./ViewQuoteModal";
 import { AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const params = {
-  slidesPerView: 1.1,
-  spaceBetween: 20,
-  breakpoints: {
-    1024: {
-      slidesPerView: 3,
-    },
+  slidesPerView: 1.01,
+  spaceBetween: 5,
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
   },
+};
+
+const navigationSvgDimensions = {
+  width: 50,
+  height: 50,
 };
 
 function QuoteSlider({ initializedData = [] }) {
@@ -32,7 +37,7 @@ function QuoteSlider({ initializedData = [] }) {
 
   if (!isMounted) return;
   return (
-    <div className="w-full">
+    <div className="relative flex justify-center w-full">
       {/* view quote modal */}
       <AnimatePresence mode="wait">
         {selectedQuote && (
@@ -43,21 +48,48 @@ function QuoteSlider({ initializedData = [] }) {
         )}
       </AnimatePresence>
 
+      <Navigation />
+
       {/* quote slider */}
-      <swiper-container init="false" ref={swiperRef} className="hidden">
-        {initializedData.map((quote) => (
-          <swiper-slide key={quote.id}>
-            <div
-              className="cursor-pointer"
-              onClick={() => setSelectedQuote(quote)}
-            >
-              <Quote quote={quote} className={"h-full"} />
-            </div>
-          </swiper-slide>
-        ))}
-      </swiper-container>
+      <div className="w-[75%] md:w-[90%]">
+        <swiper-container init="false" ref={swiperRef}>
+          {initializedData.map((quote) => (
+            <swiper-slide key={quote.id}>
+              <div
+                className="cursor-pointer"
+                onClick={() => setSelectedQuote(quote)}
+              >
+                <Quote quote={quote} className={"h-full"} />
+              </div>
+            </swiper-slide>
+          ))}
+        </swiper-container>
+      </div>
     </div>
   );
 }
+
+const Navigation = () => {
+  return (
+    <>
+      <button className="absolute z-20 swiper-button-prev right-0 top-[50%] translate-y-[-50%] disabled:opacity-30 disabled:cursor-not-allowed">
+        <Image
+          src="/arrow-right.svg"
+          alt="quote"
+          width={navigationSvgDimensions.width}
+          height={navigationSvgDimensions.height}
+        />
+      </button>
+      <button className="absolute z-20 swiper-button-next left-0 top-[50%] translate-y-[-50%] disabled:opacity-30 disabled:cursor-not-allowed">
+        <Image
+          src="/arrow-left.svg"
+          alt="quote"
+          width={navigationSvgDimensions.width}
+          height={navigationSvgDimensions.height}
+        />
+      </button>
+    </>
+  );
+};
 
 export default QuoteSlider;

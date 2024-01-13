@@ -92,3 +92,7 @@ article#content blockquote p {
     width: 100% !important;
   }
 }
+
+swiper-container {
+  width: 100%;
+}

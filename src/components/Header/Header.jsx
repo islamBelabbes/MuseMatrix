@@ -2,8 +2,7 @@ import Link from "next/link";
 import DarkMode from "./DarkMode";
 import NavMenu from "./NavMenu";
 import OpenModal from "../Modal/OpenModal";
-import { UserButton } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs";
+import { UserButton, currentUser } from "@clerk/nextjs";
 
 async function Header() {
   const user = await currentUser();
