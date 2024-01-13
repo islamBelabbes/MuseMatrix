@@ -162,7 +162,7 @@ export const getQuotes = async (filter = {}) => {
     prisma.quote.findMany({
       take: 8,
       orderBy: {
-        updatedAt: "desc",
+        createdAt: "desc",
       },
       where: { ...selectedFilter },
       include: {
