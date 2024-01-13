@@ -72,7 +72,7 @@ function QuoteSlider({ initializedData = [] }) {
 const Navigation = () => {
   return (
     <>
-      <button className="absolute z-20 swiper-button-prev right-0 top-[50%] translate-y-[-50%] disabled:opacity-30 disabled:cursor-not-allowed">
+      <button className="absolute z-10 swiper-button-prev right-0 top-[50%] translate-y-[-50%] disabled:opacity-30 disabled:cursor-not-allowed">
         <Image
           src="/arrow-right.svg"
           alt="quote"
