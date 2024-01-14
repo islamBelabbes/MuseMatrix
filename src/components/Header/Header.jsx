@@ -35,7 +35,10 @@ async function Header() {
           {isAdmin && (
             <>
               <UserButton />
-              <Link href="/post/create" className="button_primary">
+              <Link
+                href="/post/create"
+                className="hidden button_primary md:block"
+              >
                 انشاء مقالة
               </Link>
             </>

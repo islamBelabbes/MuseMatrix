@@ -3,15 +3,17 @@ import { NAV_LINKS } from "@/constants/constants";
 import SideModal from "../Modal/SideModal";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/context/GlobalModalProvider";
+import { UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 function SideMenu() {
   const router = useRouter();
   const { closeModals } = useModal();
 
-  const handleOnClick = (e, to) => {
+  const handleOnClick = (e) => {
     e.preventDefault();
     closeModals();
-    router.push(to);
+    router.push(e?.target?.href);
   };
   return (
     <SideModal>
@@ -21,11 +23,18 @@ function SideMenu() {
             key={link.id}
             className={`border-b w-full p-3 text-base font-medium leading-6 text-Secondary/600`}
           >
-            <a href={link.href} onClick={(e) => handleOnClick(e, link.href)}>
+            <Link href={link.href} onClick={handleOnClick}>
               {link.name}
-            </a>
+            </Link>
           </li>
         ))}
+        <Link
+          onClick={handleOnClick}
+          href="/post/create"
+          className="button_primary"
+        >
+          انشاء مقالة
+        </Link>
       </ul>
     </SideModal>
   );
