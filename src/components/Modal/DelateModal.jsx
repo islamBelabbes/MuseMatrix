@@ -30,10 +30,7 @@ function DelateModal({
       <BlockUi isBlock={blockUi}>
         <div className="p-6 bg-white border border-Secondary min-w-[500px] relative">
           <div className="flex flex-col items-center gap-3">
-            <h1>
-              {entry}
-              {confirmWord}
-            </h1>
+            <h1>{entry}</h1>
             <input
               type="text"
               onChange={changeHandler}
