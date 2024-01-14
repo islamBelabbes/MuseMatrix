@@ -4,6 +4,7 @@ import { PostListingSkeleton } from "@/components/Skeleton/Skeleton";
 import { currentUser } from "@clerk/nextjs";
 import QuoteSlider from "@/components/Quote/QuoteSlider";
 import { getQuotes } from "@/lib/db";
+import { shuffle } from "@/lib/utils";
 
 export const revalidate = 0;
 
@@ -21,10 +22,11 @@ async function Home() {
   const user = await currentUser();
   const isAdmin = user?.publicMetadata.isAdmin;
   const quotes = await getQuotes();
+
   return (
     <>
       <div className="flex flex-col gap-[3rem] app">
-        <QuoteSlider initializedData={quotes} />
+        <QuoteSlider initializedData={shuffle(quotes)} />
 
         <Suspense fallback={<PostListingSkeleton count={3} hasEntry />}>
           <PostListing
