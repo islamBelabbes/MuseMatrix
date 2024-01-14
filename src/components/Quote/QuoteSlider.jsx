@@ -7,7 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 const params = {
-  slidesPerView: 1.01,
+  slidesPerView: 1,
   spaceBetween: 5,
   navigation: {
     nextEl: ".swiper-button-next",
