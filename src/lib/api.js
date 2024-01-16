@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getQuotes = async (quoteId) => {
-  const url = new URL(`https://muse-matrix-blog.vercel.app/api/quotes`);
+  const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/quotes`);
   if (quoteId) {
     url.searchParams.append("limit", 10);
   }
