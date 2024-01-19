@@ -3,7 +3,7 @@ import { useModal } from "@/context/GlobalModalProvider";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-function OpenModal({ modal, icon, alt = "modal button", styles }) {
+function OpenModalButton({ modal, icon, alt = "modal button", styles }) {
   const { openModal } = useModal();
 
   return (
@@ -22,4 +22,4 @@ function OpenModal({ modal, icon, alt = "modal button", styles }) {
   );
 }
 
-export default OpenModal;
+export default OpenModalButton;

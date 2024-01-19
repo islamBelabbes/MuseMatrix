@@ -71,12 +71,9 @@ export async function DELETE(req) {
 export async function PUT(req) {
   const { id, content, cover, title, genre, author } = await req.json();
 
-  // check for fields to update
-  const fields = { cover, title, genreId: genre, authorId: author };
+  const fields = { cover, title, genreId: genre, authorId: author, content };
 
-  const query = { ...removeEmptyObjectValues(fields), content: content };
-
-  const [_, error] = await tryCatch(updatePost(id, query));
+  const [_, error] = await tryCatch(updatePost(id, fields));
 
   if (error) return sendServerError();
 

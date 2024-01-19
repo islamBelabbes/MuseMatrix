@@ -3,7 +3,6 @@ import { NAV_LINKS } from "@/constants/constants";
 import SideModal from "../Modal/SideModal";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/context/GlobalModalProvider";
-import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 function SideMenu() {

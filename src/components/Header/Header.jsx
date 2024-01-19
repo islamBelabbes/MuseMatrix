@@ -1,7 +1,7 @@
 import Link from "next/link";
-import DarkMode from "./DarkMode";
+import DarkModeButton from "./DarkModeButton";
 import NavMenu from "./NavMenu";
-import OpenModal from "../Modal/OpenModal";
+import OpenModalButton from "../Modal/OpenModalButton";
 import { UserButton, currentUser } from "@clerk/nextjs";
 
 async function Header() {
@@ -13,7 +13,7 @@ async function Header() {
         {/* Right */}
         <div className="flex items-center gap-x-8">
           {/* Menu Icon */}
-          <OpenModal
+          <OpenModalButton
             icon={"/menu.svg"}
             alt="menu"
             modal={"sidemenu"}
@@ -44,7 +44,7 @@ async function Header() {
             </>
           )}
 
-          <DarkMode />
+          <DarkModeButton />
         </div>
       </div>
     </header>

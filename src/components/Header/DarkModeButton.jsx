@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { useDarkMode } from "@/context/DarkModeProvider";
 import Conditional from "../Conditional";
-function DarkMode() {
+function DarkModeButton() {
   const { toggle, status } = useDarkMode();
 
   const clickHandler = () => {
@@ -39,4 +39,4 @@ function DarkMode() {
   );
 }
 
-export default DarkMode;
+export default DarkModeButton;
