@@ -1,4 +1,4 @@
-import QuotesView from "@/components/Quote/QuotesView";
+import QuoteListing from "@/components/Quote/QuoteListing";
 import { getQuotes } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
@@ -11,7 +11,7 @@ async function page() {
   const isAdmin = user?.publicMetadata.isAdmin;
   return (
     <div className="app">
-      <QuotesView initialData={quotes}>
+      <QuoteListing initialData={quotes}>
         {isAdmin && (
           <li className="flex flex-col items-center self-stretch justify-center gap-5 border border-black rounded-xl py-7">
             <Link prefetch={false} href="/quotes/create">
@@ -25,7 +25,7 @@ async function page() {
             </Link>
           </li>
         )}
-      </QuotesView>
+      </QuoteListing>
     </div>
   );
 }
