@@ -14,6 +14,18 @@ export async function POST(req) {
   // Uploading avatar Media
   const [data, error] = await tryCatch(utapi.uploadFiles([file]));
   if (error) {
+    return Response.json(
+      {
+        success: false,
+        message: {
+          error: error,
+          file: file,
+        },
+      },
+      {
+        status: 500,
+      }
+    );
     console.log("error uploading ");
     return sendServerError();
   }
