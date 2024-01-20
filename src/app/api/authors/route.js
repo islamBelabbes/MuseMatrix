@@ -9,6 +9,7 @@ export async function POST(req) {
   // convert dataUrl fo File Object
   const file = dataURLtoFile(avatar, `${crypto.randomUUID()}.jpg`);
 
+  console.log("file", file);
   // Uploading avatar Media
   const [data, error] = await tryCatch(utapi.uploadFiles([file]));
   if (error) {
