@@ -1,5 +1,9 @@
 import { createGenre, getGenres } from "@/lib/db";
-import { sendOk, sendServerError } from "@/lib/responseHelper";
+import {
+  sendOk,
+  sendServerError,
+  sendUnauthorized,
+} from "@/lib/responseHelper";
 import { tryCatch } from "@/lib/utils";
 import { currentUser } from "@clerk/nextjs";
 export async function POST(req) {

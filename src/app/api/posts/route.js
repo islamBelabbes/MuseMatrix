@@ -1,5 +1,10 @@
 import { createPost, getPosts, updatePost } from "@/lib/db";
-import { sendNoContent, sendOk, sendServerError } from "@/lib/responseHelper";
+import {
+  sendNoContent,
+  sendOk,
+  sendServerError,
+  sendUnauthorized,
+} from "@/lib/responseHelper";
 import {
   dataURLtoFile,
   tryCatch,
