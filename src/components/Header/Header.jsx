@@ -32,16 +32,15 @@ async function Header() {
 
         {/* Left */}
         <div className="flex items-center gap-x-8">
+          {user && <UserButton />}
+
           {isAdmin && (
-            <>
-              <UserButton />
-              <Link
-                href="/post/create"
-                className="hidden button_primary md:block"
-              >
-                انشاء مقالة
-              </Link>
-            </>
+            <Link
+              href="/post/create"
+              className="hidden button_primary md:block"
+            >
+              انشاء مقالة
+            </Link>
           )}
 
           <DarkModeButton />
