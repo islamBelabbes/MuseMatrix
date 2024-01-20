@@ -1,11 +1,22 @@
 import { createAuthor, getAuthors } from "@/lib/db";
-import { sendOk, sendServerError } from "@/lib/responseHelper";
+import {
+  sendOk,
+  sendServerError,
+  sendUnauthorized,
+} from "@/lib/responseHelper";
 import { UTApi } from "uploadthing/server";
 export const utapi = new UTApi();
 import { dataURLtoFile, tryCatch } from "@/lib/utils";
+import { currentUser } from "@clerk/nextjs";
 export async function POST(req) {
   const { name, avatar } = await req.json();
 
+  const user = await currentUser();
+  const isAdmin = user?.publicMetadata.isAdmin;
+  if (!isAdmin)
+    return sendUnauthorized({
+      message: "you don't have permission to perform this action",
+    });
   // convert dataUrl fo File Object
   const file = dataURLtoFile(avatar, `${crypto.randomUUID()}.jpg`);
 

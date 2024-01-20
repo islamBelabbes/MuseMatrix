@@ -2,15 +2,22 @@ import { createPost, getPosts, updatePost } from "@/lib/db";
 import { sendNoContent, sendOk, sendServerError } from "@/lib/responseHelper";
 import {
   dataURLtoFile,
-  removeEmptyObjectValues,
   tryCatch,
   uploadThingGetFileKeyFromUrl,
 } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { utapi } from "@/lib/uploadThing";
+import { currentUser } from "@clerk/nextjs";
 export async function POST(req) {
   const { genre, author, title, cover, content } = await req.json();
+
+  const user = await currentUser();
+  const isAdmin = user?.publicMetadata.isAdmin;
+  if (!isAdmin)
+    return sendUnauthorized({
+      message: "you don't have permission to perform this action",
+    });
 
   // convert dataUrl fo File Object
   const file = dataURLtoFile(cover, `${crypto.randomUUID()}.jpg`);
@@ -34,6 +41,13 @@ export async function POST(req) {
 
 export async function DELETE(req) {
   const { id } = await req.json();
+
+  const user = await currentUser();
+  const isAdmin = user?.publicMetadata.isAdmin;
+  if (!isAdmin)
+    return sendUnauthorized({
+      message: "you don't have permission to perform this action",
+    });
 
   // get Cover (file) Url
   const [fileData, fileError] = await tryCatch(
@@ -70,6 +84,13 @@ export async function DELETE(req) {
 
 export async function PUT(req) {
   const { id, content, cover, title, genre, author } = await req.json();
+
+  const user = await currentUser();
+  const isAdmin = user?.publicMetadata.isAdmin;
+  if (!isAdmin)
+    return sendUnauthorized({
+      message: "you don't have permission to perform this action",
+    });
 
   const fields = { cover, title, genreId: genre, authorId: author, content };
 

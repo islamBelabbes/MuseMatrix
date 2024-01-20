@@ -1,8 +1,16 @@
 import { createGenre, getGenres } from "@/lib/db";
 import { sendOk, sendServerError } from "@/lib/responseHelper";
 import { tryCatch } from "@/lib/utils";
+import { currentUser } from "@clerk/nextjs";
 export async function POST(req) {
   const { title } = await req.json();
+
+  const user = await currentUser();
+  const isAdmin = user?.publicMetadata.isAdmin;
+  if (!isAdmin)
+    return sendUnauthorized({
+      message: "you don't have permission to perform this action",
+    });
 
   // creating author
   const [data, error] = await tryCatch(createGenre(title));

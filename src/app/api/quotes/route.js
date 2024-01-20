@@ -8,9 +8,17 @@ import {
 } from "@/lib/responseHelper";
 
 import { removeEmptyObjectValues, tryCatch } from "@/lib/utils";
+import { currentUser } from "@clerk/nextjs";
 
 export async function POST(req) {
   const { authorId, postId, quote, color } = await req.json();
+
+  const user = await currentUser();
+  const isAdmin = user?.publicMetadata.isAdmin;
+  if (!isAdmin)
+    return sendUnauthorized({
+      message: "you don't have permission to perform this action",
+    });
 
   const [data, error] = await tryCatch(
     createQuote({ authorId, postId, quote, color })
@@ -36,6 +44,14 @@ export async function GET(req) {
 
 export async function DELETE(req) {
   const { id } = await req.json();
+
+  const user = await currentUser();
+  const isAdmin = user?.publicMetadata.isAdmin;
+  if (!isAdmin)
+    return sendUnauthorized({
+      message: "you don't have permission to perform this action",
+    });
+
   const [_, error] = await tryCatch(delateQuote(id));
   if (error) return sendServerError();
   return sendNoContent();
@@ -43,6 +59,13 @@ export async function DELETE(req) {
 
 export async function PUT(req) {
   const body = await req.json();
+
+  const user = await currentUser();
+  const isAdmin = user?.publicMetadata.isAdmin;
+  if (!isAdmin)
+    return sendUnauthorized({
+      message: "you don't have permission to perform this action",
+    });
 
   const fieldsToUpdate = {
     authorId: body.authorId,
