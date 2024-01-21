@@ -2,10 +2,18 @@ import Link from "next/link";
 import { NAV_LINKS } from "@/constants/constants";
 import { cn } from "@/lib/utils";
 
-function NavMenu({ className = null, itemClassName }) {
+function NavMenu({ className = null, itemClassName, user }) {
+  const isAdmin = user?.publicMetadata?.isAdmin;
+
+  const navLinks = NAV_LINKS.filter((item) => {
+    if (item.onlyAdmin && !isAdmin) return false;
+    if (item.requireAuth && !user) return false;
+    return true;
+  });
+
   return (
     <ul className={className}>
-      {NAV_LINKS.map((link) => (
+      {navLinks.map((link) => (
         <li
           key={link.id}
           className={cn(

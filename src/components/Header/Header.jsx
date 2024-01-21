@@ -27,7 +27,10 @@ async function Header() {
           </div>
 
           {/* NavMenu */}
-          <NavMenu className="justify-center hidden gap-10 md:flex" />
+          <NavMenu
+            className="justify-center hidden gap-10 md:flex"
+            user={user}
+          />
         </div>
 
         {/* Left */}
