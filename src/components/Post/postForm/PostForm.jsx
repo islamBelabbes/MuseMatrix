@@ -10,6 +10,8 @@ import GenreSelect from "@/components/genre/GenreSelect";
 import AuthorSelect from "@/components/Author/AuthorSelect";
 import Conditional from "@/components/Conditional";
 import BlockUi from "@/components/BlockUi";
+import Select from "react-select";
+import { STATUS_OPTIONS } from "@/constants/constants";
 function PostForm({
   isUpdate,
   initializedData = INITIAL_STATE,
@@ -106,6 +108,25 @@ function PostForm({
                   return dispatch({ type: "AUTHOR", payload: payload });
                 }}
               />
+
+              {/* Post Status */}
+              <div className="flex items-center gap-2">
+                <label htmlFor="title" className="whitespace-nowrap w-[60px]">
+                  الحالة :
+                </label>
+                <Select
+                  classNames={{
+                    menu: () => "!z-20",
+                  }}
+                  placeholder="الحالة"
+                  className="flex-1 font-bold dark:bg-transparent"
+                  defaultValue={data?.status}
+                  onChange={(payload) => {
+                    return dispatch({ type: "STATUS", payload: payload });
+                  }}
+                  options={STATUS_OPTIONS}
+                />
+              </div>
             </div>
           </form>
 

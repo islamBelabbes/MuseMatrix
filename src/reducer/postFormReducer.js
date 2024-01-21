@@ -4,6 +4,7 @@ const actionType = {
   TITLE: "TITLE",
   COVER: "COVER",
   CONTENT: "CONTENT",
+  STATUS: "STATUS",
 };
 
 export const INITIAL_STATE = {
@@ -12,6 +13,7 @@ export const INITIAL_STATE = {
   title: "",
   cover: "",
   content: "",
+  status: "",
 };
 
 export function reducer(state, action) {
@@ -26,5 +28,7 @@ export function reducer(state, action) {
       return { ...state, author: action.payload };
     case actionType.TITLE:
       return { ...state, title: action.payload };
+    case actionType.STATUS:
+      return { ...state, status: action.payload };
   }
 }

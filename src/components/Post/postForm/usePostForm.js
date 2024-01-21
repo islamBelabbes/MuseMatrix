@@ -75,6 +75,7 @@ const usePostForm = ({ initializedData, richEditorArea, isUpdate, postId }) => {
           ...data,
           genre: data.genre.value,
           author: data.author.value,
+          status: data.status.value,
         }),
       {
         pending: "الرجاء الانتظار",
@@ -98,6 +99,7 @@ const usePostForm = ({ initializedData, richEditorArea, isUpdate, postId }) => {
           genre: data.genre.value,
           author: data.author.value,
           id: postId,
+          status: data.status.value,
         }),
       {
         pending: "الرجاء الانتظار",
