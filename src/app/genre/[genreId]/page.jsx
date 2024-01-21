@@ -6,11 +6,10 @@ import { currentUser } from "@clerk/nextjs";
 
 export const revalidate = 0;
 
-const booksId = 16;
-
 const query = {
   where: {
     genreId: null,
+    status: "Published",
   },
   include: {
     genre: true,
@@ -27,8 +26,7 @@ async function CategoryListing({ params }) {
     <div className="flex flex-col gap-5 app">
       <Suspense fallback={<PostListingSkeleton count={6} />}>
         <PostListing
-          isBook={genreId === booksId}
-          query={{ ...query, where: { genreId: genreId } }}
+          query={{ ...query, where: { ...query.where, genreId: genreId } }}
           isAdmin={isAdmin}
         />
       </Suspense>

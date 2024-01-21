@@ -15,7 +15,7 @@ import prisma from "@/lib/prisma";
 import { utapi } from "@/lib/uploadThing";
 import { currentUser } from "@clerk/nextjs";
 export async function POST(req) {
-  const { genre, author, title, cover, content } = await req.json();
+  const { genre, author, title, cover, content, status } = await req.json();
 
   const user = await currentUser();
   const isAdmin = user?.publicMetadata.isAdmin;
@@ -33,12 +33,21 @@ export async function POST(req) {
 
   // Create Post
   const [postData, postError] = await tryCatch(
-    createPost({ genre, author, title, cover: data[0]?.data?.url, content })
+    createPost({
+      genre,
+      author,
+      title,
+      cover: data[0]?.data?.url,
+      content,
+      status,
+    })
   );
   if (postError) {
     await tryCatch(utapi.deleteFiles(data[0]?.data?.key));
     return sendServerError();
   }
+
+  revalidatePath("/drafts");
   return sendOk({
     data: postData,
   });
@@ -88,7 +97,7 @@ export async function DELETE(req) {
 }
 
 export async function PUT(req) {
-  const { id, content, cover, title, genre, author } = await req.json();
+  const { id, content, cover, title, genre, author, status } = await req.json();
 
   const user = await currentUser();
   const isAdmin = user?.publicMetadata.isAdmin;
@@ -97,13 +106,21 @@ export async function PUT(req) {
       message: "you don't have permission to perform this action",
     });
 
-  const fields = { cover, title, genreId: genre, authorId: author, content };
-
+  const fields = {
+    cover,
+    title,
+    genreId: genre,
+    authorId: author,
+    content,
+    status,
+  };
   const [_, error] = await tryCatch(updatePost(id, fields));
 
   if (error) return sendServerError();
 
   revalidatePath(`/post/${id}`);
+  revalidatePath("/drafts");
+
   return sendNoContent();
 }
 

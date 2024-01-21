@@ -19,7 +19,7 @@ async function page({ params }) {
     notFound();
   }
 
-  const { title, content, cover, genre, author, id } = post;
+  const { title, content, cover, genre, author, id, status } = post;
   return (
     <IsAdmin>
       <PostForm
@@ -30,6 +30,7 @@ async function page({ params }) {
           title,
           genre: { value: genre?.id, label: genre?.title },
           author: { value: author?.id, label: author?.name },
+          status: { value: status, label: status },
         }}
         postId={id}
       />

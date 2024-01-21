@@ -11,6 +11,7 @@ export const revalidate = 0;
 const query = {
   where: {
     genreId: null,
+    status: "Published",
   },
   include: {
     genre: true,
@@ -31,8 +32,7 @@ async function Home() {
         <Suspense fallback={<PostListingSkeleton count={3} hasEntry />}>
           <PostListing
             entry={"اخر الكتب"}
-            isBook
-            query={{ ...query, where: { genreId: 16 } }}
+            query={{ ...query, where: { ...query.where, genreId: 16 } }}
             genreId={16}
             isAdmin={isAdmin}
           />
@@ -41,7 +41,7 @@ async function Home() {
         <Suspense fallback={<PostListingSkeleton count={3} hasEntry />}>
           <PostListing
             entry={"اخر المقالات"}
-            query={{ ...query, where: { genreId: 17 } }}
+            query={{ ...query, where: { ...query.where, genreId: 17 } }}
             genreId={17}
             isAdmin={isAdmin}
           />
@@ -50,7 +50,7 @@ async function Home() {
         <Suspense fallback={<PostListingSkeleton count={3} hasEntry />}>
           <PostListing
             entry={"اخر الصوتيات"}
-            query={{ ...query, where: { genreId: 18 } }}
+            query={{ ...query, where: { ...query.where, genreId: 18 } }}
             genreId={18}
             isAdmin={isAdmin}
           />
