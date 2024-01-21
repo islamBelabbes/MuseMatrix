@@ -3,7 +3,10 @@ import Image from "next/image";
 import Tag from "../Tag";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-function Card({ isBook = false, post, isAdmin }) {
+
+const booksGenreId = 16;
+
+function Card({ post, isAdmin }) {
   const { title, cover, genre, author, id } = post;
   return (
     <div className="flex flex-col items-center gap-4 p-4 border rounded-xl border-Secondary">
@@ -13,8 +16,8 @@ function Card({ isBook = false, post, isAdmin }) {
             src={cover}
             alt="listing image"
             className={cn("rounded-xl hover:animate-circle w-full h-full", {
-              "object-contain": isBook,
-              "object-cover ": !isBook,
+              "object-contain": genre?.id === booksGenreId,
+              "object-cover ": !genre?.id === booksGenreId,
             })}
             width={500}
             height={500}
