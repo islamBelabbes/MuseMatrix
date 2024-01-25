@@ -48,6 +48,7 @@ export const PrivetRoutes = [
   "post/update",
   "quotes/create",
   "quotes/update",
+  "drafts",
 ];
 
 export const STATUS_OPTIONS = [
