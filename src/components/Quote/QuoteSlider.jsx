@@ -2,9 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import { register } from "swiper/element/bundle";
 import Quote from "./Quote";
-import ViewQuoteModal from "./ViewQuoteModal";
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+const ViewQuoteModal = dynamic(() => import("./ViewQuoteModal"));
 
 const params = {
   slidesPerView: 1,
