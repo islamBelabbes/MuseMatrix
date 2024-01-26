@@ -18,16 +18,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
-      <ClerkProvider>
-        <Providers>
-          <body className={`dark:bg-[#161513] ${tajawal.className}`}>
+      <body className={`dark:bg-[#161513] ${tajawal.className}`}>
+        <ClerkProvider>
+          <Providers>
             <div id="modal"></div>
             <Header />
             <main>{children}</main>
             <Footer />
-          </body>
-        </Providers>
-      </ClerkProvider>
+          </Providers>
+        </ClerkProvider>
+      </body>
     </html>
   );
 }
