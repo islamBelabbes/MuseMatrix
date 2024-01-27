@@ -5,6 +5,7 @@ import Quote from "./Quote";
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { GridLoader } from "react-spinners";
 const ViewQuoteModal = dynamic(() => import("./ViewQuoteModal"));
 
 const params = {
@@ -22,21 +23,17 @@ const navigationSvgDimensions = {
 };
 
 function QuoteSlider({ initializedData = [] }) {
-  const [isMounted, setIsMounted] = useState(false);
+  const [isSwiperInitialized, setIsSwiperInitialized] = useState(false);
   const [selectedQuote, setSelectedQuote] = useState(null);
   const swiperRef = useRef(null);
 
   useEffect(() => {
-    if (!swiperRef.current) {
-      setIsMounted(true);
-    } else {
-      register();
-      Object.assign(swiperRef.current, params);
-      swiperRef.current.initialize();
-    }
-  }, [isMounted]);
+    register();
+    Object.assign(swiperRef.current, params);
+    swiperRef.current.initialize();
+    setIsSwiperInitialized(true);
+  }, []);
 
-  if (!isMounted) return;
   return (
     <div className="relative flex justify-center w-full">
       {/* view quote modal */}
@@ -53,11 +50,20 @@ function QuoteSlider({ initializedData = [] }) {
 
       {/* quote slider */}
       <div className="w-[75%] md:w-[90%]">
-        <swiper-container init="false" ref={swiperRef}>
-          {initializedData.map((quote) => (
-            <swiper-slide key={quote.id}>
+        <swiper-container
+          init="false"
+          ref={swiperRef}
+          style={{ display: "flex", overflow: "hidden" }}
+        >
+          {initializedData.map((quote, index) => (
+            <swiper-slide
+              key={quote.id}
+              style={{
+                flex: "1 0 100%",
+              }}
+            >
               <div
-                className="cursor-pointer"
+                className="h-full cursor-pointer"
                 onClick={() => setSelectedQuote(quote)}
               >
                 <Quote quote={quote} className={"h-full"} />

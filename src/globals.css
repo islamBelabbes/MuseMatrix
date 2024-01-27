@@ -96,3 +96,6 @@ article#content blockquote p {
 swiper-container {
   width: 100%;
 }
+swiper-container::part(container) {
+  height: auto;
+}
