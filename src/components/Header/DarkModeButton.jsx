@@ -1,36 +1,32 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useDarkMode } from "@/context/DarkModeProvider";
 import Conditional from "../Conditional";
+import { useTheme } from "next-themes";
 function DarkModeButton() {
-  const { toggle, status } = useDarkMode();
-
-  const clickHandler = () => {
-    toggle((prev) => !prev);
-  };
+  const { theme, setTheme } = useTheme();
   return (
     <div className="flex justify-end ">
       <Conditional
-        condition={status}
+        condition={theme === "light"}
         onTrue={
-          <div className="cursor-pointer" onClick={clickHandler}>
+          <div className="cursor-pointer" onClick={() => setTheme("dark")}>
             <Image
               src={"/theme.png"}
               width={24}
               height={24}
               alt="turn on darkmode"
-              className="white_filter"
             />
           </div>
         }
         onFalse={
-          <div className="cursor-pointer" onClick={clickHandler}>
+          <div className="cursor-pointer" onClick={() => setTheme("light")}>
             <Image
               src={"/theme.png"}
               width={24}
               height={24}
               alt="turn off darkmode"
+              className="white_filter"
             />
           </div>
         }
