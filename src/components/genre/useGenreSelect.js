@@ -7,7 +7,6 @@ function useGenreSelect({ onCreateSuccess, setGenre }) {
   const [isOptionsLoading, setIsOptionsLoading] = useState(true);
 
   const getOptions = async (inputValue) => {
-    setIsOptionsLoading(true);
     const response = await axios.get(`/api/genres?genre=${inputValue}`);
     setIsOptionsLoading(false);
     return response.data.data.map((item) => {
