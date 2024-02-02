@@ -35,6 +35,7 @@ function Quote({ quote = {}, isModal = false, children, className }) {
               height={156}
               className="block object-cover w-full h-full rounded-full"
               placeholder="empty"
+              loading="eager"
             />
           }
         />
