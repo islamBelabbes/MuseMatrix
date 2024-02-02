@@ -5,9 +5,11 @@ import { toast } from "react-toastify";
 
 function useAuthorSelect({ setAuthor, onCreate }) {
   const [authorName, setAuthorName] = useState(null);
-
+  const [isOptionsLoading, setIsOptionsLoading] = useState(true);
   const getOptions = async (inputValue) => {
+    setIsOptionsLoading(true);
     const response = await axios.get(`/api/authors?name=${inputValue}`);
+    setIsOptionsLoading(false);
     return response.data.data.map((item) => {
       return { value: item.id, label: item.name, avatar: item.avatar };
     });
@@ -44,6 +46,7 @@ function useAuthorSelect({ setAuthor, onCreate }) {
     handleCreate,
     handleOnCreate,
     isLoading,
+    isOptionsLoading,
     authorName,
   };
 }

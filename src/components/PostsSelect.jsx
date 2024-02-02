@@ -1,10 +1,14 @@
 import BlockUi from "@/components/BlockUi";
 import axios from "axios";
+import { useState } from "react";
 import AsyncSelect from "react-select/async";
 
 function PostsSelect({ post, setPost }) {
+  const [isLoading, setIsLoading] = useState(true);
   const getOptions = async (inputValue) => {
+    setIsLoading(true);
     const response = await axios.get(`/api/posts?title=${inputValue}`);
+    setIsLoading(false);
     return response.data.data.map((item) => {
       return { value: item.id, label: item.title };
     });
@@ -28,6 +32,7 @@ function PostsSelect({ post, setPost }) {
           defaultOptions
           value={post}
           isClearable
+          isDisabled={isLoading}
         />
       </BlockUi>
     </div>

@@ -5,10 +5,11 @@ import useGenreSelect from "./useGenreSelect";
 
 function GenreSelect({ genre, setGenre }) {
   const [lastUpdate, setLastUpdate] = useState(null);
-  const { getOptions, handleCreate, isLoading } = useGenreSelect({
-    onCreateSuccess: () => setLastUpdate(new Date().getTime()),
-    setGenre,
-  });
+  const { getOptions, handleCreate, isLoading, isOptionsLoading } =
+    useGenreSelect({
+      onCreateSuccess: () => setLastUpdate(new Date().getTime()),
+      setGenre,
+    });
 
   const isBlock = isLoading;
   return (
@@ -29,7 +30,7 @@ function GenreSelect({ genre, setGenre }) {
             menu: () => "!z-20",
           }}
           isClearable
-          isDisabled={isBlock}
+          isDisabled={isBlock || isOptionsLoading}
           isLoading={isBlock}
           onCreateOption={handleCreate}
           onChange={setGenre}

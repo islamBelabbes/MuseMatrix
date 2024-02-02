@@ -1,10 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 function useGenreSelect({ onCreateSuccess, setGenre }) {
+  const [isOptionsLoading, setIsOptionsLoading] = useState(true);
+
   const getOptions = async (inputValue) => {
+    setIsOptionsLoading(true);
     const response = await axios.get(`/api/genres?genre=${inputValue}`);
+    setIsOptionsLoading(false);
     return response.data.data.map((item) => {
       return { value: item.id, label: item.title };
     });
@@ -27,7 +32,7 @@ function useGenreSelect({ onCreateSuccess, setGenre }) {
     onCreateSuccess && onCreateSuccess();
   };
 
-  return { getOptions, handleCreate, isLoading };
+  return { getOptions, handleCreate, isLoading, isOptionsLoading };
 }
 
 export default useGenreSelect;

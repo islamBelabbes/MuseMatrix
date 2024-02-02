@@ -7,11 +7,17 @@ import useAuthorSelect from "./useAuthorSelect";
 
 function AuthorSelect({ author, setAuthor }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { getOptions, handleCreate, handleOnCreate, isLoading, authorName } =
-    useAuthorSelect({
-      setAuthor,
-      onCreate: () => setIsOpen(true),
-    });
+  const {
+    getOptions,
+    handleCreate,
+    handleOnCreate,
+    isLoading,
+    authorName,
+    isOptionsLoading,
+  } = useAuthorSelect({
+    setAuthor,
+    onCreate: () => setIsOpen(true),
+  });
 
   const isBlock = isLoading;
   return (
@@ -47,7 +53,7 @@ function AuthorSelect({ author, setAuthor }) {
             menu: () => "!z-20",
           }}
           isClearable
-          isDisabled={isBlock}
+          isDisabled={isBlock || isOptionsLoading}
           isLoading={isBlock}
           onCreateOption={handleOnCreate}
           onChange={setAuthor}
