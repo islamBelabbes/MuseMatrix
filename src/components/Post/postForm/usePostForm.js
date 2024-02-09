@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useCallback, useReducer } from "react";
 import "@/lib/FroalaEditor";
 import { reducer } from "@/reducer/postFormReducer";
 import { useRouter } from "next/navigation";
@@ -10,7 +10,7 @@ const usePostForm = ({ initializedData, richEditorArea, isUpdate, postId }) => {
   const [data, dispatch] = useReducer(reducer, initializedData);
 
   // TODO : add yup validation
-  const richTextEditorInit = () => {
+  const richTextEditorInit = useCallback(() => {
     return new FroalaEditor(`#${richEditorArea}`, {
       toolbarInline: true,
       charCounterCount: false,
@@ -52,7 +52,7 @@ const usePostForm = ({ initializedData, richEditorArea, isUpdate, postId }) => {
         },
       },
     });
-  };
+  }, [postId, isUpdate, data?.content, richEditorArea]);
 
   const { mutateAsync: mutateAsyncCreate, isPending: isLoadingCreate } =
     useMutation({

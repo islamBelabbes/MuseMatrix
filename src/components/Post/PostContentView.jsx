@@ -10,7 +10,7 @@ function PostContentView({
   const [isMinimized, setIsMinimized] = useState(Minimized);
   useEffect(() => {
     initialization && initialization();
-  }, []);
+  }, [initialization]);
 
   return (
     <div className="relative">
