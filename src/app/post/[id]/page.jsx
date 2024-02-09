@@ -22,22 +22,22 @@ const getPost = cache(async (id) => {
   return post;
 });
 
-export async function generateStaticParams() {
-  const posts = await prisma.post.findMany();
-  return posts.map((post) => ({
-    id: post.id.toString(),
-  }));
-}
+// export async function generateStaticParams() {
+//   const posts = await prisma.post.findMany();
+//   return posts.map((post) => ({
+//     id: post.id.toString(),
+//   }));
+// }
 
-export async function generateMetadata({ params }) {
-  const { id } = params;
-  const [post, error] = await tryCatch(getPost(id));
-  if (error) throw new Error("Something went wrong");
-  if (!post) notFound();
-  return {
-    title: post.title,
-  };
-}
+// export async function generateMetadata({ params }) {
+//   const { id } = params;
+//   const [post, error] = await tryCatch(getPost(id));
+//   if (error) throw new Error("Something went wrong");
+//   if (!post) notFound();
+//   return {
+//     title: post.title,
+//   };
+// }
 async function page({ params }) {
   const user = await currentUser();
   const isAdmin = user?.publicMetadata.isAdmin;
