@@ -5,10 +5,10 @@ import Quote from "./Quote";
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { GridLoader } from "react-spinners";
+
 const ViewQuoteModal = dynamic(() => import("./ViewQuoteModal"));
 
-const params = {
+const swiperParams = {
   slidesPerView: 1,
   spaceBetween: 5,
   navigation: {
@@ -23,15 +23,13 @@ const navigationSvgDimensions = {
 };
 
 function QuoteSlider({ initializedData = [] }) {
-  const [isSwiperInitialized, setIsSwiperInitialized] = useState(false);
   const [selectedQuote, setSelectedQuote] = useState(null);
   const swiperRef = useRef(null);
 
   useEffect(() => {
     register();
-    Object.assign(swiperRef.current, params);
+    Object.assign(swiperRef.current, swiperParams);
     swiperRef.current.initialize();
-    setIsSwiperInitialized(true);
   }, []);
 
   return (
