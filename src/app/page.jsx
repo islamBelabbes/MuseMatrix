@@ -1,10 +1,10 @@
-import PostListing from "@/components/Post/PostListing";
-import { Suspense } from "react";
-import { PostListingSkeleton } from "@/components/Skeleton/Skeleton";
 import { currentUser } from "@clerk/nextjs";
+
+import PostListing from "@/components/Post/PostListing";
 import QuoteSlider from "@/components/Quote/QuoteSlider";
-import { getPosts, getQuotes } from "@/lib/db";
+import { getQuotes } from "@/lib/db";
 import { shuffle } from "@/lib/utils";
+import prisma from "@/lib/prisma";
 
 export const revalidate = 0;
 
