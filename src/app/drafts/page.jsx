@@ -1,7 +1,7 @@
-import PostListing from "@/components/Post/PostListing";
-import { PostListingSkeleton } from "@/components/Skeleton/Skeleton";
 import { currentUser } from "@clerk/nextjs";
-import React, { Suspense } from "react";
+
+import PostListing from "@/components/Post/PostListing";
+import prisma from "@/lib/prisma";
 
 const query = {
   where: {

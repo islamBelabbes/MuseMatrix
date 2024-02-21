@@ -1,8 +1,7 @@
-import PostListing from "@/components/Post/PostListing";
-
-import React, { Suspense } from "react";
-import { PostListingSkeleton } from "@/components/Skeleton/Skeleton";
 import { currentUser } from "@clerk/nextjs";
+
+import PostListing from "@/components/Post/PostListing";
+import prisma from "@/lib/prisma";
 
 export const revalidate = 0;
 
