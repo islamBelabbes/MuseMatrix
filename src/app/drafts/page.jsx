@@ -15,11 +15,11 @@ const query = {
 async function page() {
   const user = await currentUser();
   const isAdmin = user?.publicMetadata.isAdmin;
+
+  const drafts = await prisma.post.findMany(query);
   return (
     <div className="flex flex-col gap-5 app">
-      <Suspense fallback={<PostListingSkeleton count={6} />}>
-        <PostListing query={query} isAdmin={isAdmin} />
-      </Suspense>
+      <PostListing data={drafts} isAdmin={isAdmin} />
     </div>
   );
 }

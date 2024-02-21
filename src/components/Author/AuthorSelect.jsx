@@ -10,13 +10,13 @@ function AuthorSelect({ author, setAuthor }) {
   const {
     getOptions,
     handleCreate,
-    handleOnCreate,
+    onCreateOption,
     isLoading,
     authorName,
     isOptionsLoading,
   } = useAuthorSelect({
     setAuthor,
-    onCreate: () => setIsOpen(true),
+    onOptionCreate: () => setIsOpen(true),
   });
 
   const isBlock = isLoading;
@@ -55,7 +55,7 @@ function AuthorSelect({ author, setAuthor }) {
           isClearable
           isDisabled={isBlock || isOptionsLoading}
           isLoading={isBlock}
-          onCreateOption={handleOnCreate}
+          onCreateOption={onCreateOption}
           onChange={setAuthor}
           loadOptions={getOptions}
           defaultOptions

@@ -22,14 +22,15 @@ async function CategoryListing({ params }) {
 
   const user = await currentUser();
   const isAdmin = user?.publicMetadata.isAdmin;
+
+  const posts = await prisma.post.findMany({
+    ...query,
+    where: { ...query.where, genreId: genreId },
+  });
+
   return (
     <div className="flex flex-col gap-5 app">
-      <Suspense fallback={<PostListingSkeleton count={6} />}>
-        <PostListing
-          query={{ ...query, where: { ...query.where, genreId: genreId } }}
-          isAdmin={isAdmin}
-        />
-      </Suspense>
+      <PostListing data={posts} isAdmin={isAdmin} />
     </div>
   );
 }

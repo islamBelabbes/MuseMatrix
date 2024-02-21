@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { PostListingSkeleton } from "@/components/Skeleton/Skeleton";
 import { currentUser } from "@clerk/nextjs";
 import QuoteSlider from "@/components/Quote/QuoteSlider";
-import { getQuotes } from "@/lib/db";
+import { getPosts, getQuotes } from "@/lib/db";
 import { shuffle } from "@/lib/utils";
 
 export const revalidate = 0;
@@ -22,39 +22,53 @@ const query = {
 async function Home() {
   const user = await currentUser();
   const isAdmin = user?.publicMetadata.isAdmin;
-  const quotes = await getQuotes();
+
+  const quotesPromise = getQuotes();
+  const booksPromise = prisma.post.findMany({
+    ...query,
+    where: { ...query.where, genreId: 16 },
+  });
+  const podcastPromise = prisma.post.findMany({
+    ...query,
+    where: { ...query.where, genreId: 17 },
+  });
+  const articlesPromise = prisma.post.findMany({
+    ...query,
+    where: { ...query.where, genreId: 18 },
+  });
+
+  const [quotes, books, podcast, articles] = await Promise.all([
+    quotesPromise,
+    booksPromise,
+    podcastPromise,
+    articlesPromise,
+  ]);
 
   return (
     <>
       <div className="flex flex-col gap-[3rem] app">
         <QuoteSlider initializedData={shuffle(quotes)} />
 
-        <Suspense fallback={<PostListingSkeleton count={3} hasEntry />}>
-          <PostListing
-            entry={"اخر الكتب"}
-            query={{ ...query, where: { ...query.where, genreId: 16 } }}
-            genreId={16}
-            isAdmin={isAdmin}
-          />
-        </Suspense>
+        <PostListing
+          entry={"اخر الكتب"}
+          data={books}
+          genreId={16}
+          isAdmin={isAdmin}
+        />
 
-        <Suspense fallback={<PostListingSkeleton count={3} hasEntry />}>
-          <PostListing
-            entry={"اخر المقالات"}
-            query={{ ...query, where: { ...query.where, genreId: 17 } }}
-            genreId={17}
-            isAdmin={isAdmin}
-          />
-        </Suspense>
+        <PostListing
+          entry={"اخر المقالات"}
+          data={articles}
+          genreId={17}
+          isAdmin={isAdmin}
+        />
 
-        <Suspense fallback={<PostListingSkeleton count={3} hasEntry />}>
-          <PostListing
-            entry={"اخر الصوتيات"}
-            query={{ ...query, where: { ...query.where, genreId: 18 } }}
-            genreId={18}
-            isAdmin={isAdmin}
-          />
-        </Suspense>
+        <PostListing
+          entry={"اخر الصوتيات"}
+          data={podcast}
+          genreId={18}
+          isAdmin={isAdmin}
+        />
       </div>
     </>
   );

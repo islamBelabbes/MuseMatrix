@@ -5,15 +5,7 @@ import prisma from "@/lib/prisma";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-const QUERY = {
-  include: {
-    genre: true,
-    author: true,
-  },
-};
-async function PostListing({ entry = null, query = QUERY, genreId, isAdmin }) {
-  const data = await prisma.post.findMany(query);
-
+function PostListing({ entry = null, data = [], genreId, isAdmin }) {
   return (
     <div className="flex flex-col gap-8 ">
       <Conditional
