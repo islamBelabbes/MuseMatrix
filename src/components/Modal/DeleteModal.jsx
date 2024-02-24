@@ -1,10 +1,10 @@
 "use client";
-import Modal from "../Modal/Modal";
+import Modal from "./Modal";
 import { useState } from "react";
 import Conditional from "../Conditional";
 import BlockUi from "../BlockUi";
-function DelateModal({
-  onDelate,
+function DeleteModal({
+  onDelete,
   onClickOutside,
   confirmWord = "Delete",
   entry,
@@ -22,7 +22,7 @@ function DelateModal({
     if (confirm !== confirmWord) {
       return setError(true);
     }
-    onDelate();
+    onDelete();
   };
 
   return (
@@ -61,4 +61,4 @@ function DelateModal({
   );
 }
 
-export default DelateModal;
+export default DeleteModal;

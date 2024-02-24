@@ -1,9 +1,11 @@
 "use client";
-import { NAV_LINKS } from "@/constants/constants";
-import SideModal from "../Modal/SideModal";
-import { useRouter } from "next/navigation";
-import { useModal } from "@/context/GlobalModalProvider";
 import Link from "next/link";
+
+import { useRouter } from "next13-progressbar";
+
+import { NAV_LINKS } from "@/constants/constants";
+import SideModal from "@/components/Modal/SideModal";
+import { useModal } from "@/context/GlobalModalProvider";
 
 function SideMenu() {
   const router = useRouter();

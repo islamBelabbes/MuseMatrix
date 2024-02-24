@@ -7,7 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 
-const DeleteQuoteModal = dynamic(() => import("./DelateQuoteModal"));
+const DeleteQuoteModal = dynamic(() => import("./DeleteQuoteModal"));
 function ViewQuoteModal({ quote, closeModal }) {
   const { user, isLoaded } = useUser();
   const [isOpen, setIsOpen] = useState(false);

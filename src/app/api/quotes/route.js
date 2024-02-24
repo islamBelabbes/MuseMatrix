@@ -1,4 +1,4 @@
-import { createQuote, delateQuote, getQuotes, updateQuote } from "@/lib/db";
+import { createQuote, DeleteQuote, getQuotes, updateQuote } from "@/lib/db";
 
 import {
   sendCreated,
@@ -53,7 +53,7 @@ export async function DELETE(req) {
       message: "you don't have permission to perform this action",
     });
 
-  const [_, error] = await tryCatch(delateQuote(id));
+  const [_, error] = await tryCatch(DeleteQuote(id));
   if (error) return sendServerError();
   return sendNoContent();
 }

@@ -2,8 +2,9 @@
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import DelateModal from "../Modal/DelateModal";
+import { useRouter } from "next13-progressbar";
+
+import DeleteModal from "@/components/Modal/DeleteModal";
 function DeleteQuoteModal({ id, closeModal }) {
   const router = useRouter();
 
@@ -11,7 +12,7 @@ function DeleteQuoteModal({ id, closeModal }) {
     mutationFn: ({ id }) => axios.delete("/api/quotes", { data: { id } }),
   });
 
-  const DelateHandler = async () => {
+  const DeleteHandler = async () => {
     await toast.promise(() => mutateAsync({ id }), {
       pending: "المرجو الانتظار",
       success: "تم الحذف بنجاح",
@@ -22,11 +23,11 @@ function DeleteQuoteModal({ id, closeModal }) {
   };
 
   return (
-    <DelateModal
-      onDelate={DelateHandler}
+    <DeleteModal
+      onDelete={DeleteHandler}
       confirmWord="Delete"
       onClickOutside={() => closeModal(false)}
-      entry={"Please Type Delate in Order to Delate This Quote"}
+      entry={"Please Type Delete in Order to Delete This Quote"}
       blockUi={isPending}
     />
   );

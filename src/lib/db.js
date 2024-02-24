@@ -181,7 +181,7 @@ export const getQuotes = async (filter = {}) => {
   return data;
 };
 
-export const delateQuote = async (id) => {
+export const DeleteQuote = async (id) => {
   const [data, error] = await tryCatch(
     prisma.quote.delete({
       where: {

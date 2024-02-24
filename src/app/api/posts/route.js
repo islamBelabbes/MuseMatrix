@@ -80,8 +80,8 @@ export async function DELETE(req) {
   const fileKey = uploadThingGetFileKeyFromUrl(fileData?.cover);
   if (fileKey) {
     // delete cover from UploadThing
-    const [__, fileDelateError] = await tryCatch(utapi.deleteFiles(fileKey));
-    if (fileDelateError) return sendServerError();
+    const [__, fileDeleteError] = await tryCatch(utapi.deleteFiles(fileKey));
+    if (fileDeleteError) return sendServerError();
   }
 
   const [_, error] = await tryCatch(

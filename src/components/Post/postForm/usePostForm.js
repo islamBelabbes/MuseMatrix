@@ -1,10 +1,12 @@
 import { useCallback, useReducer } from "react";
-import "@/lib/FroalaEditor";
-import { reducer } from "@/reducer/postFormReducer";
-import { useRouter } from "next/navigation";
+
+import { useRouter } from "next13-progressbar";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
+
+import { reducer } from "@/reducer/postFormReducer";
+import "@/lib/FroalaEditor";
 const usePostForm = ({ initializedData, richEditorArea, isUpdate, postId }) => {
   const router = useRouter();
   const [data, dispatch] = useReducer(reducer, initializedData);
