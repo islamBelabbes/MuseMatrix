@@ -15,21 +15,6 @@ module.exports = withUt({
         Primary: "#4B6BFB",
         Secondary: "#F0F2F5",
       },
-      keyframes: {
-        circle: {
-          "0%": {
-            opacity: " 1",
-          },
-          "40%": {
-            opacity: "1",
-          },
-          "100%": {
-            width: "200%",
-            height: "200%",
-            opacity: 0,
-          },
-        },
-      },
     },
   },
   plugins: [],

@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "./Card";
 import Conditional from "../Conditional";
-import prisma from "@/lib/prisma";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
