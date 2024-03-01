@@ -127,7 +127,21 @@ export async function PUT(req) {
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const title = searchParams.get("title");
-  const [data, error] = await tryCatch(getPosts(title));
+  const limit = parseInt(searchParams.get("limit")) || 2;
+  const page = parseInt(searchParams.get("page")) || 1;
+  const status = searchParams.get("status");
+
+  const [data, error] = await tryCatch(
+    getPosts({
+      title,
+      limit,
+      page,
+      status,
+    })
+  );
+
   if (error) return sendServerError();
-  return sendOk({ data });
+
+  const { result, ...pagination } = data;
+  return sendOk({ data: result, ...pagination });
 }

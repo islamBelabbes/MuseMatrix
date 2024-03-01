@@ -1,5 +1,7 @@
 import prisma from "@/lib/prisma";
 import { tryCatch } from "./utils";
+
+// author
 export const createAuthor = async ({ name, avatar }) => {
   try {
     const author = await prisma.author.create({
@@ -38,27 +40,46 @@ export const getAuthors = async (authorName) => {
   }
 };
 
-export const getPosts = async (title) => {
-  const query = title
-    ? {
-        where: {
-          title: {
-            contains: title,
-          },
-        },
-      }
-    : {};
+// post
+export const getPosts = async ({
+  title = "",
+  limit = 2,
+  page = 1,
+  status = null,
+} = {}) => {
+  const where = {};
+  if (title) {
+    where.title = {
+      contains: title,
+    };
+  }
+
+  if (status) {
+    where.status = status;
+  }
+
+  const [count, countError] = await tryCatch(prisma.post.count({ where }));
+
+  if (countError) throw countError;
+
   const [data, error] = await tryCatch(
     prisma.post.findMany({
-      ...query,
-      take: 8,
+      where,
+      take: limit,
+      skip: (page - 1) * limit,
       orderBy: {
         updatedAt: "desc",
       },
     })
   );
   if (error) throw error;
-  return data;
+
+  return {
+    data,
+    count,
+    totalPages: Math.ceil(count / limit),
+    hasNext: count > (page - 1) * limit + data.length,
+  };
 };
 
 export const createPost = async ({ genre, author, title, cover, content }) => {
@@ -92,6 +113,7 @@ export const updatePost = async (id, data) => {
   return postData;
 };
 
+// genre
 export const createGenre = async (title) => {
   const [data, error] = await tryCatch(
     prisma.genre.create({

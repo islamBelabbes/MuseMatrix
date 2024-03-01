@@ -28,12 +28,18 @@ export const columns = [
   },
 
   {
-    id: "اجراءات الجدول",
+    id: "actions",
+    header: "اجراءات الجدول",
     cell: ({ row, table }) => {
       const data = row.original;
       const meta = table.options.meta;
       const isLoading = meta?.paddingColumns?.includes(data.id) || false;
-      return <Actions />;
+      return (
+        <Actions
+          onDelete={() => meta.handleDelete(data.id)}
+          onEdit={() => meta.handleEdit(data.id)}
+        />
+      );
     },
   },
 ];

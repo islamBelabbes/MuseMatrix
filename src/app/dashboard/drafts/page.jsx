@@ -1,31 +1,11 @@
-import { currentUser } from "@clerk/nextjs";
+import { PostsTable } from "../_componenets/tables/PostsTable/Table";
+import { getPosts } from "@/lib/db";
 
-import PostListing from "@/components/Post/PostListing";
-import prisma from "@/lib/prisma";
-import Link from "next/link";
+const query = { limit: 1, status: "Draft" };
+const page = async () => {
+  const posts = await getPosts(query);
 
-const query = {
-  where: {
-    status: "Draft",
-  },
-  include: {
-    genre: true,
-    author: true,
-  },
+  return <PostsTable initialData={posts} query={query} queryKey={"draft"} />;
 };
-async function page() {
-  const user = await currentUser();
-  const isAdmin = user?.publicMetadata.isAdmin;
-
-  const drafts = await prisma.post.findMany(query);
-  return (
-    <div className="flex flex-col gap-5 app">
-      <Link className="button_primary" href="posts/create">
-        Create Now Post
-      </Link>
-      <PostListing data={drafts} isAdmin={isAdmin} />
-    </div>
-  );
-}
 
 export default page;

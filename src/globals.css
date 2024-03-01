@@ -144,3 +144,9 @@ swiper-container {
 swiper-container::part(container) {
   height: auto;
 }
+.posts_table td.actions {
+  width: 150px;
+}
+.posts_table td.cover {
+  width: 100px;
+}

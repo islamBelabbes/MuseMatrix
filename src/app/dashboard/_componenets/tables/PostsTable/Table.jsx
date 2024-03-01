@@ -21,79 +21,67 @@ import {
 } from "@/components/ui/table";
 
 import { columns } from "./Columns";
+import DeletePostModal from "@/app/dashboard/posts/_componenets/DeletePostModal";
+import { getPosts } from "@/lib/api";
+import { buttonVariants } from "@/components/ui/button";
+import { useRouter } from "next13-progressbar";
 
-export function PostsTable({
-  initialData,
-  withPaginate = false,
-  limit = 3,
-  queryKey,
-}) {
-  const [paddingColumns, setPaddingColumns] = useState([]);
-
+export function PostsTable({ initialData, query, queryKey }) {
   const [isMounted, setIsMounted] = useState(false);
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
-  //   const { data, isPlaceholderData, isLoading } = useQuery({
-  //     queryKey: [queryKey, page],
-  //     queryFn: () =>
-  //       fetchCategoriesTableData({
-  //         index: page,
-  //         limit: limit,
-  //       }),
-  //     placeholderData: (prevData) => {
-  //       return keepPreviousData(prevData ? prevData : initialData);
-  //     },
-  //   });
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    targetId: null,
+  });
 
-  //   const tableMeta = {
-  //     handleDelete: (id) => {
-  //       return setDeleteModal({ isOpen: true, targetId: id });
-  //     },
-  //     paddingColumns,
-  //   };
+  const router = useRouter();
 
-  const tableData = initialData;
+  const { data, isPlaceholderData } = useQuery({
+    queryKey: [queryKey, page],
+    queryFn: () => getPosts({ ...query, page }),
+    placeholderData: (prevData) => {
+      return keepPreviousData(prevData ? prevData : initialData);
+    },
+  });
+
+  const tableMeta = {
+    handleDelete: (id) => {
+      return setDeleteModal({ isOpen: true, targetId: id });
+    },
+    handleEdit: (id) => {
+      router.push(`/dashboard/posts/update/${id}`);
+    },
+  };
+
+  const tableData = data ? data : initialData;
 
   const table = useReactTable({
-    data: tableData,
+    data: tableData.data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     initialState: {
       columnVisibility: { id: false },
     },
-    // meta: tableMeta,
+    meta: tableMeta,
   });
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  //   if (isLoading)
-  //     return (
-  //       <div className="flex justify-center">
-  //         <ClipLoader />
-  //       </div>
-  //     );
-
   return (
     <div>
-      {/* <DeleteModal
-        isOpen={deleteModal.isOpen}
-        setIsOpen={(open) =>
-          setDeleteModal((prev) => {
-            return { ...prev, isOpen: open };
-          })
-        }
-        onDelete={onDelete}
-      /> */}
-      <Table className="relative border rounded-md">
-        {/* {isMounted && isPlaceholderData && (
-          <div className="right-8 absolute top-[10px]">
-            <ClipLoader size={24} />
-          </div>
-        )} */}
+      {deleteModal.isOpen && (
+        <DeletePostModal
+          setIsOpen={(isOpen) => setDeleteModal({ isOpen })}
+          id={deleteModal.targetId}
+          onSuccess={() => setDeleteModal({ isOpen: false, targetId: null })}
+        />
+      )}
 
+      <Table className="relative border rounded-md posts_table">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -138,22 +126,23 @@ export function PostsTable({
           )}
         </TableBody>
       </Table>
-      {/* {withPaginate && (
+      <div className="flex items-center gap-3">
         <ReactPaginate
-          className="flex items-center justify-end gap-4 py-2"
+          className="flex items-center justify-start gap-4 py-2"
           nextLinkClassName={buttonVariants({ variant: "default" })}
           previousLinkClassName={buttonVariants({ variant: "default" })}
-          activeClassName="text-secondary"
+          activeClassName="text-primary"
           breakLabel="..."
-          nextLabel="next >"
-          onPageChange={(param) => setPage(param.selected)}
+          nextLabel="التالي"
+          onPageChange={(param) => setPage(param.selected + 1)}
           pageRangeDisplayed={5}
-          pageCount={Math.round(tableData.total / limit)}
-          previousLabel="< previous"
+          pageCount={Math.round(tableData.count / query?.limit || 1)}
+          previousLabel="السابق"
           renderOnZeroPageCount={null}
-          disabledClassName="cursor-not-allowed opacity-40"
+          disabledClassName="cursor-not-allowed opacity-50"
         />
-      )} */}
+        {isMounted && isPlaceholderData && <ClipLoader size={24} />}
+      </div>
     </div>
   );
 }

@@ -1,11 +1,11 @@
-import prisma from "@/lib/prisma";
 import { PostsTable } from "../_componenets/tables/PostsTable/Table";
+import { getPosts } from "@/lib/db";
 
+const query = { limit: 1, status: "Published" };
 const page = async () => {
-  const posts = await prisma.post.findMany();
+  const posts = await getPosts(query);
 
-  console.log(posts);
-  return <PostsTable initialData={posts} />;
+  return <PostsTable initialData={posts} query={query} queryKey={"posts"} />;
 };
 
 export default page;
