@@ -16,7 +16,13 @@ export const columns = [
       const url = getValue();
       return (
         <div className="w-[50px] h-[50px] relative">
-          <Image src={url} alt="image" fill className="object-contain" />
+          <Image
+            src={url}
+            alt="image"
+            fill
+            className="object-contain"
+            placeholder="empty"
+          />
         </div>
       );
     },
