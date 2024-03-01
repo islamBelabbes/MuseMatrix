@@ -1,7 +1,11 @@
-import React from "react";
+import prisma from "@/lib/prisma";
+import { PostsTable } from "../_componenets/tables/PostsTable/Table";
 
-const page = () => {
-  return <div>here we should list all the posts :)</div>;
+const page = async () => {
+  const posts = await prisma.post.findMany();
+
+  console.log(posts);
+  return <PostsTable initialData={posts} />;
 };
 
 export default page;
