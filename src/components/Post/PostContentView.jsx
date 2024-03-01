@@ -22,7 +22,7 @@ function PostContentView({
       </button>
       <article
         className={cn(
-          "flex flex-col  p-[24px] border border-Secondary rounded-xl leading-10",
+          "flex flex-col  p-[24px] border border-secondary rounded-xl leading-10",
           {
             "h-[100px] overflow-hidden": isMinimized,
           }

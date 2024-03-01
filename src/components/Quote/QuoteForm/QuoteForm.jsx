@@ -32,7 +32,7 @@ function QuoteForm({
   return (
     <div>
       <BlockUi isBlock={isLoading} classNames={{ spinner: "rounded-md" }}>
-        <form className="flex flex-col w-full gap-4 p-3 border rounded-md border-Primary md:flex-row">
+        <form className="flex flex-col w-full gap-4 p-3 border rounded-md border-primary md:flex-row">
           {/* quote card */}
           <div className="w-full md:w-[263px]">
             <Quote quote={quoteProp} />

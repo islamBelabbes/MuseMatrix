@@ -9,7 +9,7 @@ const booksGenreId = 16;
 function Card({ post, isAdmin }) {
   const { title, cover, genre, author, id } = post;
   return (
-    <div className="flex flex-col items-center gap-4 p-4 border rounded-xl border-Secondary">
+    <div className="flex flex-col items-center gap-4 p-4 border rounded-xl border-secondary">
       <div className="w-full h-[240px] relative">
         <Link className="mr-auto" href={`/post/${id}`}>
           <Image
@@ -28,7 +28,7 @@ function Card({ post, isAdmin }) {
 
       <div className="flex flex-col flex-1 w-full gap-5 p-2">
         <div className="flex justify-between">
-          <Tag name={genre?.title} variation="Secondary" />
+          <Tag name={genre?.title} variation="secondary" />
           {isAdmin && (
             <Link href={`/post/update/${id}`}>
               <Image

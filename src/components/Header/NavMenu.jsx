@@ -17,7 +17,7 @@ function NavMenu({ className = null, itemClassName, user }) {
         <li
           key={link.id}
           className={cn(
-            "text-base font-medium leading-6 text-Secondary/600 dark:text-[#F0F2F5]",
+            "text-base font-medium leading-6 text-secondary/600 dark:text-[#F0F2F5]",
             itemClassName
           )}
         >

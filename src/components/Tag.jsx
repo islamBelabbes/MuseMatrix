@@ -1,8 +1,8 @@
 const VARIATIONS = {
-  Primary: "bg-Primary text-white",
-  Secondary: "bg-Secondary text-Primary",
+  primary: "bg-primary text-white",
+  secondary: "bg-secondary text-primary",
 };
-function Tag({ variation = "Primary", name }) {
+function Tag({ variation = "primary", name }) {
   return (
     <span
       className={`px-[10px] py-1 rounded-md w-fit ${VARIATIONS[variation]}`}

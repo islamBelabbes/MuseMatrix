@@ -15,7 +15,7 @@ function AuthorCreationModal({ mutate, authorName, closeModal }) {
   };
   return (
     <Modal onClickOutside={closeModal}>
-      <div className="p-6 bg-white border border-Secondary min-w-[500px] relative">
+      <div className="p-6 bg-white border border-secondary min-w-[500px] relative">
         <div className="flex flex-col gap-3">
           <div className="flex gap-[12px] items-center">
             <div className="w-[36px] h-[36px] rounded-full border  bg-slate-400">

@@ -52,7 +52,7 @@ async function page({ params }) {
     <div className="flex flex-col gap-5 app h-fit">
       <div className="flex flex-col items-center justify-between md:flex-row gap-y-2">
         <div className="flex flex-col flex-1 w-full gap-5">
-          <Tag name={genre?.title} variation="Primary" />
+          <Tag name={genre?.title} variation="primary" />
           <h1 className={`text-[18px] font-bold landscape-[50px] `}>{title}</h1>
           <div className="flex items-center gap-6">
             <div className="flex gap-[12px] items-center">

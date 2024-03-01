@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 function NewsLetter() {
   return (
-    <div className="p-8 flex flex-col gap-[30px] bg-white rounded-xl border border-Secondary">
+    <div className="p-8 flex flex-col gap-[30px] bg-white rounded-xl border border-secondary">
       <div className="dark:text-[#161513]">
         <h1 className="text-xl font-bold text-center">اشعارات اسبوعية</h1>
         <p className="text-base font-normal text-center">

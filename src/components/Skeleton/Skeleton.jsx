@@ -5,7 +5,7 @@ export const CardSkeleton = ({ count = 3 }) => {
     .fill(0)
     .map((_, index) => (
       <div
-        className="flex flex-col items-center gap-4 p-4 border rounded-xl border-Secondary animate-pulse "
+        className="flex flex-col items-center gap-4 p-4 border rounded-xl border-secondary animate-pulse "
         key={index}
       >
         <div className="w-full h-[240px] bg-slate-200   "></div>
@@ -54,7 +54,7 @@ export const PostListingSkeleton = ({ count = 3, hasEntry = false }) => {
 
 export const PostContentViewSkeleton = () => {
   return (
-    <article className="flex flex-col gap-5 p-[24px] border border-Secondary rounded-xl  animate-pulse  ">
+    <article className="flex flex-col gap-5 p-[24px] border border-secondary rounded-xl  animate-pulse  ">
       <span className="flex flex-col gap-3">
         <h1 className="w-[500px] h-[20px] bg-slate-200"></h1>
         <p className="w-[90%] h-[15px] bg-slate-200"></p>

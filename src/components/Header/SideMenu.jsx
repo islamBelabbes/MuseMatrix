@@ -22,7 +22,7 @@ function SideMenu() {
         {NAV_LINKS.map((link) => (
           <li
             key={link.id}
-            className={`border-b w-full p-3 text-base font-medium leading-6 text-Secondary/600`}
+            className={`border-b w-full p-3 text-base font-medium leading-6 text-secondary/600`}
           >
             <Link href={link.href} onClick={handleOnClick}>
               {link.name}

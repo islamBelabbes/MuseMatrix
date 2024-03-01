@@ -6,8 +6,8 @@ function Footer() {
       <div className="app">
         <NewsLetter />
       </div>
-      <div className="flex justify-center p-10 bg-Secondary dark:bg-[#161513] dark:border-t dark:border-Secondary">
-        <p className="text-center text-Secondary/600" dir="ltr">
+      <div className="flex justify-center p-10 bg-secondary dark:bg-[#161513] dark:border-t dark:border-secondary">
+        <p className="text-center text-secondary/600" dir="ltr">
           {new Date().getFullYear()}
           &nbsp; جميع الحقوق محفوظة
         </p>

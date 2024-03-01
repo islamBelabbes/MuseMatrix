@@ -38,7 +38,7 @@ function PostForm({
         classNames={{ spinner: "rounded-md" }}
       >
         <div className="flex flex-col gap-3 ">
-          <form className="flex flex-col gap-4 p-3 border rounded-md border-Primary sm:flex-row">
+          <form className="flex flex-col gap-4 p-3 border rounded-md border-primary sm:flex-row">
             <div>
               <div className="sm:w-[400px] h-[240px] relative flex">
                 {/* image placeholder */}

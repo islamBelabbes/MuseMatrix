@@ -33,7 +33,7 @@ function NavBar() {
             <Link
               href={link.path}
               className={cn("font-bold", {
-                "text-Primary": path === link.path,
+                "text-primary": path === link.path,
               })}
             >
               {link.name}
