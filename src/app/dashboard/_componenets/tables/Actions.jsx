@@ -14,7 +14,7 @@ import { ClipLoader } from "react-spinners";
 function Actions({ onDelete, onEdit }) {
   return (
     <div className="flex items-center justify-between w-full">
-      <DropdownMenu modal>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="w-8 h-8 p-0">
             <span className="sr-only">فتح</span>

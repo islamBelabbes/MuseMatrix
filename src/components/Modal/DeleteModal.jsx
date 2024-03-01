@@ -37,7 +37,7 @@ function DeleteModal({
   };
 
   return (
-    <Dialog modal open className="relative w-auto" onOpenChange={onOpenChange}>
+    <Dialog open className="relative w-auto" onOpenChange={onOpenChange}>
       <DialogContent>
         <div className="flex flex-col items-center gap-3">
           <h1>{entry}</h1>
