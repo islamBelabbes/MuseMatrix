@@ -1,8 +1,9 @@
-import IsAdmin from "@/components/IsAdmin";
-import PostForm from "@/components/Post/postForm/PostForm";
-import prisma from "@/lib/prisma";
 import { tryCatch } from "@/lib/utils";
 import { notFound } from "next/navigation";
+
+import IsAdmin from "@/components/IsAdmin";
+import prisma from "@/lib/prisma";
+import PostForm from "../../_components/postForm/PostForm";
 async function page({ params }) {
   const [post, error] = await tryCatch(
     prisma.post.findUnique({

@@ -146,7 +146,11 @@ swiper-container::part(container) {
 }
 
 .posts_table td.cover {
-  width: 100px;
+  max-width: 100px;
+  min-width: 100px;
+}
+.posts_table td.title {
+  width: 100%;
 }
 
 .quotes_table td.author_avatar {

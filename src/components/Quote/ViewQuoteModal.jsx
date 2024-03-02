@@ -2,12 +2,9 @@
 import React, { useState } from "react";
 import Modal from "../Modal/Modal";
 import Quote from "./Quote";
-import dynamic from "next/dynamic";
-import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 
-const DeleteQuoteModal = dynamic(() => import("./DeleteQuoteModal"));
 function ViewQuoteModal({ quote, closeModal }) {
   const { user, isLoaded } = useUser();
   const [isOpen, setIsOpen] = useState(false);
@@ -16,12 +13,6 @@ function ViewQuoteModal({ quote, closeModal }) {
   const isAdmin = user?.publicMetadata?.isAdmin;
   return (
     <Modal onClickOutside={closeModal}>
-      <AnimatePresence>
-        {isOpen && (
-          <DeleteQuoteModal id={quote.id} closeModal={() => setIsOpen(false)} />
-        )}
-      </AnimatePresence>
-
       <div className="p-5">
         <Quote quote={quote} isModal>
           {/* quote topBar */}

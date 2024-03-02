@@ -8,8 +8,9 @@ import {
 } from "@tanstack/react-table";
 
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import ReactPaginate from "react-paginate";
 import { ClipLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import { useRouter } from "next13-progressbar";
 
 import {
   Table,
@@ -19,13 +20,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
 import { columns } from "./Columns";
 import DeletePostModal from "@/app/dashboard/posts/_components/DeletePostModal";
 import { getPosts } from "@/lib/api";
-import { buttonVariants } from "@/components/ui/button";
-import { useRouter } from "next13-progressbar";
-import { toast } from "react-toastify";
+import TablePagination from "../TablePagination";
+import { Button, buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export function PostsTable({ initialData, query, queryKey }) {
   const [isMounted, setIsMounted] = useState(false);
@@ -39,7 +40,7 @@ export function PostsTable({ initialData, query, queryKey }) {
 
   const router = useRouter();
 
-  const { data, isPlaceholderData, error } = useQuery({
+  const { data, isPlaceholderData, error, refetch } = useQuery({
     queryKey: [queryKey, page],
     queryFn: () => getPosts({ ...query, page }),
     placeholderData: (prevData) => {
@@ -83,9 +84,19 @@ export function PostsTable({ initialData, query, queryKey }) {
         <DeletePostModal
           setIsOpen={(isOpen) => setDeleteModal({ isOpen })}
           id={deleteModal.targetId}
-          onSuccess={() => setDeleteModal({ isOpen: false, targetId: null })}
+          onSuccess={() => {
+            refetch();
+            return setDeleteModal({ isOpen: false, targetId: null });
+          }}
         />
       )}
+
+      <Link
+        href="/dashboard/posts/create"
+        className={cn(buttonVariants(), "w-full my-2")}
+      >
+        انشاء مقالة
+      </Link>
 
       <Table className="relative border rounded-md posts_table">
         <TableHeader>
@@ -133,19 +144,10 @@ export function PostsTable({ initialData, query, queryKey }) {
         </TableBody>
       </Table>
       <div className="flex items-center gap-3">
-        <ReactPaginate
-          className="flex items-center justify-start gap-4 py-2"
-          nextLinkClassName={buttonVariants({ variant: "default" })}
-          previousLinkClassName={buttonVariants({ variant: "default" })}
-          activeClassName="text-primary"
-          breakLabel="..."
-          nextLabel="التالي"
-          onPageChange={(param) => setPage(param.selected + 1)}
-          pageRangeDisplayed={5}
-          pageCount={Math.round(tableData.count / query?.limit || 1)}
-          previousLabel="السابق"
-          renderOnZeroPageCount={null}
-          disabledClassName="cursor-not-allowed opacity-50"
+        <TablePagination
+          limit={query.limit}
+          onPageChange={setPage}
+          total={tableData.count}
         />
         {isMounted && isPlaceholderData && <ClipLoader size={24} />}
       </div>

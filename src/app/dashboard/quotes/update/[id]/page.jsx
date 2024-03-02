@@ -1,9 +1,10 @@
+import React from "react";
+import { notFound } from "next/navigation";
+
 import IsAdmin from "@/components/IsAdmin";
-import QuoteForm from "@/components/Quote/QuoteForm/QuoteForm";
 import { getQuotes } from "@/lib/db";
 import { tryCatch } from "@/lib/utils";
-import { notFound } from "next/navigation";
-import React from "react";
+import QuoteForm from "../../_components/QuoteForm/QuoteForm";
 
 async function page({ params }) {
   const { id } = params;
@@ -13,16 +14,16 @@ async function page({ params }) {
   if (!data.data.length > 0 || error) notFound();
 
   const quoteFormData = {
-    quote: data.data[0].quote,
+    quote: data?.data[0]?.quote,
     author: {
-      value: data.data[0].author.id,
-      label: data.data[0].author.name,
-      avatar: data.data[0].author.avatar,
+      value: data?.data[0]?.author?.id,
+      label: data?.data[0]?.author?.name,
+      avatar: data?.data[0]?.author?.avatar,
     },
-    color: data.data[0]?.color || "#262D33",
+    color: data?.data[0]?.color || "#262D33",
     post: {
-      label: data.data[0].post.title,
-      value: data.data[0].post.id,
+      label: data?.data[0]?.post?.title,
+      value: data?.data[0]?.post?.id,
     },
   };
   return (

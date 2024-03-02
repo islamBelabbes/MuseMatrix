@@ -71,15 +71,15 @@ export async function PUT(req) {
     });
 
   const fieldsToUpdate = {
-    authorId: body.authorId,
-    postId: body.postId,
-    quote: body.quote,
-    color: body.color,
+    authorId: body?.authorId || null,
+    postId: body?.postId || null,
+    quote: body?.quote || null,
+    color: body?.color || null,
   };
 
-  const query = removeEmptyObjectValues(fieldsToUpdate);
-
-  const [_, error] = await tryCatch(updateQuote(parseInt(body.id), query));
+  const [_, error] = await tryCatch(
+    updateQuote(parseInt(body.id), fieldsToUpdate)
+  );
   if (error) return sendServerError();
 
   return sendNoContent();

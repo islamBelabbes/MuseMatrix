@@ -1,18 +1,8 @@
 "use client";
-import Modal from "./Modal";
 import { useState } from "react";
 import Conditional from "../Conditional";
-import BlockUi from "../BlockUi";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 function DeleteModal({
   onDelete,

@@ -1,7 +1,7 @@
-import { PostsTable } from "../_components/tables/PostsTable/Table";
 import { getPosts } from "@/lib/db";
+import { PostsTable } from "../_components/PostsTable/Table";
 
-const query = { limit: 1, status: "Draft" };
+const query = { limit: 10, status: "Draft" };
 const page = async () => {
   const posts = await getPosts(query);
 

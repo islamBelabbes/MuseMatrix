@@ -8,10 +8,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
-import Link from "next/link";
-import { ClipLoader } from "react-spinners";
 
-function Actions({ onDelete, onEdit }) {
+function TableActions({ onDelete, onEdit }) {
   return (
     <div className="flex items-center justify-between w-full">
       <DropdownMenu modal={false}>
@@ -43,4 +41,4 @@ function Actions({ onDelete, onEdit }) {
   );
 }
 
-export default Actions;
+export default TableActions;

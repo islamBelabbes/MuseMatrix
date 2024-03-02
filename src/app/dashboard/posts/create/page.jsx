@@ -1,5 +1,5 @@
 import IsAdmin from "@/components/IsAdmin";
-import PostForm from "@/components/Post/postForm/PostForm";
+import PostForm from "../_components/postForm/PostForm";
 
 async function page() {
   return (

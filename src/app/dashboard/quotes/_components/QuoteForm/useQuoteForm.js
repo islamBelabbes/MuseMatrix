@@ -47,10 +47,10 @@ function useQuoteForm(initialData, isUpdate, quoteId) {
       () =>
         mutateAsyncUpdate({
           id: quoteId,
-          authorId: data.author.value,
-          postId: data.post.value,
-          quote: data.quote,
-          color: data.color,
+          authorId: data?.author?.value,
+          postId: data?.post?.value,
+          quote: data?.quote,
+          color: data?.color,
         }),
       {
         pending: "المرجو الانتظار",

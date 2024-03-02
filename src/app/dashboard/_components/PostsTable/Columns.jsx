@@ -1,7 +1,7 @@
 "use client";
 
+import TableActions from "@/app/dashboard/_components/TableActions";
 import Image from "next/image";
-import Actions from "../Actions";
 
 export const columns = [
   {
@@ -41,7 +41,7 @@ export const columns = [
       const meta = table.options.meta;
       const isLoading = meta?.paddingColumns?.includes(data.id) || false;
       return (
-        <Actions
+        <TableActions
           onDelete={() => meta.handleDelete(data.id)}
           onEdit={() => meta.handleEdit(data.id)}
         />
