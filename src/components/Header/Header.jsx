@@ -10,12 +10,12 @@ function Header() {
         {/* Right */}
         <div className="flex items-center gap-x-8">
           {/* Menu Icon */}
-          <OpenModalButton
+          {/* <OpenModalButton
             icon={"/menu.svg"}
             alt="menu"
             modal={"sidemenu"}
             styles={"md:hidden"}
-          />
+          /> */}
           {/* Logo */}
           <div className="w-full">
             <Link href={"/"} prefetch={false}>

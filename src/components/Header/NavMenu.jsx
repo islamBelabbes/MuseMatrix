@@ -3,17 +3,9 @@ import { NAV_LINKS } from "@/constants/constants";
 import { cn } from "@/lib/utils";
 
 function NavMenu({ className = null, itemClassName }) {
-  const isAdmin = true;
-
-  const navLinks = NAV_LINKS.filter((item) => {
-    if (item.onlyAdmin && !isAdmin) return false;
-    if (item.requireAuth && true) return false;
-    return true;
-  });
-
   return (
     <ul className={className}>
-      {navLinks.map((link) => (
+      {NAV_LINKS.map((link) => (
         <li
           key={link.id}
           className={cn(
