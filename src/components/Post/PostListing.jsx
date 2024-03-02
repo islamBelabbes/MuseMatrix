@@ -4,7 +4,7 @@ import Conditional from "../Conditional";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-function PostListing({ entry = null, data = [], genreId, isAdmin }) {
+function PostListing({ entry = null, data = [], genreId }) {
   return (
     <div className="flex flex-col gap-8 ">
       <Conditional
@@ -27,7 +27,7 @@ function PostListing({ entry = null, data = [], genreId, isAdmin }) {
         <Conditional
           condition={data?.length > 0}
           onTrue={data?.map((post) => (
-            <Card key={post.id} post={post} isAdmin={isAdmin} />
+            <Card key={post.id} post={post} />
           ))}
           onFalse={<span>لا يوجد</span>}
         />

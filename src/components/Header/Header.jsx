@@ -2,12 +2,8 @@ import Link from "next/link";
 import DarkModeButton from "./DarkModeButton";
 import NavMenu from "./NavMenu";
 import OpenModalButton from "@/components/Modal/OpenModalButton";
-import { UserButton, currentUser } from "@clerk/nextjs";
-import SignInButton from "@/components/SignInButton";
 
-async function Header() {
-  const user = await currentUser();
-  const isAdmin = user?.publicMetadata?.isAdmin;
+function Header() {
   return (
     <header className="sticky z-20 bg-white dark:bg-[#161513] w-full inset-0 min-h-[112px]">
       <div className="flex items-center justify-between app">
@@ -28,25 +24,11 @@ async function Header() {
           </div>
 
           {/* NavMenu */}
-          <NavMenu
-            className="justify-center hidden gap-10 md:flex"
-            user={user}
-          />
+          <NavMenu className="justify-center hidden gap-10 md:flex" />
         </div>
 
         {/* Left */}
         <div className="flex items-center gap-x-8">
-          {user && <UserButton afterSignOutUrl="/" />}
-          {!user && <SignInButton />}
-          {isAdmin && (
-            <Link
-              href="/post/create"
-              className="hidden button_primary md:block"
-            >
-              انشاء مقالة
-            </Link>
-          )}
-
           <DarkModeButton />
         </div>
       </div>

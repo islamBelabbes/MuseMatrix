@@ -3,11 +3,8 @@ import Tag from "@/components/Tag";
 import prisma from "@/lib/prisma";
 import { tryCatch } from "@/lib/utils";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import ClientModal from "./ClientModal";
 import { cache } from "react";
-import { currentUser } from "@clerk/nextjs";
 
 const getPost = cache(async (id) => {
   const post = await prisma.post.findUnique({
@@ -22,26 +19,23 @@ const getPost = cache(async (id) => {
   return post;
 });
 
-// export async function generateStaticParams() {
-//   const posts = await prisma.post.findMany();
-//   return posts.map((post) => ({
-//     id: post.id.toString(),
-//   }));
-// }
+export async function generateStaticParams() {
+  const posts = await prisma.post.findMany();
+  return posts.map((post) => ({
+    id: post.id.toString(),
+  }));
+}
 
-// export async function generateMetadata({ params }) {
-//   const { id } = params;
-//   const [post, error] = await tryCatch(getPost(id));
-//   if (error) throw new Error("Something went wrong");
-//   if (!post) notFound();
-//   return {
-//     title: post.title,
-//   };
-// }
+export async function generateMetadata({ params }) {
+  const { id } = params;
+  const [post, error] = await tryCatch(getPost(id));
+  if (error) throw new Error("Something went wrong");
+  if (!post) notFound();
+  return {
+    title: post.title,
+  };
+}
 async function page({ params }) {
-  const user = await currentUser();
-  const isAdmin = user?.publicMetadata.isAdmin;
-
   const { id } = params;
   const [post, error] = await tryCatch(getPost(id));
   if (error || !post) {
@@ -69,20 +63,6 @@ async function page({ params }) {
             </div>
           </div>
         </div>
-        {isAdmin && (
-          <div className="flex self-end gap-3 md:self-auto">
-            <Link href={`/post/update/${params.id}`} prefetch={false}>
-              <Image
-                width={24}
-                height={24}
-                src="/edit.svg"
-                className="white_filter"
-                alt="post edit"
-              />
-            </Link>
-            <ClientModal id={parseInt(params.id)} />
-          </div>
-        )}
       </div>
       <PostContentView htmlContent={content} Minimized={false} />
     </div>

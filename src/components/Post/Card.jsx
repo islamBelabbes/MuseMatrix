@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const booksGenreId = 16;
 
-function Card({ post, isAdmin }) {
+function Card({ post }) {
   const { title, cover, genre, author, id } = post;
   return (
     <div className="flex flex-col items-center gap-4 p-4 border rounded-xl border-secondary">
@@ -29,17 +29,6 @@ function Card({ post, isAdmin }) {
       <div className="flex flex-col flex-1 w-full gap-5 p-2">
         <div className="flex justify-between">
           <Tag name={genre?.title} variation="secondary" />
-          {isAdmin && (
-            <Link href={`/post/update/${id}`}>
-              <Image
-                width={24}
-                height={24}
-                src="/edit.svg"
-                className="white_filter"
-                alt="post edit"
-              />
-            </Link>
-          )}
         </div>
         <Link href={`/post/${id}`}>
           <h1 className={`text-[18px] font-bold landscape-[50px] `}>{title}</h1>

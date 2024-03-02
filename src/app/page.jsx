@@ -1,10 +1,11 @@
-import { currentUser } from "@clerk/nextjs";
-
 import PostListing from "@/components/Post/PostListing";
 import QuoteSlider from "@/components/Quote/QuoteSlider";
 import { getQuotes } from "@/lib/db";
 import { shuffle } from "@/lib/utils";
 import prisma from "@/lib/prisma";
+import AsyncPostListing from "@/components/Post/asyncPostListing";
+import { PostListingSkeleton } from "@/components/Skeleton/Skeleton";
+import { Suspense } from "react";
 
 export const revalidate = 0;
 
@@ -20,10 +21,7 @@ const query = {
   take: 3,
 };
 async function Home() {
-  const user = await currentUser();
-  const isAdmin = user?.publicMetadata.isAdmin;
-
-  const quotesPromise = getQuotes({ limit: 5, page: 1 });
+  const quotes = await getQuotes({ limit: 5, page: 1 });
 
   const booksPromise = prisma.post.findMany({
     ...query,
@@ -38,38 +36,34 @@ async function Home() {
     where: { ...query.where, genreId: 18 },
   });
 
-  const [quotes, books, podcast, articles] = await Promise.all([
-    quotesPromise,
-    booksPromise,
-    podcastPromise,
-    articlesPromise,
-  ]);
-
   return (
     <>
       <div className="flex flex-col gap-[3rem] app">
         <QuoteSlider initializedData={shuffle(quotes.data)} />
 
-        <PostListing
-          entry={"اخر الكتب"}
-          data={books}
-          genreId={16}
-          isAdmin={isAdmin}
-        />
+        <Suspense fallback={<PostListingSkeleton count={3} hasEntry />}>
+          <AsyncPostListing
+            entry={"اخر الكتب"}
+            promise={booksPromise}
+            genreId={16}
+          />
+        </Suspense>
 
-        <PostListing
-          entry={"اخر المقالات"}
-          data={articles}
-          genreId={17}
-          isAdmin={isAdmin}
-        />
+        <Suspense fallback={<PostListingSkeleton count={3} hasEntry />}>
+          <AsyncPostListing
+            entry={"اخر المقالات"}
+            promise={articlesPromise}
+            genreId={17}
+          />
+        </Suspense>
 
-        <PostListing
-          entry={"اخر الصوتيات"}
-          data={podcast}
-          genreId={18}
-          isAdmin={isAdmin}
-        />
+        <Suspense fallback={<PostListingSkeleton count={3} hasEntry />}>
+          <AsyncPostListing
+            entry={"اخر الصوتيات"}
+            promise={podcastPromise}
+            genreId={18}
+          />
+        </Suspense>
       </div>
     </>
   );

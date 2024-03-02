@@ -7,7 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 
 const ViewQuoteModal = dynamic(() => import("./ViewQuoteModal"));
-function QuotesView({ initialData, children }) {
+function QuotesView({ initialData }) {
   const [selectedQuote, setSelectedQuote] = useState(null);
 
   const { data, isLoading, error } = useQuery({
@@ -31,9 +31,6 @@ function QuotesView({ initialData, children }) {
           />
         )}
       </AnimatePresence>
-
-      {/* Before quotes */}
-      {children}
 
       {/* quotes */}
       {quotes.map((quote) => (
