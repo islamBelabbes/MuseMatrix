@@ -28,7 +28,7 @@ export async function POST(req) {
   const { authorId, postId, quote, color } = await req.json();
 
   const { sessionClaims } = auth();
-  const isAdmin = sessionClaims?.publicMetadata.isAdmin;
+  const isAdmin = sessionClaims?.metadata.isAdmin;
   if (!isAdmin)
     return sendUnauthorized({
       message: "you don't have permission to perform this action",
@@ -51,7 +51,7 @@ export async function DELETE(req) {
   const { id } = await req.json();
 
   const { sessionClaims } = auth();
-  const isAdmin = sessionClaims?.publicMetadata.isAdmin;
+  const isAdmin = sessionClaims?.metadata.isAdmin;
   if (!isAdmin)
     return sendUnauthorized({
       message: "you don't have permission to perform this action",
@@ -67,7 +67,7 @@ export async function PUT(req) {
   const body = await req.json();
 
   const { sessionClaims } = auth();
-  const isAdmin = sessionClaims?.publicMetadata.isAdmin;
+  const isAdmin = sessionClaims?.metadata.isAdmin;
   if (!isAdmin)
     return sendUnauthorized({
       message: "you don't have permission to perform this action",

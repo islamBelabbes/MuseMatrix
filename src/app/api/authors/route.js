@@ -28,7 +28,7 @@ export async function POST(req) {
   const { name, avatar } = await req.json();
 
   const { sessionClaims } = auth();
-  const isAdmin = sessionClaims?.publicMetadata.isAdmin;
+  const isAdmin = sessionClaims?.metadata.isAdmin;
   if (!isAdmin)
     return sendUnauthorized({
       message: "you don't have permission to perform this action",
