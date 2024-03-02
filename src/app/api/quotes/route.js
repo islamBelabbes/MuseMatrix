@@ -8,7 +8,7 @@ import {
   sendUnauthorized,
 } from "@/lib/responseHelper";
 
-import { removeEmptyObjectValues, tryCatch } from "@/lib/utils";
+import { tryCatch } from "@/lib/utils";
 import { currentUser } from "@clerk/nextjs";
 
 export async function POST(req) {
