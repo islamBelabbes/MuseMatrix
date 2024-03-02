@@ -43,13 +43,7 @@ export const NAV_LINKS = [
   },
 ];
 
-export const PrivetRoutes = [
-  "post/create",
-  "post/update",
-  "quotes/create",
-  "quotes/update",
-  "/drafts",
-];
+export const PrivetRoutes = ["/dashboard"];
 
 export const STATUS_OPTIONS = [
   { value: "Draft", label: "Draft" },

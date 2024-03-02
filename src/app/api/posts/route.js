@@ -92,6 +92,9 @@ export async function DELETE(req) {
     })
   );
 
+  revalidatePath("/posts");
+  revalidatePath("/drafts");
+
   if (error) return sendServerError();
   return sendNoContent();
 }
