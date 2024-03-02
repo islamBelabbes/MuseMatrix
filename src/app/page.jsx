@@ -23,7 +23,8 @@ async function Home() {
   const user = await currentUser();
   const isAdmin = user?.publicMetadata.isAdmin;
 
-  const quotesPromise = getQuotes();
+  const quotesPromise = getQuotes({ limit: 5, page: 1 });
+
   const booksPromise = prisma.post.findMany({
     ...query,
     where: { ...query.where, genreId: 16 },
@@ -47,7 +48,7 @@ async function Home() {
   return (
     <>
       <div className="flex flex-col gap-[3rem] app">
-        <QuoteSlider initializedData={shuffle(quotes)} />
+        <QuoteSlider initializedData={shuffle(quotes.data)} />
 
         <PostListing
           entry={"اخر الكتب"}

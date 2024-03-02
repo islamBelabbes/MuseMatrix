@@ -1,11 +1,22 @@
 import axios from "axios";
+import { tryCatch } from "./utils";
 
-export const getQuotes = async (quoteId) => {
+export const getQuotes = async ({ id, limit, page }) => {
   const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/quotes`);
-  if (quoteId) {
-    url.searchParams.append("limit", 10);
+
+  if (id) {
+    url.searchParams.append("title", title);
   }
-  const data = await axios.get(url);
+  if (limit) {
+    url.searchParams.append("limit", limit);
+  }
+
+  if (page) {
+    url.searchParams.append("page", page);
+  }
+
+  const [data, error] = await tryCatch(axios.get(url));
+  if (error) throw error;
   return data.data.data;
 };
 
@@ -28,6 +39,8 @@ export const getPosts = async ({ title, limit, page, status } = {}) => {
     url.searchParams.append("status", status);
   }
 
-  const data = await axios.get(url);
+  const [data, error] = await tryCatch(axios.get(url));
+  if (error) throw error;
+
   return data.data;
 };

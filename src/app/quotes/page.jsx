@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 async function page() {
-  const quotesPromise = getQuotes();
+  const quotesPromise = getQuotes({ limit: 10, page: 1 });
   const userPromise = currentUser();
   const [quotes, user] = await Promise.all([quotesPromise, userPromise]);
   const isAdmin = user?.publicMetadata.isAdmin;

@@ -144,9 +144,26 @@ swiper-container {
 swiper-container::part(container) {
   height: auto;
 }
-.posts_table td.actions {
-  width: 150px;
-}
+
 .posts_table td.cover {
   width: 100px;
+}
+
+.quotes_table td.author_avatar {
+  max-width: 250px;
+  min-width: 250px;
+}
+.quotes_table td.author {
+  max-width: 150px;
+  min-width: 150px;
+  overflow: hidden;
+}
+
+.quotes_table td.quote {
+  width: 100%;
+}
+
+td.actions {
+  max-width: 150px;
+  min-width: 150px;
 }

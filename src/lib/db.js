@@ -164,29 +164,29 @@ export const createQuote = async ({ authorId, postId, quote, color }) => {
   return data;
 };
 
-export const getQuotes = async (filter = {}) => {
-  // get fields
-  const { id } = filter;
+export const getQuotes = async ({ id, limit, page } = {}) => {
+  const where = {};
 
-  // create object
-  const filters = {
-    id: id ? parseInt(id) : undefined,
-  };
+  if (id) {
+    where.id = parseInt(id);
+  }
 
-  // check for selected fields
-  const selectedFilter = Object.keys(filters).reduce((acc, field) => {
-    if (filters[field]) {
-      return { ...acc, [field]: filters[field] };
-    }
-  }, {});
+  const [count, countError] = await tryCatch(
+    prisma.quote.count({
+      where,
+    })
+  );
+
+  if (countError) throw countError;
 
   const [data, error] = await tryCatch(
     prisma.quote.findMany({
-      take: 8,
+      take: limit,
+      skip: (page - 1) * limit,
       orderBy: {
         createdAt: "desc",
       },
-      where: { ...selectedFilter },
+      where: { ...where },
       include: {
         author: true,
         post: {
@@ -198,9 +198,13 @@ export const getQuotes = async (filter = {}) => {
       },
     })
   );
-
   if (error) throw error;
-  return data;
+  return {
+    data,
+    count,
+    totalPages: Math.ceil(count / limit),
+    hasNext: count > (page - 1) * limit + data.length,
+  };
 };
 
 export const DeleteQuote = async (id) => {

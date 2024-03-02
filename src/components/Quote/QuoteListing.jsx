@@ -10,17 +10,14 @@ const ViewQuoteModal = dynamic(() => import("./ViewQuoteModal"));
 function QuotesView({ initialData, children }) {
   const [selectedQuote, setSelectedQuote] = useState(null);
 
-  const {
-    data: quotes,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["quotes"],
-    queryFn: () => getQuotes(),
+    queryFn: () => getQuotes({ limit: 10, page: 1 }),
     initialData: initialData,
     refetchOnWindowFocus: false,
   });
 
+  const quotes = data.data || [];
   if (error) return "An error has occurred: " + error.message;
   if (isLoading) return;
   return (

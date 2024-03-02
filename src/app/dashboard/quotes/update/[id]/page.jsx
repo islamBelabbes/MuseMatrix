@@ -7,21 +7,22 @@ import React from "react";
 
 async function page({ params }) {
   const { id } = params;
-  const [data, error] = await tryCatch(getQuotes({ id }));
+  const [data, error] = await tryCatch(getQuotes({ id, limit: 1, page: 1 }));
 
-  if (!data.length > 0 || error) notFound();
+  if (error) throw new Error("something went wrong");
+  if (!data.data.length > 0 || error) notFound();
 
   const quoteFormData = {
-    quote: data[0].quote,
+    quote: data.data[0].quote,
     author: {
-      value: data[0].author.id,
-      label: data[0].author.name,
-      avatar: data[0].author.avatar,
+      value: data.data[0].author.id,
+      label: data.data[0].author.name,
+      avatar: data.data[0].author.avatar,
     },
-    color: data[0]?.color || "#262D33",
+    color: data.data[0]?.color || "#262D33",
     post: {
-      label: data[0].post.title,
-      value: data[0].post.id,
+      label: data.data[0].post.title,
+      value: data.data[0].post.id,
     },
   };
   return (

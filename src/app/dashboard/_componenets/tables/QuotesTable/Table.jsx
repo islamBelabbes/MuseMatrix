@@ -22,12 +22,12 @@ import {
 
 import { columns } from "./Columns";
 import DeletePostModal from "@/app/dashboard/posts/_components/DeletePostModal";
-import { getPosts } from "@/lib/api";
+import { getQuotes } from "@/lib/api";
 import { buttonVariants } from "@/components/ui/button";
 import { useRouter } from "next13-progressbar";
 import { toast } from "react-toastify";
 
-export function PostsTable({ initialData, query, queryKey }) {
+export function QuotesTable({ initialData, query, queryKey }) {
   const [isMounted, setIsMounted] = useState(false);
 
   const [page, setPage] = useState(1);
@@ -41,7 +41,7 @@ export function PostsTable({ initialData, query, queryKey }) {
 
   const { data, isPlaceholderData, error } = useQuery({
     queryKey: [queryKey, page],
-    queryFn: () => getPosts({ ...query, page }),
+    queryFn: () => getQuotes({ ...query, page }),
     placeholderData: (prevData) => {
       return keepPreviousData(prevData ? prevData : initialData);
     },
@@ -53,7 +53,7 @@ export function PostsTable({ initialData, query, queryKey }) {
       return setDeleteModal({ isOpen: true, targetId: id });
     },
     handleEdit: (id) => {
-      router.push(`/dashboard/posts/update/${id}`);
+      router.push(`/dashboard/quotes/update/${id}`);
     },
   };
 
@@ -87,7 +87,7 @@ export function PostsTable({ initialData, query, queryKey }) {
         />
       )}
 
-      <Table className="relative border rounded-md posts_table">
+      <Table className="relative border rounded-md quotes_table">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>

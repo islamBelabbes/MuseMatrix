@@ -1,8 +1,10 @@
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import React from "react";
-import Conditional from "../Conditional";
 import Link from "next/link";
+import React from "react";
+
+import { cn } from "@/lib/utils";
+import Conditional from "../Conditional";
+import AuthorAvatar from "@/components/AuthorAvatar";
+
 const DEFAULT_COLOR = "#262D33";
 function Quote({ quote = {}, isModal = false, children, className }) {
   const { author, quote: quoteContent, post, color } = quote || {};
@@ -20,26 +22,9 @@ function Quote({ quote = {}, isModal = false, children, className }) {
       style={{ background: color || DEFAULT_COLOR }}
     >
       <div className="w-full top__bar">{children}</div>
-      <div
-        className={cn("w-[156px] h-[156px]", {
-          "rounded-full bg-white border": !authorAvatar,
-        })}
-      >
-        <Conditional
-          condition={authorAvatar}
-          onTrue={
-            <Image
-              src={authorAvatar}
-              alt="author avatar"
-              width={156}
-              height={156}
-              className="block object-cover w-full h-full rounded-full"
-              placeholder="empty"
-              loading="eager"
-            />
-          }
-        />
-      </div>
+
+      <AuthorAvatar image={authorAvatar} />
+
       <div className="px-3 text-center text-white">
         <p className={cn("text-xs font-medium leading-4 line-clamp-1")}>
           {authorName}

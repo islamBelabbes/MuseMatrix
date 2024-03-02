@@ -36,8 +36,10 @@ export async function POST(req) {
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
+  const limit = parseInt(searchParams.get("limit")) || 2;
+  const page = parseInt(searchParams.get("page")) || 1;
 
-  const [data, error] = await tryCatch(getQuotes({ id }));
+  const [data, error] = await tryCatch(getQuotes({ id, limit, page }));
   if (error) return sendServerError();
 
   return sendOk({ data });
