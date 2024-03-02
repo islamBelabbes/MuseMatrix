@@ -1,11 +1,11 @@
 "use client";
-import { AnimatePresence } from "framer-motion";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
 
+import { AnimatePresence } from "framer-motion";
+
 const DeletePostModal = dynamic(() =>
-  import("@/components/Post/DeletePostModal")
+  import("@/app/dashboard/posts/_components/DeletePostModal")
 );
 
 function ClientModal({ id }) {
