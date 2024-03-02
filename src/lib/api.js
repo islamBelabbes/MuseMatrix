@@ -15,7 +15,9 @@ export const getQuotes = async ({ id, limit, page }) => {
     url.searchParams.append("page", page);
   }
 
-  const [data, error] = await tryCatch(axios.get(url));
+  const [data, error] = await tryCatch(
+    axios.get(url, { withCredentials: true })
+  );
   if (error) throw error;
   return data.data.data;
 };

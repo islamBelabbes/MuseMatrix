@@ -7,12 +7,28 @@ import {
 import { UTApi } from "uploadthing/server";
 export const utapi = new UTApi();
 import { dataURLtoFile, tryCatch } from "@/lib/utils";
-import { currentUser } from "@clerk/nextjs";
+
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const authorName = searchParams.get("name");
+
+  const [data, error] = await tryCatch(getAuthors(authorName));
+
+  if (error) {
+    console.log(error);
+    return sendServerError();
+  }
+
+  return sendOk({
+    data,
+  });
+}
+
 export async function POST(req) {
   const { name, avatar } = await req.json();
 
-  const user = await currentUser();
-  const isAdmin = user?.publicMetadata.isAdmin;
+  const { sessionClaims } = auth();
+  const isAdmin = sessionClaims?.publicMetadata.isAdmin;
   if (!isAdmin)
     return sendUnauthorized({
       message: "you don't have permission to perform this action",
@@ -37,21 +53,5 @@ export async function POST(req) {
 
   return sendOk({
     data: authorData,
-  });
-}
-
-export async function GET(req) {
-  const { searchParams } = new URL(req.url);
-  const authorName = searchParams.get("name");
-
-  const [data, error] = await tryCatch(getAuthors(authorName));
-
-  if (error) {
-    console.log(error);
-    return sendServerError();
-  }
-
-  return sendOk({
-    data,
   });
 }

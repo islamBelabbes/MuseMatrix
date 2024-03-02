@@ -13,12 +13,35 @@ import {
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { utapi } from "@/lib/uploadThing";
-import { currentUser } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
+
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const title = searchParams.get("title");
+  const limit = parseInt(searchParams.get("limit")) || 2;
+  const page = parseInt(searchParams.get("page")) || 1;
+  const status = searchParams.get("status");
+
+  const [data, error] = await tryCatch(
+    getPosts({
+      title,
+      limit,
+      page,
+      status,
+    })
+  );
+
+  if (error) return sendServerError();
+
+  const { result, ...pagination } = data;
+  return sendOk({ data: result, ...pagination });
+}
+
 export async function POST(req) {
   const { genre, author, title, cover, content, status } = await req.json();
 
-  const user = await currentUser();
-  const isAdmin = user?.publicMetadata.isAdmin;
+  const { sessionClaims } = auth();
+  const isAdmin = sessionClaims?.publicMetadata.isAdmin;
   if (!isAdmin)
     return sendUnauthorized({
       message: "you don't have permission to perform this action",
@@ -55,8 +78,8 @@ export async function POST(req) {
 export async function DELETE(req) {
   const { id } = await req.json();
 
-  const user = await currentUser();
-  const isAdmin = user?.publicMetadata.isAdmin;
+  const { sessionClaims } = auth();
+  const isAdmin = sessionClaims?.publicMetadata.isAdmin;
   if (!isAdmin)
     return sendUnauthorized({
       message: "you don't have permission to perform this action",
@@ -98,8 +121,8 @@ export async function DELETE(req) {
 export async function PUT(req) {
   const { id, content, cover, title, genre, author, status } = await req.json();
 
-  const user = await currentUser();
-  const isAdmin = user?.publicMetadata.isAdmin;
+  const { sessionClaims } = auth();
+  const isAdmin = sessionClaims?.publicMetadata.isAdmin;
   if (!isAdmin)
     return sendUnauthorized({
       message: "you don't have permission to perform this action",
@@ -120,26 +143,4 @@ export async function PUT(req) {
   revalidatePath(`/post/${id}`);
 
   return sendNoContent();
-}
-
-export async function GET(req) {
-  const { searchParams } = new URL(req.url);
-  const title = searchParams.get("title");
-  const limit = parseInt(searchParams.get("limit")) || 2;
-  const page = parseInt(searchParams.get("page")) || 1;
-  const status = searchParams.get("status");
-
-  const [data, error] = await tryCatch(
-    getPosts({
-      title,
-      limit,
-      page,
-      status,
-    })
-  );
-
-  if (error) return sendServerError();
-
-  const { result, ...pagination } = data;
-  return sendOk({ data: result, ...pagination });
 }

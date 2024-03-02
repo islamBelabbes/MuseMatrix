@@ -16,7 +16,6 @@ export default authMiddleware({
     return isPublic;
   },
 });
-
 export const config = {
-  matcher: ["/dashboard/:path*", "/(api|trpc)(.*)"],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/(api|trpc)(.*)"],
 };
