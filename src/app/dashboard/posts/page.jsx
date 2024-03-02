@@ -1,4 +1,4 @@
-import { PostsTable } from "../_componenets/tables/PostsTable/Table";
+import { PostsTable } from "../_components/tables/PostsTable/Table";
 import { getPosts } from "@/lib/db";
 
 const query = { limit: 1, status: "Published" };

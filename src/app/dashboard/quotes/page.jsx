@@ -1,5 +1,5 @@
 import React from "react";
-import { QuotesTable } from "../_componenets/tables/QuotesTable/Table";
+import { QuotesTable } from "../_components/tables/QuotesTable/Table";
 import { getQuotes } from "@/lib/db";
 
 const query = { limit: 1, page: 1 };

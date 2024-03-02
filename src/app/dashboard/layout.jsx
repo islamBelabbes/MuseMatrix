@@ -1,5 +1,5 @@
 import "@/globals.css";
-import NavBar from "./_componenets/NavBar";
+import NavBar from "./_components/NavBar";
 
 export const metadata = {
   title: "Muse Matrix",
