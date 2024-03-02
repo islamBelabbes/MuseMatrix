@@ -1,9 +1,8 @@
-import PostListing from "@/components/Post/PostListing";
 import QuoteSlider from "@/components/Quote/QuoteSlider";
 import { getQuotes } from "@/lib/db";
 import { shuffle } from "@/lib/utils";
 import prisma from "@/lib/prisma";
-import AsyncPostListing from "@/components/Post/asyncPostListing";
+import AsyncPostListing from "@/components/Post/AsyncPostListing";
 import { PostListingSkeleton } from "@/components/Skeleton/Skeleton";
 import { Suspense } from "react";
 
