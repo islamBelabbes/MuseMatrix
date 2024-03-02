@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
       <body className={`dark:bg-[#161513] ${tajawal.className}`}>
         <Providers>
           <div id="modal"></div>
-          {/* <Header /> */}
+          <Header />
           <main>{children}</main>
           <Footer />
         </Providers>
