@@ -47,7 +47,6 @@ export async function POST(req) {
     return sendServerError();
   }
 
-  revalidatePath("/drafts");
   return sendOk({
     data: postData,
   });
@@ -92,9 +91,6 @@ export async function DELETE(req) {
     })
   );
 
-  revalidatePath("/posts");
-  revalidatePath("/drafts");
-
   if (error) return sendServerError();
   return sendNoContent();
 }
@@ -122,7 +118,6 @@ export async function PUT(req) {
   if (error) return sendServerError();
 
   revalidatePath(`/post/${id}`);
-  revalidatePath("/drafts");
 
   return sendNoContent();
 }

@@ -14,20 +14,19 @@ const queryClient = new QueryClient();
 
 function Providers({ children }) {
   return (
-    <Suspense>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider attribute="class">
-          <ToastContainer />
-          <GlobalModalProvider>{children}</GlobalModalProvider>
-          <Next13ProgressBar
-            height="4px"
-            color="#0A2FFF"
-            options={{ showSpinner: true }}
-          />
-          <ReactQueryDevtools initialIsOpen={true} />
-        </ThemeProvider>
-      </QueryClientProvider>
-    </Suspense>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider attribute="class">
+        <ToastContainer />
+        {/* <GlobalModalProvider>{children}</GlobalModalProvider> */}
+        <Next13ProgressBar
+          height="4px"
+          color="#0A2FFF"
+          options={{ showSpinner: true }}
+        />
+        {children}
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 
