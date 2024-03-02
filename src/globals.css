@@ -93,9 +93,6 @@ body {
   flex-direction: column;
 }
 
-html body[data-scroll-locked] {
-  margin-right: 0 !important;
-}
 .dark .white_filter {
   filter: invert(100%) sepia(16%) saturate(7463%) hue-rotate(222deg)
     brightness(119%) contrast(115%);
