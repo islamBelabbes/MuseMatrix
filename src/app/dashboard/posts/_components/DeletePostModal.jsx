@@ -2,12 +2,9 @@
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useRouter } from "next13-progressbar";
 
 import DeleteModal from "@/components/Modals/DeleteModal";
 function DeletePostModal({ id, setIsOpen, onSuccess }) {
-  const router = useRouter();
-
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ({ id }) => axios.delete("/api/posts", { data: { id } }),
   });
