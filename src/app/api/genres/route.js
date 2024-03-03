@@ -5,6 +5,7 @@ import {
   sendUnauthorized,
 } from "@/lib/responseHelper";
 import { tryCatch } from "@/lib/utils";
+import { auth } from "@clerk/nextjs";
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
