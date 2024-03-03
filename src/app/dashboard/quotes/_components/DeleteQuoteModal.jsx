@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next13-progressbar";
 
-import DeleteModal from "@/components/Modal/DeleteModal";
+import DeleteModal from "@/components/Modals/DeleteModal";
 function DeleteQuoteModal({ id, onOpenChange, onSuccess }) {
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ({ id }) => axios.delete("/api/quotes", { data: { id } }),
