@@ -1,3 +1,4 @@
+import AuthorAvatar from "@/components/AuthorAvatar";
 import PostContentView from "@/components/Post/PostContentView";
 import Tag from "@/components/Tag";
 import prisma from "@/lib/prisma";
@@ -28,6 +29,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { id } = params;
+  if (!parseInt(id)) notFound();
   const [post, error] = await tryCatch(getPost(id));
   if (error) throw new Error("Something went wrong");
   if (!post) notFound();
@@ -37,6 +39,7 @@ export async function generateMetadata({ params }) {
 }
 async function page({ params }) {
   const { id } = params;
+  if (!parseInt(id)) notFound();
   const [post, error] = await tryCatch(getPost(id));
   if (error || !post) {
     notFound();
@@ -50,15 +53,7 @@ async function page({ params }) {
           <h1 className={`text-[18px] font-bold landscape-[50px] `}>{title}</h1>
           <div className="flex items-center gap-6">
             <div className="flex gap-[12px] items-center">
-              <div className="w-[36px] h-[36px] rounded-full">
-                <Image
-                  src={author?.avatar}
-                  alt="avatar"
-                  className="object-cover w-full h-full rounded-full"
-                  width={36}
-                  height={36}
-                />
-              </div>
+              <AuthorAvatar image={author?.avatar} size={36} />
               <span className="text-base font-medium">{author?.name}</span>
             </div>
           </div>
