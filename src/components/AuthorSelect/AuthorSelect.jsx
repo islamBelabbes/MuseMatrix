@@ -7,6 +7,7 @@ import useAuthorSelect from "./useAuthorSelect";
 
 function AuthorSelect({ author, setAuthor }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState(null);
   const {
     getOptions,
     handleCreate,
@@ -17,6 +18,7 @@ function AuthorSelect({ author, setAuthor }) {
   } = useAuthorSelect({
     setAuthor,
     onOptionCreate: () => setIsOpen(true),
+    onCreateSuccess: () => setLastUpdate(new Date().getTime()),
   });
 
   const isBlock = isLoading;
@@ -27,7 +29,7 @@ function AuthorSelect({ author, setAuthor }) {
           <AuthorCreationModal
             mutate={handleCreate}
             authorName={authorName}
-            closeModal={() => setIsOpen(false)}
+            onOpenChange={setIsOpen}
           />
         )}
       </AnimatePresence>
@@ -46,6 +48,7 @@ function AuthorSelect({ author, setAuthor }) {
           المصدر :
         </label>
         <AsyncCreatableSelect
+          key={lastUpdate}
           placeholder="اختيار او بحث"
           id="author"
           className="flex-1 font-bold dark:bg-transparent"

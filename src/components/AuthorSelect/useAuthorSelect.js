@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-function useAuthorSelect({ setAuthor, onOptionCreate }) {
+function useAuthorSelect({ setAuthor, onOptionCreate, onCreateSuccess }) {
   const [authorName, setAuthorName] = useState(null);
   const [isOptionsLoading, setIsOptionsLoading] = useState(true);
   const getOptions = async (inputValue) => {
@@ -33,6 +33,8 @@ function useAuthorSelect({ setAuthor, onOptionCreate }) {
       label: data.data.name,
       avatar: data.data.avatar,
     });
+
+    onCreateSuccess && onCreateSuccess();
   };
 
   const onCreateOption = (inputValue) => {

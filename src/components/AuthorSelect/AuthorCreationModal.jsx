@@ -1,21 +1,23 @@
-import Conditional from "@/components/Conditional";
-import { SingleImageUploader } from "@/components/ImageUploader";
-import Modal from "@/components/Modal/Modal";
 import Image from "next/image";
 import React, { useState } from "react";
+
 import { toast } from "react-toastify";
 
-function AuthorCreationModal({ mutate, authorName, closeModal }) {
+import Conditional from "@/components/Conditional";
+import { SingleImageUploader } from "@/components/ImageUploader";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+
+function AuthorCreationModal({ mutate, authorName, onOpenChange }) {
   const [image, setImage] = useState(null);
 
   const deleteHandler = () => {
     if (!image) return toast.error("الرجاء اختيار صورة");
-    closeModal();
+    onOpenChange(false);
     mutate({ name: authorName, avatar: image });
   };
   return (
-    <Modal onClickOutside={closeModal}>
-      <div className="p-6 bg-white border border-secondary min-w-[500px] relative">
+    <Dialog open onOpenChange={onOpenChange}>
+      <DialogContent className="p-6 bg-white border border-secondary min-w-[500px]">
         <div className="flex flex-col gap-3">
           <div className="flex gap-[12px] items-center">
             <div className="w-[36px] h-[36px] rounded-full border  bg-slate-400">
@@ -47,8 +49,8 @@ function AuthorCreationModal({ mutate, authorName, closeModal }) {
             انشاء
           </button>
         </div>
-      </div>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 }
 
