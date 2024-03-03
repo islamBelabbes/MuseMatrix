@@ -39,7 +39,7 @@ function QuoteSlider({ initializedData = [] }) {
         {selectedQuote && (
           <ViewQuoteModal
             quote={selectedQuote}
-            closeModal={() => setSelectedQuote(null)}
+            onOpenChange={setSelectedQuote}
           />
         )}
       </AnimatePresence>

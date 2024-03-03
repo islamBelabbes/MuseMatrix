@@ -1,23 +1,25 @@
 "use client";
-import React, { useState } from "react";
-import Modal from "../Modal/Modal";
-import Quote from "./Quote";
+import React from "react";
 
-function ViewQuoteModal({ quote, closeModal }) {
-  const [isOpen, setIsOpen] = useState(false);
+import Quote from "./Quote";
+import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
+function ViewQuoteModal({ quote, onOpenChange }) {
   return (
-    <Modal onClickOutside={closeModal}>
-      <div className="p-5">
-        <Quote quote={quote} isModal>
+    <Dialog open onOpenChange={onOpenChange} defaultOpen={false}>
+      <DialogContent
+        className="p-0 bg-transparent border-none sm:w-full"
+        defaultClose={false}
+      >
+        <Quote quote={quote} isModal className={"mx-auto"}>
           {/* quote topBar */}
           <div className="absolute flex justify-between w-full px-2 top-3">
-            <button onClick={closeModal} className="button_primary ">
-              {"عودة"}
-            </button>
+            <DialogClose asChild>
+              <button className="button_primary ">{"عودة"}</button>
+            </DialogClose>
           </div>
         </Quote>
-      </div>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 }
 

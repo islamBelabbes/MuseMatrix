@@ -1,7 +1,7 @@
 import Link from "next/link";
 import DarkModeButton from "./DarkModeButton";
 import NavMenu from "./NavMenu";
-import OpenModalButton from "@/components/Modal/OpenModalButton";
+import SideMenu from "./SideMenu";
 
 function Header() {
   return (
@@ -10,12 +10,8 @@ function Header() {
         {/* Right */}
         <div className="flex items-center gap-x-8">
           {/* Menu Icon */}
-          {/* <OpenModalButton
-            icon={"/menu.svg"}
-            alt="menu"
-            modal={"sidemenu"}
-            styles={"md:hidden"}
-          /> */}
+
+          <SideMenu />
           {/* Logo */}
           <div className="w-full">
             <Link href={"/"} prefetch={false}>
