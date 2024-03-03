@@ -73,12 +73,12 @@ export const getPosts = async ({
     })
   );
   if (error) throw error;
-
+  const totalPages = Math.ceil(count / limit);
   return {
     data,
     count,
-    totalPages: Math.ceil(count / limit),
-    hasNext: count > (page - 1) * limit + data.length,
+    totalPages,
+    hasNext: page < totalPages,
   };
 };
 
@@ -199,11 +199,14 @@ export const getQuotes = async ({ id, limit, page } = {}) => {
     })
   );
   if (error) throw error;
+
+  const totalPages = Math.ceil(count / limit);
+
   return {
     data,
     count,
-    totalPages: Math.ceil(count / limit),
-    hasNext: count > (page - 1) * limit + data.length,
+    totalPages,
+    hasNext: page < totalPages,
   };
 };
 
