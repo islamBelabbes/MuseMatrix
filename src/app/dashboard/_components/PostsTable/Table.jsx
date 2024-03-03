@@ -24,14 +24,14 @@ import { columns } from "./Columns";
 import DeletePostModal from "@/app/dashboard/posts/_components/DeletePostModal";
 import { getPosts } from "@/lib/api";
 import TablePagination from "../TablePagination";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export function PostsTable({ initialData, query, queryKey }) {
   const [isMounted, setIsMounted] = useState(false);
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(query?.page || 1);
 
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
@@ -78,6 +78,8 @@ export function PostsTable({ initialData, query, queryKey }) {
     if (error) toast.error("حدث خطأ ما", { toastId: "post_error" });
   }, [error]);
 
+  // if its placeholder data we know react query is fetching
+  const isFetchingNextPage = isPlaceholderData && page !== query?.page;
   return (
     <div>
       {deleteModal.isOpen && (
@@ -149,7 +151,7 @@ export function PostsTable({ initialData, query, queryKey }) {
           onPageChange={setPage}
           total={tableData.count}
         />
-        {isMounted && isPlaceholderData && <ClipLoader size={24} />}
+        {isMounted && isFetchingNextPage && <ClipLoader size={24} />}
       </div>
     </div>
   );
