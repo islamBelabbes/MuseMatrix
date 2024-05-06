@@ -171,3 +171,12 @@ td.actions {
   max-width: 150px;
   min-width: 150px;
 }
+
+.dark article#content span,
+.dark article#content p {
+  color: #fff !important;
+}
+
+article#content blockquote p {
+  color: purple !important;
+}
