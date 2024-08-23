@@ -1,21 +1,24 @@
-import { authMiddleware } from "@clerk/nextjs";
-import { PrivetRoutes } from "./constants/constants";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
+export default clerkMiddleware((auth, req) => {
+  const isDashboard = createRouteMatcher(["/dashboard(.*)"]);
+  if (!isDashboard(req)) return NextResponse.next();
 
-export default authMiddleware({
-  publicRoutes: (req) => {
-    let isPublic = true;
-    for (let route of PrivetRoutes) {
-      if (req.url.includes(route)) {
-        isPublic = false;
-      }
-    }
-    return isPublic;
-  },
+  const isAuth = auth().userId;
+  const isAdmin = auth().sessionClaims?.metadata.isAdmin;
+  console.log(isAdmin);
+  if (!isAuth) return auth().redirectToSignIn();
+  if (!isAdmin) {
+    return NextResponse.redirect(req.nextUrl.origin);
+  }
 });
+
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/(api|trpc)(.*)"],
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    "/dashboard(.*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
 };
