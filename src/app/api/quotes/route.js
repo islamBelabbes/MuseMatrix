@@ -9,7 +9,7 @@ import {
 } from "@/lib/responseHelper";
 
 import { tryCatch } from "@/lib/utils";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
 export async function GET(req) {

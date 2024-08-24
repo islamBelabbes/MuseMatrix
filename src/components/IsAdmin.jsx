@@ -1,8 +1,8 @@
-import { Protect, currentUser } from "@clerk/nextjs";
+import { Protect } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 async function IsAdmin({ children }) {
-  const user = await currentUser();
-  const isAdmin = user?.publicMetadata.isAdmin;
+  const isAdmin = auth().sessionClaims?.metadata.isAdmin;
   return (
     <Protect condition={() => isAdmin} fallback={<span>unAuthorized</span>}>
       {children}
