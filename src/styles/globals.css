@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
+html {
+  @apply min-h-full;
+}
+.app {
+  @apply mx-auto w-full p-8 sm:max-w-[1216px];
+}
+
+.shadow_md {
+  box-shadow: 0px 12px 24px -6px rgba(24, 26, 42, 0.12);
+}
+
+.button_primary {
+  @apply rounded-md bg-primary px-5 py-3 text-center text-white disabled:cursor-not-allowed disabled:opacity-30;
+}
+.button_secondary {
+  @apply rounded-md border border-[#696A75] bg-white px-5 py-3 text-center text-[#696A75];
+}
+
+.input_primary {
+  @apply rounded-md border border-secondary px-4 py-3 dark:bg-[#161513] dark:placeholder:text-white;
+}
+
+.input_primary::placeholder {
+  @apply text-base font-normal;
+}
+.input_primary:focus {
+  @apply outline-none;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 50px;
+}
+
+html.dark {
+  color: #ffff;
+}
+
+body {
+  min-height: 120vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dark .white_filter {
+  filter: invert(100%) sepia(16%) saturate(7463%) hue-rotate(222deg)
+    brightness(119%) contrast(115%);
+}
+
+.overlay {
+  position: fixed; /* Sit on top of the page content */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  z-index: 999; /* Specify a stack order in case you're using a different order for other elements */
+}
+
+.ql-editor {
+  direction: rtl !important;
+  text-align: right !important;
+}
+.ql-container {
+  height: 95% !important;
+}
+article#content p {
+  font-weight: 500;
+}
+
+article#content blockquote {
+  border-left: none;
+  border-right: solid 2px #5e35b1;
+  margin-right: 0;
+  padding-right: 5px;
+  padding-left: 0;
+}
+article#content blockquote p {
+  color: #5e35b1;
+}
+
+@media screen and (max-width: 1000px) {
+  .react-colorful {
+    width: 100% !important;
+  }
+}
+
+swiper-container {
+  width: 100%;
+}
+swiper-container::part(container) {
+  height: auto;
+}
+
+.posts_table td.cover {
+  max-width: 100px;
+  min-width: 100px;
+}
+.posts_table td.title {
+  width: 100%;
+}
+
+.quotes_table td.author_avatar {
+  max-width: 250px;
+  min-width: 250px;
+}
+.quotes_table td.author {
+  max-width: 150px;
+  min-width: 150px;
+  overflow: hidden;
+}
+
+.quotes_table td.quote {
+  width: 100%;
+}
+
+td.actions {
+  max-width: 150px;
+  min-width: 150px;
+}
+
+.dark article#content span,
+.dark article#content p {
+  color: #fff !important;
+}
+
+article#content blockquote p {
+  color: purple !important;
+}
