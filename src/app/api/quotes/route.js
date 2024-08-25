@@ -10,7 +10,7 @@ import {
 
 import { tryCatch } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
@@ -38,7 +38,8 @@ export async function POST(req) {
     createQuote({ authorId, postId, quote, color })
   );
 
-  revalidatePath("/quotes");
+  revalidateTag("quotes");
+
   if (error) return sendServerError();
 
   return sendCreated({
@@ -58,8 +59,9 @@ export async function DELETE(req) {
     });
 
   const [_, error] = await tryCatch(DeleteQuote(id));
-  revalidatePath("/quotes");
   if (error) return sendServerError();
+
+  revalidateTag("quotes");
   return sendNoContent();
 }
 
@@ -84,8 +86,8 @@ export async function PUT(req) {
     updateQuote(parseInt(body.id), fieldsToUpdate)
   );
 
-  revalidatePath("/quotes");
   if (error) return sendServerError();
 
+  revalidateTag("quotes");
   return sendNoContent();
 }

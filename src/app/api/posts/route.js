@@ -10,7 +10,7 @@ import {
   tryCatch,
   uploadThingGetFileKeyFromUrl,
 } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import prisma from "@/lib/prisma";
 import { utapi } from "@/lib/uploadThing";
 import { auth } from "@clerk/nextjs/server";
@@ -70,6 +70,7 @@ export async function POST(req) {
     return sendServerError();
   }
 
+  revalidateTag("posts_listing");
   return sendOk({
     data: postData,
   });
@@ -115,6 +116,8 @@ export async function DELETE(req) {
   );
 
   if (error) return sendServerError();
+
+  revalidateTag("posts_listing");
   return sendNoContent();
 }
 
@@ -141,6 +144,7 @@ export async function PUT(req) {
   if (error) return sendServerError();
 
   revalidatePath(`/post/${id}`);
+  revalidateTag("posts_listing");
 
   return sendNoContent();
 }

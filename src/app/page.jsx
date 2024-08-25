@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import AsyncPostListing from "@/components/Post/AsyncPostListing";
 import { PostListingSkeleton } from "@/components/Skeleton/Skeleton";
 import { Suspense } from "react";
+import { unstable_cache as cache } from "next/cache";
 
 export const revalidate = 0;
 
@@ -19,21 +20,45 @@ const query = {
   },
   take: 3,
 };
-async function Home() {
-  const quotes = await getQuotes({ limit: 5, page: 1 });
 
-  const booksPromise = prisma.post.findMany({
-    ...query,
-    where: { ...query.where, genreId: 16 },
-  });
-  const podcastPromise = prisma.post.findMany({
-    ...query,
-    where: { ...query.where, genreId: 17 },
-  });
-  const articlesPromise = prisma.post.findMany({
-    ...query,
-    where: { ...query.where, genreId: 18 },
-  });
+const cachedGetQuotes = cache(
+  async () => getQuotes({ limit: 5, page: 1 }),
+  ["home_quotes"],
+  { tags: ["quotes"] }
+);
+const cachedGetBooks = cache(
+  async () =>
+    prisma.post.findMany({
+      ...query,
+      where: { ...query.where, genreId: 16 },
+    }),
+  ["books_listing"],
+  { tags: ["posts_listing"] }
+);
+const cachedGetPodcasts = cache(
+  async () =>
+    prisma.post.findMany({
+      ...query,
+      where: { ...query.where, genreId: 17 },
+    }),
+  ["podcasts_listing"],
+  { tags: ["posts_listing"] }
+);
+const cachedGetArticles = cache(
+  async () =>
+    prisma.post.findMany({
+      ...query,
+      where: { ...query.where, genreId: 18 },
+    }),
+  ["articles_listing"],
+  { tags: ["posts_listing"] }
+);
+
+async function Home() {
+  const quotes = await cachedGetQuotes();
+  const booksPromise = cachedGetBooks();
+  const podcastPromise = cachedGetPodcasts();
+  const articlesPromise = cachedGetArticles();
 
   return (
     <>
