@@ -17,7 +17,7 @@ const cachedGetPosts = cache(
   async (id) =>
     prisma.post.findMany({
       ...query,
-      where: { ...query.where, genreId: 16 },
+      where: { ...query.where, genreId: id },
     }),
   ["genre_posts_listing"],
   {
