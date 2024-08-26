@@ -21,7 +21,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ar" dir="rtl" className={`${tajawal.className}`}>
-      <body className="min-h-screen">
+      <body>
         <Providers>
           <Header />
           {children}
