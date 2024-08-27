@@ -1,8 +1,9 @@
 import QuotesSlider from "./_components/quotes-slider";
 import PostList from "@/components/posts-list";
 import SectionEntry from "./_components/section-entry";
+import { getQuotesUseCase } from "@/use-cases/quotes";
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <main className="app flex flex-col gap-[3rem]">
       <QuotesSlider />
