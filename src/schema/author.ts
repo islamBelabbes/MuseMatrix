@@ -1,12 +1,15 @@
+import { AuthorSchema } from "prisma/generated/zod";
 import { z } from "zod";
 
-export const getAuthorsSchema = z.object({
-  name: z.string().optional(),
+export const getAuthorsSchema = AuthorSchema.pick({
+  name: true,
+}).extend({
+  name: AuthorSchema.shape.name.optional(),
 });
 
-export const createAuthorSchema = z.object({
-  name: z.string(),
-  avatar: z.string(),
+export const createAuthorSchema = AuthorSchema.pick({
+  name: true,
+  avatar: true,
 });
 
 export type TGetAuthors = z.infer<typeof getAuthorsSchema>;

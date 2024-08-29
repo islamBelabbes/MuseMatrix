@@ -1,22 +1,24 @@
-import { STATUS } from "@prisma/client";
 import { z } from "zod";
-import { idSchema } from "./schema";
+import { PostSchema } from "prisma/generated/zod";
 
-export const getPostsSchema = z.object({
-  title: z.string().optional(),
-  status: z.nativeEnum(STATUS).optional().catch(undefined),
+export const getPostsSchema = PostSchema.pick({
+  title: true,
+  status: true,
+}).extend({
+  status: PostSchema.shape.status.optional().catch("Draft"),
+  title: PostSchema.shape.title.optional(),
 });
 
-export const createPostSchema = z.object({
-  genre: idSchema,
-  author: idSchema,
-  title: z.string(),
-  cover: z.string(),
-  content: z.string(),
+export const createPostSchema = PostSchema.pick({
+  title: true,
+  cover: true,
+  content: true,
+  genreId: true,
+  authorId: true,
 });
 
 export const updatePostSchema = createPostSchema.extend({
-  id: idSchema,
+  id: z.number().int(),
 });
 
 export type TGetPosts = z.infer<typeof getPostsSchema>;

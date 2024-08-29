@@ -22,7 +22,7 @@ export const getPosts = async ({
   });
 };
 
-export const getPost = async ({ id }: { id: number }) => {
+export const getPostById = async (id: number) => {
   return prisma.post.findUnique({
     where: {
       id,
@@ -40,16 +40,16 @@ export const countPosts = async ({ status, title }: TGetPosts = {}) => {
 };
 
 export const createPost = async ({
-  genre,
-  author,
   title,
   cover,
   content,
+  genreId,
+  authorId,
 }: TCreatePost) => {
   return prisma.post.create({
     data: {
-      genreId: genre,
-      authorId: author,
+      genreId,
+      authorId,
       title,
       cover,
       content,
@@ -58,28 +58,28 @@ export const createPost = async ({
 };
 
 export const updatePost = async ({
-  author,
-  content,
-  cover,
-  genre,
   id,
   title,
+  content,
+  cover,
+  genreId,
+  authorId,
 }: TUpdatePost) => {
   return prisma.post.update({
     where: {
       id,
     },
     data: {
-      authorId: author,
+      authorId,
       content,
       cover,
-      genreId: genre,
+      genreId,
       title,
     },
   });
 };
 
-export const deletePost = async ({ id }: { id: number }) => {
+export const deletePost = async (id: number) => {
   return prisma.post.delete({
     where: {
       id,

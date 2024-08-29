@@ -2,7 +2,7 @@ import {
   countPosts,
   createPost,
   deletePost,
-  getPost,
+  getPostById,
   getPosts,
   updatePost,
 } from "@/data-access/posts";
@@ -39,7 +39,7 @@ export const getPostsUseCase = async ({
   };
 };
 
-export const createPostUseCase = (data: TCreatePost) => {
+export const createPostByIdUseCase = (data: TCreatePost) => {
   return createPost(data);
 };
 
@@ -48,7 +48,7 @@ export const updatePostUseCase = (data: TUpdatePost) => {
 };
 
 export const deletePostUseCase = async (id: number) => {
-  const post = await getPost({ id });
+  const post = await getPostById(id);
   if (!post) throw new AppError("post not found", 404);
 
   const fileKey = uploadThingGetFileKeyFromUrl(post.cover);
@@ -57,7 +57,7 @@ export const deletePostUseCase = async (id: number) => {
     const deletedFile = await safeAsync(utapi.deleteFiles(fileKey));
     if (!deletedFile.success) throw new AppError("failed to delete file", 500);
 
-    await deletePost({ id });
+    await deletePost(id);
     revalidateTag("posts_listing");
     return true;
   }

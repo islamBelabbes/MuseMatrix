@@ -2,6 +2,7 @@ import {
   DeleteQuote,
   countQuotes,
   createQuote,
+  getQuoteById,
   getQuotes,
   updateQuote,
 } from "@/data-access/quotes";
@@ -27,6 +28,10 @@ export const getQuotesUseCase = async ({
   };
 };
 
+export const getQuoteByIdUseCase = async (id: number) => {
+  return getQuoteById(id);
+};
+
 export const createQuoteUseCase = (data: TCreateQuote) => {
   return createQuote(data);
 };
@@ -35,8 +40,8 @@ export const updateQuoteUseCase = (data: TUpdateQuote) => {
   return updateQuote(data);
 };
 
-export const deleteQuoteUseCase = async ({ id }: { id: number }) => {
-  await DeleteQuote({ id });
+export const deleteQuoteUseCase = async (id: number) => {
+  await DeleteQuote(id);
   revalidateTag("quotes");
   return true;
 };

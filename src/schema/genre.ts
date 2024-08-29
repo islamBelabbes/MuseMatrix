@@ -1,11 +1,14 @@
+import { GenreSchema } from "prisma/generated/zod";
 import { z } from "zod";
 
-const getGenresSchema = z.object({
-  title: z.string().optional(),
+const getGenresSchema = GenreSchema.pick({
+  title: true,
+}).extend({
+  title: GenreSchema.shape.title.optional(),
 });
 
-const createGenreSchema = z.object({
-  title: z.string(),
+const createGenreSchema = GenreSchema.pick({
+  title: true,
 });
 
 export type TGetGenres = z.infer<typeof getGenresSchema>;

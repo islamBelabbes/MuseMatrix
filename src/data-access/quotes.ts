@@ -22,7 +22,7 @@ export const getQuotes = async ({ limit, page }: TPaginationQuery) => {
   });
 };
 
-export const getQuote = async ({ id }: { id: number }) => {
+export const getQuoteById = async (id: number) => {
   return prisma.quote.findUnique({
     where: {
       id,
@@ -35,15 +35,15 @@ export const countQuotes = async () => {
 };
 
 export const createQuote = async ({
-  author,
-  post,
   quote,
   color,
+  postId,
+  authorId,
 }: TCreateQuote) => {
   return prisma.quote.create({
     data: {
-      authorId: author,
-      postId: post,
+      authorId,
+      postId,
       quote,
       color,
     },
@@ -52,25 +52,25 @@ export const createQuote = async ({
 
 export const updateQuote = async ({
   id,
-  author,
   color,
-  post,
   quote,
+  authorId,
+  postId,
 }: TUpdateQuote) => {
   return prisma.quote.update({
     where: {
       id,
     },
     data: {
-      authorId: author,
+      authorId,
       color,
-      postId: post,
+      postId,
       quote,
     },
   });
 };
 
-export const DeleteQuote = async ({ id }: { id: number }) => {
+export const DeleteQuote = async (id: number) => {
   return prisma.quote.delete({
     where: {
       id,

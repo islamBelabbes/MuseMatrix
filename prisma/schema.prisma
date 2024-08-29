@@ -11,6 +11,11 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+generator zod {
+    provider         = "zod-prisma-types"
+    createInputTypes = false // default is true
+}
+
 model Author {
     id        Int      @id @default(autoincrement())
     avatar    String

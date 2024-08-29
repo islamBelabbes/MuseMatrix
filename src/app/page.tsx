@@ -2,8 +2,15 @@ import QuotesSlider from "./_components/quotes-slider";
 import PostList from "@/components/posts-list";
 import SectionEntry from "./_components/section-entry";
 import { getQuotesUseCase } from "@/use-cases/quotes";
+import { getPostsSchema } from "@/schema/posts";
 
 export default async function HomePage() {
+  const validate = getPostsSchema.safeParse({
+    title: "test",
+    status: "Draft",
+  });
+  console.log(validate);
+
   return (
     <main className="app flex flex-col gap-[3rem]">
       <QuotesSlider />
