@@ -59,7 +59,7 @@ const QuoteContent = ({
           "cursor-pointer": onClick,
         },
       )}
-      style={{ background: quote.color || DEFAULT_COLOR }}
+      style={{ background: quote.color ?? DEFAULT_COLOR }}
       onClick={onClick}
     >
       {/* <div className="w-full top__bar">{children}</div> */}
