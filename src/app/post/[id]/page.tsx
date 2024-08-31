@@ -17,11 +17,13 @@ type TParams = {
 
 const paramsSchema = z.coerce.number().catch(0);
 
-const cachedPost = cache((id: number) => getPostByIdUseCase(id));
+const cachedPost = cache((id: number) =>
+  getPostByIdUseCase({ id, status: "Published" }),
+);
 
 export async function generateStaticParams() {
-  const Posts = await getPostsUseCase();
-  return Posts.data.map((post) => ({
+  const posts = await getPostsUseCase({ status: "Published" });
+  return posts.data.map((post) => ({
     id: post.id.toString(),
   }));
 }

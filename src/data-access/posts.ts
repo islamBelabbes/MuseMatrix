@@ -1,6 +1,11 @@
 import { postsDtoMapper } from "@/dtos/posts";
 import prisma from "@/lib/prisma";
-import { TCreatePost, TGetPosts, TUpdatePost } from "@/schema/posts";
+import {
+  TCreatePost,
+  TGetPostById,
+  TGetPosts,
+  TUpdatePost,
+} from "@/schema/posts";
 import { TPaginationQuery } from "@/types/types";
 
 export const getPosts = async ({
@@ -32,10 +37,11 @@ export const getPosts = async ({
   return post.map(postsDtoMapper);
 };
 
-export const getPostById = async (id: number) => {
+export const getPostById = async ({ id, status }: TGetPostById) => {
   const post = await prisma.post.findUnique({
     where: {
       id,
+      status,
     },
     include: {
       author: true,

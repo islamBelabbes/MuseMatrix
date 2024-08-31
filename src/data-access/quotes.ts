@@ -11,6 +11,16 @@ export const getQuotes = async ({ limit, page }: TPaginationQuery) => {
     orderBy: {
       createdAt: "desc",
     },
+    where: {
+      OR: [
+        { postId: null },
+        {
+          post: {
+            status: "Published",
+          },
+        },
+      ],
+    },
     include: {
       author: true,
       post: true,

@@ -29,7 +29,7 @@ export async function generateStaticParams() {
   const genres = await getGenresUseCase();
 
   return genres.data.map((genre) => ({
-    id: genre.id.toString(),
+    genreId: genre.id.toString(),
   }));
 }
 
@@ -39,6 +39,7 @@ async function Page({ params: { genreId } }: { params: { genreId: string } }) {
 
   const posts = await getPostsUseCase({
     genreId: _genreId,
+    status: "Published",
   });
 
   return <main className="app">{<PostList posts={posts.data} />}</main>;

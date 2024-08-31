@@ -48,7 +48,7 @@ const PostCard = ({ post }: { post: TPost }) => {
         <div className="flex justify-between">
           <Tag name={post.genre.title} variation="secondary" />
         </div>
-        <Link href={`/post/20`}>
+        <Link href={`/post/${post.id}`}>
           <h1 className={`landscape-[50px] text-[18px] font-bold`}>
             {post.title}
           </h1>

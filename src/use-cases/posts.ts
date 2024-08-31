@@ -10,7 +10,12 @@ import { AppError } from "@/lib/error";
 import { safeAsync } from "@/lib/safe";
 import { utapi } from "@/lib/upload-thing";
 import { uploadThingGetFileKeyFromUrl } from "@/lib/utils";
-import { TCreatePost, TGetPosts, TUpdatePost } from "@/schema/posts";
+import {
+  TCreatePost,
+  TGetPostById,
+  TGetPosts,
+  TUpdatePost,
+} from "@/schema/posts";
 import { TPaginationQuery } from "@/types/types";
 import { revalidateTag } from "next/cache";
 
@@ -41,9 +46,10 @@ export const getPostsUseCase = async ({
   };
 };
 
-export const getPostByIdUseCase = async (id: number) => {
-  const post = await getPostById(id);
-  if (!post) throw new AppError("post not found", 404);
+export const getPostByIdUseCase = async ({ id, status }: TGetPostById) => {
+  const post = await getPostById({ id, status });
+  console.table(["id", id, "status", status]);
+  if (!post) throw new AppError("post not found from use case: " + id, 404);
 
   return post;
 };
@@ -57,7 +63,7 @@ export const updatePostUseCase = (data: TUpdatePost) => {
 };
 
 export const deletePostUseCase = async (id: number) => {
-  const post = await getPostById(id);
+  const post = await getPostById({ id });
   if (!post) throw new AppError("post not found", 404);
 
   const fileKey = uploadThingGetFileKeyFromUrl(post.cover);

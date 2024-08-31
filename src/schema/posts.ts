@@ -11,6 +11,12 @@ export const getPostsSchema = PostSchema.pick({
   genreId: PostSchema.shape.genreId.optional(),
 });
 
+export const getPostByIdSchema = PostSchema.pick({
+  id: true,
+}).extend({
+  status: getPostsSchema.shape.status,
+});
+
 export const createPostSchema = PostSchema.pick({
   title: true,
   cover: true,
@@ -24,5 +30,6 @@ export const updatePostSchema = createPostSchema.extend({
 });
 
 export type TGetPosts = z.infer<typeof getPostsSchema>;
+export type TGetPostById = z.infer<typeof getPostByIdSchema>;
 export type TCreatePost = z.infer<typeof createPostSchema>;
 export type TUpdatePost = z.infer<typeof updatePostSchema>;

@@ -9,7 +9,9 @@ export default async function HomePage() {
   const genres = await getGenresUseCase();
   const postsPromise = genres.data
     .slice(0, 3)
-    .map((genre) => getPostsUseCase({ genreId: genre.id, limit: 3 }));
+    .map((genre) =>
+      getPostsUseCase({ genreId: genre.id, limit: 3, status: "Published" }),
+    );
   const quotesPromise = getQuotesUseCase({ limit: 5 });
 
   const [posts, quotes] = await Promise.all([
