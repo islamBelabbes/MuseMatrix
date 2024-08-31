@@ -1,10 +1,11 @@
+import { quotesDtoMapper } from "@/dtos/quotes";
 import prisma from "@/lib/prisma";
 import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";
 import { TPaginationQuery } from "@/types/types";
 
 export const getQuotes = async ({ limit, page }: TPaginationQuery) => {
   const skip = page && limit && (page - 1) * limit;
-  return prisma.quote.findMany({
+  const quotes = await prisma.quote.findMany({
     take: limit,
     skip,
     orderBy: {
@@ -12,22 +13,22 @@ export const getQuotes = async ({ limit, page }: TPaginationQuery) => {
     },
     include: {
       author: true,
-      post: {
-        select: {
-          title: true,
-          id: true,
-        },
-      },
+      post: true,
     },
   });
+
+  return quotes.map(quotesDtoMapper);
 };
 
 export const getQuoteById = async (id: number) => {
-  return prisma.quote.findUnique({
+  const quote = await prisma.quote.findUnique({
     where: {
       id,
     },
   });
+
+  if (!quote) return null;
+  return quotesDtoMapper(quote);
 };
 
 export const countQuotes = async () => {
@@ -40,7 +41,7 @@ export const createQuote = async ({
   postId,
   authorId,
 }: TCreateQuote) => {
-  return prisma.quote.create({
+  const data = await prisma.quote.create({
     data: {
       authorId,
       postId,
@@ -48,6 +49,8 @@ export const createQuote = async ({
       color,
     },
   });
+
+  return quotesDtoMapper(data);
 };
 
 export const updateQuote = async ({
@@ -57,7 +60,7 @@ export const updateQuote = async ({
   authorId,
   postId,
 }: TUpdateQuote) => {
-  return prisma.quote.update({
+  const data = await prisma.quote.update({
     where: {
       id,
     },
@@ -68,6 +71,8 @@ export const updateQuote = async ({
       quote,
     },
   });
+
+  return quotesDtoMapper(data);
 };
 
 export const DeleteQuote = async (id: number) => {

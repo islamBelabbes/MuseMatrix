@@ -1,8 +1,9 @@
+import { authorsDtoMapper } from "@/dtos/authors";
 import prisma from "@/lib/prisma";
 import { TCreateAuthor, TGetAuthors } from "@/schema/author";
 
 export const getAuthors = async ({ name }: TGetAuthors) => {
-  return prisma.author.findMany({
+  const authors = await prisma.author.findMany({
     where: {
       name: {
         contains: name,
@@ -13,13 +14,17 @@ export const getAuthors = async ({ name }: TGetAuthors) => {
       updatedAt: "desc",
     },
   });
+
+  return authors.map(authorsDtoMapper);
 };
 
 export const createAuthor = async ({ name, avatar }: TCreateAuthor) => {
-  return prisma.author.create({
+  const author = await prisma.author.create({
     data: {
       name,
       avatar,
     },
   });
+
+  return authorsDtoMapper(author);
 };

@@ -4,9 +4,11 @@ import { PostSchema } from "prisma/generated/zod";
 export const getPostsSchema = PostSchema.pick({
   title: true,
   status: true,
+  genreId: true,
 }).extend({
   status: PostSchema.shape.status.optional().catch("Draft"),
   title: PostSchema.shape.title.optional(),
+  genreId: PostSchema.shape.genreId.optional(),
 });
 
 export const createPostSchema = PostSchema.pick({

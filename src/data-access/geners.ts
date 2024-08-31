@@ -1,16 +1,9 @@
+import { genresDtoMapper } from "@/dtos/geners";
 import prisma from "@/lib/prisma";
 import { TCreateGenre, TGetGenres } from "@/schema/genre";
 
-export const createGenre = async ({ title }: TCreateGenre) => {
-  return prisma.genre.create({
-    data: {
-      title,
-    },
-  });
-};
-
 export const getGenres = async ({ title }: TGetGenres) => {
-  return prisma.genre.findMany({
+  const genres = await prisma.genre.findMany({
     where: {
       title: {
         contains: title,
@@ -21,4 +14,16 @@ export const getGenres = async ({ title }: TGetGenres) => {
       updatedAt: "desc",
     },
   });
+
+  return genres.map(genresDtoMapper);
+};
+
+export const createGenre = async ({ title }: TCreateGenre) => {
+  const genre = await prisma.genre.create({
+    data: {
+      title,
+    },
+  });
+
+  return genresDtoMapper(genre);
 };

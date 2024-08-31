@@ -17,6 +17,7 @@ import { revalidateTag } from "next/cache";
 export const getPostsUseCase = async ({
   status,
   title,
+  genreId,
   limit = 5,
   page = 1,
 }: TPaginationQuery & TGetPosts = {}) => {
@@ -24,6 +25,7 @@ export const getPostsUseCase = async ({
   const dataPromise = getPosts({
     status,
     title,
+    genreId,
     limit,
     page,
   });
@@ -39,7 +41,14 @@ export const getPostsUseCase = async ({
   };
 };
 
-export const createPostByIdUseCase = (data: TCreatePost) => {
+export const getPostByIdUseCase = async (id: number) => {
+  const post = await getPostById(id);
+  if (!post) throw new AppError("post not found", 404);
+
+  return post;
+};
+
+export const createPostUseCase = (data: TCreatePost) => {
   return createPost(data);
 };
 
@@ -61,4 +70,6 @@ export const deletePostUseCase = async (id: number) => {
     revalidateTag("posts_listing");
     return true;
   }
+
+  return true;
 };

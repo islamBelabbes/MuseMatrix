@@ -1,15 +1,10 @@
 import QuotesSlider from "./_components/quotes-slider";
 import PostList from "@/components/posts-list";
 import SectionEntry from "./_components/section-entry";
-import { getQuotesUseCase } from "@/use-cases/quotes";
-import { getPostsSchema } from "@/schema/posts";
+import { getPostsUseCase } from "@/use-cases/posts";
 
 export default async function HomePage() {
-  const validate = getPostsSchema.safeParse({
-    title: "test",
-    status: "Draft",
-  });
-  console.log(validate);
+  const posts = await getPostsUseCase({ limit: 3 });
 
   return (
     <main className="app flex flex-col gap-[3rem]">
@@ -17,17 +12,17 @@ export default async function HomePage() {
 
       <div className="flex flex-col gap-10">
         <SectionEntry entry="المقالات" href="/posts" />
-        <PostList />
+        <PostList posts={posts.data} />
       </div>
 
       <div className="flex flex-col gap-10">
         <SectionEntry entry="الاقتباسات" href="/quotes" />
-        <PostList />
+        <PostList posts={posts.data} />
       </div>
 
       <div className="flex flex-col gap-10">
         <SectionEntry entry="التعليقات" href="/comments" />
-        <PostList />
+        <PostList posts={posts.data} />
       </div>
     </main>
   );

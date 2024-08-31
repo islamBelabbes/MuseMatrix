@@ -29,7 +29,10 @@ export const getQuotesUseCase = async ({
 };
 
 export const getQuoteByIdUseCase = async (id: number) => {
-  return getQuoteById(id);
+  const quote = await getQuoteById(id);
+  if (!quote) throw new Error("quote not found");
+
+  return quote;
 };
 
 export const createQuoteUseCase = (data: TCreateQuote) => {
