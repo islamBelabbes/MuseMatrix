@@ -28,18 +28,16 @@ function Quote({ quote, className, showFullContent = false }: TQuoteProps) {
         quote={quote}
       />
 
-      {showModal && (
-        <Dialog open onOpenChange={setShowModal}>
-          <DialogContent className="color w-[90vw] rounded-none border-none bg-[none] bg-none p-0 shadow-none sm:w-[500px]">
-            <QuoteContent
-              className={className}
-              showFullContent={showFullContent}
-              quote={quote}
-            />
-            <DialogClose className="hidden bg-white" />
-          </DialogContent>
-        </Dialog>
-      )}
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="color w-[90vw] rounded-none border-none bg-[none] bg-none p-0 shadow-none sm:w-[500px]">
+          <QuoteContent
+            className={className}
+            showFullContent={showFullContent}
+            quote={quote}
+          />
+          <DialogClose className="hidden bg-white" />
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
