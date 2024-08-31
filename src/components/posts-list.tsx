@@ -18,7 +18,9 @@ function PostList({ posts }: { posts: TPost[] }) {
       {posts.length ? (
         posts.map((post) => <PostCard key={post.id} post={post} />)
       ) : (
-        <span>لا يوجد</span>
+        <h1 className="my-5 text-center text-2xl">
+          لايوجد مقالات لهذا التصنيف
+        </h1>
       )}
     </ul>
   );

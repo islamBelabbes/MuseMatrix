@@ -1,19 +1,48 @@
+import { type Metadata } from "next";
 import AuthorAvatar from "@/components/author-avatar";
 import PostContentViewer from "@/components/post-content-viewr";
 import Tag from "@/components/tag";
 import { safeAsync } from "@/lib/safe";
-import { getPostByIdUseCase } from "@/use-cases/posts";
+import { getPostByIdUseCase, getPostsUseCase } from "@/use-cases/posts";
 import { notFound } from "next/navigation";
-import React from "react";
+import React, { cache } from "react";
 import { z } from "zod";
+import { generateSeoTitle } from "@/lib/utils";
+
+type TParams = {
+  params: {
+    id: string;
+  };
+};
 
 const paramsSchema = z.coerce.number().catch(0);
 
-async function PostPage({ params: { id } }: { params: { id: string } }) {
+const cachedPost = cache((id: number) => getPostByIdUseCase(id));
+
+export async function generateStaticParams() {
+  const Posts = await getPostsUseCase();
+  return Posts.data.map((post) => ({
+    id: post.id.toString(),
+  }));
+}
+
+export async function generateMetadata({ params }: TParams): Promise<Metadata> {
+  const _id = paramsSchema.parse(params.id);
+  if (!_id) notFound();
+
+  const post = await safeAsync(cachedPost(_id));
+  if (!post.success) notFound();
+  return {
+    title: generateSeoTitle([post.data.title]),
+    description: post.data.title,
+  };
+}
+
+async function PostPage({ params: { id } }: TParams) {
   const _id = paramsSchema.parse(id);
   if (!_id) notFound();
 
-  const post = await safeAsync(getPostByIdUseCase(_id));
+  const post = await safeAsync(cachedPost(_id));
   if (!post.success) notFound();
   return (
     <main className="app flex h-fit flex-col gap-5">

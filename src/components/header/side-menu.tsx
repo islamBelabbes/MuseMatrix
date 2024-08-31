@@ -7,9 +7,9 @@ import { Menu } from "lucide-react";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import ThemeToggle from "./theme-toggle";
-import { NAV_LINKS } from "@/lib/constants";
+import { TNavMenu } from "@/types/types";
 
-function SideMenu() {
+function SideMenu({ links }: { links: TNavMenu[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
@@ -29,9 +29,9 @@ function SideMenu() {
       </SheetTrigger>
       <SheetContent className="w-full border-none md:w-[30%]">
         <ul className="mt-[10px] flex flex-col gap-2 md:mt-0">
-          {NAV_LINKS.map((link) => (
+          {links.map((link) => (
             <li
-              key={link.id}
+              key={link.href}
               className={`text-secondary/600 w-full border-b p-3 text-base font-medium leading-6`}
             >
               <Link href={link.href} onClick={(e) => handleOnClick(e)}>

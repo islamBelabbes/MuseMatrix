@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { NAV_LINKS } from "@/lib/constants";
+import { TNavMenu } from "@/types/types";
 
-function NavMenu() {
+function NavMenu({ links }: { links: TNavMenu[] }) {
   return (
     <ul className="hidden justify-center gap-10 md:flex">
-      {NAV_LINKS.map((link) => (
+      {links.map((link) => (
         <li
-          key={link.id}
+          key={link.href}
           className="text-secondary/600 text-base font-medium leading-6 dark:text-[#F0F2F5]"
         >
           <Link href={link.href}>{link.name}</Link>

@@ -25,6 +25,10 @@ export const getQuoteById = async (id: number) => {
     where: {
       id,
     },
+    include: {
+      author: true,
+      post: true,
+    },
   });
 
   if (!quote) return null;
@@ -48,6 +52,10 @@ export const createQuote = async ({
       quote,
       color,
     },
+    include: {
+      author: true,
+      post: true,
+    },
   });
 
   return quotesDtoMapper(data);
@@ -69,6 +77,10 @@ export const updateQuote = async ({
       color,
       postId,
       quote,
+    },
+    include: {
+      author: true,
+      post: true,
     },
   });
 

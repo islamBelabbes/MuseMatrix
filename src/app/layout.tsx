@@ -12,8 +12,8 @@ const tajawal = Tajawal({
   subsets: ["arabic"],
 });
 export const metadata: Metadata = {
-  title: "Muse Matrix",
-  description: "A Matrix for Musing Ideas",
+  title: "شبكة المعرفة",
+  description: "مصفوفة لتبادل الأفكار والإلهام",
 };
 
 export default function RootLayout({

@@ -1,5 +1,5 @@
 import { createAuthor, getAuthors } from "@/data-access/authors";
-import { TCreateAuthor, TGetAuthors } from "@/schema/author";
+import { type TCreateAuthor, type TGetAuthors } from "@/schema/author";
 
 export const getAuthorsUseCase = ({ name }: TGetAuthors) => {
   return getAuthors({ name });

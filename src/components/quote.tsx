@@ -4,30 +4,20 @@ import React, { useState } from "react";
 
 import { cn } from "@/lib/utils";
 import AuthorAvatar from "@/components/author-avatar";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-
-const Q = {
-  author: {
-    name: "John Doe",
-    avatar: "https://picsum.photos/200",
-  },
-  content:
-    "لكل عصر اصنامه التي تهفو اليها جماهير الناس , عامتهم وخاصتهم , حتى في الازمنة التي يثور فيها الناس لهدم الاصنام المتصدرة والاوثان المبجلة فإن ثورتهم تلك في الحقيقة ليست سوى استبدال اصنام بأصنام , والاوثان المبجلة فإن ثورتهم في الحقيقة ليست سوى استبدال اصنام باصنام  ",
-  color: "#262D33",
-  post: {
-    id: 1,
-    title: "Post title",
-  },
-};
+import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog";
+import { TQuote } from "@/dtos/quotes";
 
 const DEFAULT_COLOR = "#262D33";
 
-type QuoteProps = {
+type TQuoteProps = {
+  quote: TQuote;
   className?: string;
   showFullContent?: boolean;
 };
 
-function Quote({ className, showFullContent = false }: QuoteProps) {
+type TQuoteContentProps = TQuoteProps & { onClick?: () => void };
+
+function Quote({ quote, className, showFullContent = false }: TQuoteProps) {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -35,6 +25,7 @@ function Quote({ className, showFullContent = false }: QuoteProps) {
         className={className}
         showFullContent={showFullContent}
         onClick={() => setShowModal(true)}
+        quote={quote}
       />
 
       {showModal && (
@@ -43,7 +34,9 @@ function Quote({ className, showFullContent = false }: QuoteProps) {
             <QuoteContent
               className={className}
               showFullContent={showFullContent}
+              quote={quote}
             />
+            <DialogClose className="hidden bg-white" />
           </DialogContent>
         </Dialog>
       )}
@@ -52,26 +45,30 @@ function Quote({ className, showFullContent = false }: QuoteProps) {
 }
 
 const QuoteContent = ({
+  quote,
   className,
   showFullContent = false,
   onClick,
-}: QuoteProps & { onClick?: () => void }) => {
+}: TQuoteContentProps) => {
   return (
     <li
       className={cn(
         "relative flex min-h-[370px] flex-col items-center gap-5 rounded-xl py-7",
         className,
+        {
+          "cursor-pointer": onClick,
+        },
       )}
-      style={{ background: Q.color || DEFAULT_COLOR }}
+      style={{ background: quote.color || DEFAULT_COLOR }}
       onClick={onClick}
     >
       {/* <div className="w-full top__bar">{children}</div> */}
 
-      <AuthorAvatar avatar={Q.author.avatar} />
+      <AuthorAvatar avatar={quote.author.avatar} />
 
       <div className="px-3 text-center text-white">
         <p className={cn("line-clamp-1 text-xs font-medium leading-4")}>
-          {Q.author.name}
+          {quote.author.name}
         </p>
         <span
           className={cn("text-base font-bold leading-6", {
@@ -79,17 +76,17 @@ const QuoteContent = ({
           })}
           style={{ overflowWrap: "anywhere" }}
         >
-          {Q.content}
+          {quote.quote}
         </span>
       </div>
 
-      {Q.post.title && Q.post.id && (
+      {quote.post && (
         <div
           className="mt-auto flex items-center justify-center self-stretch border-t px-2 text-center text-white"
           onClick={(e) => e.stopPropagation()}
         >
-          <Link href={`/post/${Q.post.id}`} className="mt-2 line-clamp-1">
-            {Q.post.title}
+          <Link href={`/post/${quote.post.id}`} className="mt-2 line-clamp-1">
+            {quote.post.title}
           </Link>
         </div>
       )}
