@@ -1,3 +1,5 @@
+import CreateButton from "../_components/create-button";
+
 export default function QuotesPage() {
-  return <div>Quotes</div>;
+  return <CreateButton>إنشاء اقتباس</CreateButton>;
 }

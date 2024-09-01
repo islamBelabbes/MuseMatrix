@@ -14,12 +14,12 @@ const NAVBAR_LINKS = [
     path: "/dashboard/posts",
   },
   {
-    name: "Quotes",
-    path: "/dashboard/quotes",
-  },
-  {
     name: "Drafts",
     path: "/dashboard/drafts",
+  },
+  {
+    name: "Quotes",
+    path: "/dashboard/quotes",
   },
 ];
 function NavBar() {
