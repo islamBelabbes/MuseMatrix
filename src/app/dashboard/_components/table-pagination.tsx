@@ -16,11 +16,12 @@ function TablePagination({ total, limit }: TablePaginationProps) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const onPageChange = (page: number) => {
-    return startTransition(() => router.push(`?page=${page}`));
+  const onPageChange = (nextPage: number) => {
+    return startTransition(() => router.push(`?page=${nextPage}`));
   };
 
-  const pageCount = total ? Math.round(total / limit) || 1 : 0;
+  const pageCount = total ? Math.ceil(total / limit) : 0;
+
   const page = PageSchema.parse(searchParams.get("page")) - 1; // react-paginate starts from 0;
 
   const isEmptyPage = pageCount === 0 || page * limit + 1 > total;

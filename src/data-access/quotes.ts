@@ -46,7 +46,18 @@ export const getQuoteById = async (id: number) => {
 };
 
 export const countQuotes = async () => {
-  return prisma.quote.count();
+  return prisma.quote.count({
+    where: {
+      OR: [
+        { postId: null },
+        {
+          post: {
+            status: "Published",
+          },
+        },
+      ],
+    },
+  });
 };
 
 export const createQuote = async ({

@@ -1,6 +1,6 @@
 import CreateButton from "../_components/create-button";
 import { getPostsUseCase } from "@/use-cases/posts";
-import PostsTable from "../_components/posts-table/posts-table";
+import PostsTable from "../_components/posts-table";
 import { PageSchema } from "@/schema/schema";
 
 const LIMIT = 1;
