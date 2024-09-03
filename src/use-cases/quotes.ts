@@ -6,6 +6,7 @@ import {
   getQuotes,
   updateQuote,
 } from "@/data-access/quotes";
+import { AppError } from "@/lib/error";
 import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";
 import { TPaginationQuery } from "@/types/types";
 import { revalidateTag } from "next/cache";
@@ -30,7 +31,7 @@ export const getQuotesUseCase = async ({
 
 export const getQuoteByIdUseCase = async (id: number) => {
   const quote = await getQuoteById(id);
-  if (!quote) throw new Error("quote not found");
+  if (!quote) throw new AppError("quote not found");
 
   return quote;
 };
