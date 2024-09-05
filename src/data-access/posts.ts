@@ -9,20 +9,14 @@ import {
 import { TPaginationQuery } from "@/types/types";
 
 export const getPosts = async ({
-  title,
-  status,
-  genreId,
   limit,
   page,
+  ...where
 }: TPaginationQuery & TGetPosts) => {
   const skip = page && limit && (page - 1) * limit;
 
   const post = await prisma.post.findMany({
-    where: {
-      title,
-      status,
-      genreId,
-    },
+    where,
     include: {
       author: true,
       genre: true,
@@ -37,12 +31,9 @@ export const getPosts = async ({
   return post.map(postsDtoMapper);
 };
 
-export const getPostById = async ({ id, status }: TGetPostById) => {
+export const getPostById = async (where: TGetPostById) => {
   const post = await prisma.post.findUnique({
-    where: {
-      id,
-      status,
-    },
+    where,
     include: {
       author: true,
       genre: true,
@@ -53,30 +44,13 @@ export const getPostById = async ({ id, status }: TGetPostById) => {
   return postsDtoMapper(post);
 };
 
-export const countPosts = async ({ status, title }: TGetPosts = {}) => {
-  return prisma.post.count({
-    where: {
-      status,
-      title,
-    },
-  });
+export const countPosts = async (where: TGetPosts = {}) => {
+  return prisma.post.count({ where });
 };
 
-export const createPost = async ({
-  title,
-  cover,
-  content,
-  genreId,
-  authorId,
-}: TCreatePost) => {
+export const createPost = async (data: TCreatePost) => {
   const post = await prisma.post.create({
-    data: {
-      genreId,
-      authorId,
-      title,
-      cover,
-      content,
-    },
+    data,
     include: {
       genre: true,
       author: true,
@@ -86,25 +60,12 @@ export const createPost = async ({
   return postsDtoMapper(post);
 };
 
-export const updatePost = async ({
-  id,
-  title,
-  content,
-  cover,
-  genreId,
-  authorId,
-}: TUpdatePost) => {
+export const updatePost = async ({ id, ...data }: TUpdatePost) => {
   const post = await prisma.post.update({
     where: {
       id,
     },
-    data: {
-      authorId,
-      content,
-      cover,
-      genreId,
-      title,
-    },
+    data,
     include: {
       genre: true,
       author: true,

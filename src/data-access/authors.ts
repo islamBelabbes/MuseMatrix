@@ -18,13 +18,7 @@ export const getAuthors = async ({ name }: TGetAuthors) => {
   return authors.map(authorsDtoMapper);
 };
 
-export const createAuthor = async ({ name, avatar }: TCreateAuthor) => {
-  const author = await prisma.author.create({
-    data: {
-      name,
-      avatar,
-    },
-  });
-
+export const createAuthor = async (data: TCreateAuthor) => {
+  const author = await prisma.author.create({ data });
   return authorsDtoMapper(author);
 };

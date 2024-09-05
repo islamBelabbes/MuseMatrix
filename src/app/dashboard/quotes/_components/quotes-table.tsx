@@ -16,7 +16,7 @@ const columns: ColumnDef<TQuotesTable>[] = [
     size: 200,
     header: "صورة صاحب المقولة",
     cell: ({ row }) => {
-      const quote = row.original as TQuotesTable;
+      const quote = row.original;
       return <AuthorAvatar avatar={quote.author.avatar} className="size-14" />;
     },
   },

@@ -15,7 +15,7 @@ const columns: ColumnDef<TPostTable>[] = [
     size: 100,
     header: "الصورة",
     cell: ({ row }) => {
-      const post = row.original as TPostTable;
+      const post = row.original;
       return (
         <div className="relative h-[50px] w-[50px]">
           <Image

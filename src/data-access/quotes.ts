@@ -60,52 +60,31 @@ export const countQuotes = async () => {
   });
 };
 
-export const createQuote = async ({
-  quote,
-  color,
-  postId,
-  authorId,
-}: TCreateQuote) => {
-  const data = await prisma.quote.create({
-    data: {
-      authorId,
-      postId,
-      quote,
-      color,
-    },
+export const createQuote = async (data: TCreateQuote) => {
+  const quote = await prisma.quote.create({
+    data,
     include: {
       author: true,
       post: true,
     },
   });
 
-  return quotesDtoMapper(data);
+  return quotesDtoMapper(quote);
 };
 
-export const updateQuote = async ({
-  id,
-  color,
-  quote,
-  authorId,
-  postId,
-}: TUpdateQuote) => {
-  const data = await prisma.quote.update({
+export const updateQuote = async ({ id, ...data }: TUpdateQuote) => {
+  const quote = await prisma.quote.update({
     where: {
       id,
     },
-    data: {
-      authorId,
-      color,
-      postId,
-      quote,
-    },
+    data,
     include: {
       author: true,
       post: true,
     },
   });
 
-  return quotesDtoMapper(data);
+  return quotesDtoMapper(quote);
 };
 
 export const DeleteQuote = async (id: number) => {
