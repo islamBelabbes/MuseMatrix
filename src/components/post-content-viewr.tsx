@@ -23,6 +23,7 @@ function PostContentViewer({
       <button
         className="absolute left-0 top-0 z-10 translate-x-2 translate-y-2"
         onClick={() => setIsMinimized((prev) => !prev)}
+        type="button"
       >
         {isMinimized ? "➕" : "➖"}
       </button>

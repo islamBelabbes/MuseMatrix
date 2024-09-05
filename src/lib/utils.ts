@@ -14,3 +14,5 @@ export const uploadThingGetFileKeyFromUrl = (url: string) => {
 export const generateSeoTitle = (titles: string[]) => {
   return `${SITE_NAME} | ${titles.join(" | ")}`;
 };
+
+// export const generatePagination = () => {}

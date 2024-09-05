@@ -180,3 +180,20 @@ td.actions {
 article#content blockquote p {
   color: purple !important;
 }
+
+[cmdk-root] {
+  border: none !important;
+  border-radius: 0px !important;
+}
+
+/* 
+full fix 
+
+.selector {
+  border: none !important;
+  border-radius: 0px !important;
+  outline: 0px solid red !important;
+  outline-width: 0px !important;
+  outline-offset: 0px !important;
+}
+*/

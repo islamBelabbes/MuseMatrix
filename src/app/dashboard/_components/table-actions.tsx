@@ -11,15 +11,15 @@ import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type TTableActionsProps = {
-  editRoute: string;
+  updateRoute: string;
   deleteRoute: string;
 };
 
-function TableActions({ deleteRoute, editRoute }: TTableActionsProps) {
+function TableActions({ deleteRoute, updateRoute }: TTableActionsProps) {
   const router = useRouter();
 
   const handleEdit = () => {
-    router.push(editRoute);
+    router.push(updateRoute);
   };
   return (
     <div className="flex w-full items-center justify-between">

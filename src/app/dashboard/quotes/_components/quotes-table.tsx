@@ -43,8 +43,8 @@ const columns: ColumnDef<TQuotesTable>[] = [
       const { id } = row.original as TQuote;
       return (
         <TableActions
-          editRoute={`/quotes/edit/${id}`}
-          deleteRoute={`/quotes/delete`}
+          updateRoute={`quotes/update/${id}`}
+          deleteRoute={`quotes/delete`}
         />
       );
     },

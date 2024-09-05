@@ -41,8 +41,8 @@ const columns: ColumnDef<TPostTable>[] = [
       const { id } = row.original as TPost;
       return (
         <TableActions
-          editRoute={`/quotes/edit/${id}`}
-          deleteRoute={`/quotes/delete`}
+          updateRoute={`posts/update/${id}`}
+          deleteRoute={`posts/delete`}
         />
       );
     },
