@@ -1,7 +1,6 @@
 "use client";
 import AuthorAvatar from "@/components/author-avatar";
 import { DataTable } from "@/app/dashboard/_components/data-table";
-import TablePagination from "@/app/dashboard/_components/table-pagination";
 import { TQuote } from "@/dtos/quotes";
 import { TDataWithPagination } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -57,13 +56,14 @@ type TQuoteTableProps = {
 };
 
 function QuotesTable({ limit, quotes }: TQuoteTableProps) {
-  console.log(quotes);
-
   return (
-    <>
-      <DataTable data={quotes.data} columns={columns} />
-      <TablePagination limit={limit} total={quotes.count} />
-    </>
+    <DataTable
+      data={quotes.data}
+      columns={columns}
+      limit={limit}
+      total={quotes.count}
+      withPagination
+    />
   );
 }
 

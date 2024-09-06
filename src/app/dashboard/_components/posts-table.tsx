@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import TablePagination from "./table-pagination";
 import { TPost } from "@/dtos/posts";
 import { TDataWithPagination } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -56,9 +55,12 @@ type TPostTableProps = {
 
 export default function PostsTable({ posts, limit }: TPostTableProps) {
   return (
-    <>
-      <DataTable data={posts.data} columns={columns} />
-      <TablePagination limit={limit} total={posts.count} />
-    </>
+    <DataTable
+      data={posts.data}
+      columns={columns}
+      limit={limit}
+      total={posts.count}
+      withPagination
+    />
   );
 }
