@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { PostSchema } from "prisma/generated/zod";
+import { ImageSchema } from "./schema";
 
 export const getPostsSchema = PostSchema.pick({
   title: true,
@@ -19,14 +20,16 @@ export const getPostByIdSchema = PostSchema.pick({
 
 export const createPostSchema = PostSchema.pick({
   title: true,
-  cover: true,
   content: true,
   genreId: true,
   authorId: true,
+}).extend({
+  cover: ImageSchema,
 });
 
 export const updatePostSchema = createPostSchema.extend({
   id: z.number().int(),
+  cover: createPostSchema.shape.cover.optional(),
 });
 
 export type TGetPosts = z.infer<typeof getPostsSchema>;

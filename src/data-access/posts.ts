@@ -1,4 +1,4 @@
-import { postsDtoMapper } from "@/dtos/posts";
+import { TPost, postsDtoMapper } from "@/dtos/posts";
 import prisma from "@/lib/prisma";
 import {
   TCreatePost,
@@ -48,7 +48,9 @@ export const countPosts = async (where: TGetPosts = {}) => {
   return prisma.post.count({ where });
 };
 
-export const createPost = async (data: TCreatePost) => {
+export const createPost = async (
+  data: Omit<TCreatePost, "cover"> & { cover: TPost["cover"] },
+) => {
   const post = await prisma.post.create({
     data,
     include: {
@@ -60,7 +62,10 @@ export const createPost = async (data: TCreatePost) => {
   return postsDtoMapper(post);
 };
 
-export const updatePost = async ({ id, ...data }: TUpdatePost) => {
+export const updatePost = async ({
+  id,
+  ...data
+}: Omit<TUpdatePost, "cover"> & { cover: TPost["cover"] }) => {
   const post = await prisma.post.update({
     where: {
       id,

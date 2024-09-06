@@ -1,8 +1,16 @@
-import { createAuthor, getAuthors } from "@/data-access/authors";
+import { createAuthor, getAuthorById, getAuthors } from "@/data-access/authors";
+import { AppError } from "@/lib/error";
 import { type TCreateAuthor, type TGetAuthors } from "@/schema/author";
 
 export const getAuthorsUseCase = ({ name }: TGetAuthors) => {
   return getAuthors({ name });
+};
+
+export const getAuthorByIdUseCase = async (id: number) => {
+  const author = await getAuthorById(id);
+  if (!author) throw new AppError("author not found", 404);
+
+  return author;
 };
 
 export const createAuthorUseCase = (data: TCreateAuthor) => {

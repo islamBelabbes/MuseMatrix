@@ -18,6 +18,8 @@ import {
 } from "@/schema/posts";
 import { TPaginationQuery } from "@/types/types";
 import { revalidateTag } from "next/cache";
+import { getGenreByIdUseCase } from "./genres";
+import { getAuthorByIdUseCase } from "./authors";
 
 export const getPostsUseCase = async ({
   status,
@@ -53,12 +55,34 @@ export const getPostByIdUseCase = async ({ id, status }: TGetPostById) => {
   return post;
 };
 
-export const createPostUseCase = (data: TCreatePost) => {
-  return createPost(data);
+export const createPostUseCase = async (data: TCreatePost) => {
+  // make sure the genre and author exist
+  const genrePromise = safeAsync(getGenreByIdUseCase(data.genreId));
+  const authorPromise = safeAsync(getAuthorByIdUseCase(data.authorId));
+  const [genre, author] = await Promise.all([genrePromise, authorPromise]);
+
+  if (!genre.success) {
+    throw genre.error;
+  }
+
+  if (!author.success) {
+    throw author.error;
+  }
+
+  const file = await utapi.uploadFiles(data.cover);
+  if (file.error) throw new AppError("error occurred while uploading", 500);
+
+  const post = await safeAsync(createPost({ ...data, cover: file.data.key }));
+  if (!post.success) {
+    await utapi.deleteFiles(file.data.key);
+    throw post.error;
+  }
+
+  return post.data;
 };
 
 export const updatePostUseCase = (data: TUpdatePost) => {
-  return updatePost(data);
+  // return updatePost(data);
 };
 
 export const deletePostUseCase = async (id: number) => {
