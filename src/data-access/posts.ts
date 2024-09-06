@@ -12,12 +12,18 @@ import { Post } from "@prisma/client";
 export const getPosts = async ({
   limit,
   page,
+  title,
   ...where
 }: TPaginationQuery & TGetPosts) => {
   const skip = page && limit && (page - 1) * limit;
 
   const post = await prisma.post.findMany({
-    where,
+    where: {
+      ...where,
+      title: {
+        contains: title,
+      },
+    },
     include: {
       author: true,
       genre: true,
