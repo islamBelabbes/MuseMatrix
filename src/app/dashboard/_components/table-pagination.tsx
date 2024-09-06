@@ -22,14 +22,13 @@ function TablePagination({ total, limit }: TablePaginationProps) {
 
   const pageCount = total ? Math.ceil(total / limit) : 0;
 
-  const page = PageSchema.parse(searchParams.get("page")) - 1; // react-paginate starts from 0;
+  const page = PageSchema.parse(searchParams.get("page"));
 
-  const isEmptyPage = pageCount === 0 || page * limit + 1 > total;
-  if (pageCount === 1 || isEmptyPage) return null;
+  if (pageCount === 1) return null;
   return (
     <div className="flex items-center justify-between py-2">
       <ReactPaginate
-        initialPage={page}
+        initialPage={page - 1} // react-paginate starts from 0;
         className="flex items-center justify-start gap-4"
         nextLinkClassName={buttonVariants({ variant: "default" })}
         previousLinkClassName={buttonVariants({ variant: "default" })}
