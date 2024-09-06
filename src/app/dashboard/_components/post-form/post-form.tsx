@@ -21,9 +21,13 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import PostContentViewer from "@/components/post-content-viewr";
-import CreatableSelect from "../creatable-select";
 import AuthorSelect from "../author-select";
 import GenreSelect from "../genre-select";
+import { TPost } from "@/dtos/posts";
+
+type TPostFormProps = {
+  initialData?: TPost;
+};
 
 function PostForm() {
   const [image, setImage] = React.useState<File | null>(null);
@@ -31,7 +35,7 @@ function PostForm() {
 
   return (
     <Form {...form}>
-      <form className="xform flex flex-col gap-3 text-lg">
+      <form className="flex flex-col gap-3 text-lg">
         <div className="flex gap-4 rounded-md border border-primary p-3 sm:flex-row">
           <div className="relative h-[240px] sm:w-[400px]">
             {!image ? (
@@ -48,7 +52,7 @@ function PostForm() {
             )}
           </div>
 
-          <div className="xform flex grow flex-col gap-4">
+          <div className="flex grow flex-col gap-4">
             <ImageUpload image={image} setImage={setImage} />
 
             {/* Title Field */}
@@ -112,7 +116,7 @@ function PostForm() {
                       <SelectTrigger className="!my-0">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="rounded-none shadow-none">
                         <SelectItem value="published">منشور</SelectItem>
                         <SelectItem value="draft">معلق</SelectItem>
                       </SelectContent>

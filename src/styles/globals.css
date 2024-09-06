@@ -186,14 +186,10 @@ article#content blockquote p {
   border-radius: 0px !important;
 }
 
-/* 
-full fix 
-
-.selector {
+/* .shad_fix {
   border: none !important;
   border-radius: 0px !important;
   outline: 0px solid red !important;
   outline-width: 0px !important;
   outline-offset: 0px !important;
-}
-*/
+} */

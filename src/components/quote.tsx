@@ -9,15 +9,16 @@ import { TQuote } from "@/dtos/quotes";
 
 const DEFAULT_COLOR = "#262D33";
 
-type TQuoteProps = {
-  quote: TQuote;
+type TQuoteProps = Pick<TQuote, "id" | "color" | "quote"> & {
+  post?: Pick<NonNullable<TQuote["post"]>, "id" | "title">;
+  author: Pick<NonNullable<TQuote["author"]>, "name" | "avatar">;
   className?: string;
   showFullContent?: boolean;
 };
 
 type TQuoteContentProps = TQuoteProps & { onClick?: () => void };
 
-function Quote({ quote, className, showFullContent = false }: TQuoteProps) {
+function Quote({ className, showFullContent = false, ...quote }: TQuoteProps) {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -25,7 +26,7 @@ function Quote({ quote, className, showFullContent = false }: TQuoteProps) {
         className={className}
         showFullContent={showFullContent}
         onClick={() => setShowModal(true)}
-        quote={quote}
+        {...quote}
       />
 
       <Dialog open={showModal} onOpenChange={setShowModal}>
@@ -33,7 +34,7 @@ function Quote({ quote, className, showFullContent = false }: TQuoteProps) {
           <QuoteContent
             className={className}
             showFullContent={showFullContent}
-            quote={quote}
+            {...quote}
           />
           <DialogClose className="hidden bg-white" />
         </DialogContent>
@@ -43,10 +44,10 @@ function Quote({ quote, className, showFullContent = false }: TQuoteProps) {
 }
 
 const QuoteContent = ({
-  quote,
   className,
   showFullContent = false,
   onClick,
+  ...quote
 }: TQuoteContentProps) => {
   return (
     <li

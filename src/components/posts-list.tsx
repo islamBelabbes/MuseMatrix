@@ -5,6 +5,12 @@ import Tag from "./tag";
 import Link from "next/link";
 import { TPost } from "@/dtos/posts";
 
+// pick only the fields we need
+type TPostListProps = Pick<TPost, "id" | "title" | "cover"> & {
+  genre: Pick<TPost["genre"], "title">;
+  author: Pick<TPost["author"], "name" | "avatar">;
+};
+
 function PostList({ posts }: { posts: TPost[] }) {
   return (
     <ul
@@ -16,7 +22,21 @@ function PostList({ posts }: { posts: TPost[] }) {
       )}
     >
       {posts.length ? (
-        posts.map((post) => <PostCard key={post.id} post={post} />)
+        posts.map((post) => (
+          <PostCard
+            key={post.id}
+            id={post.id}
+            title={post.title}
+            cover={post.cover}
+            author={{
+              avatar: post.author.avatar,
+              name: post.author.name,
+            }}
+            genre={{
+              title: post.genre.title,
+            }}
+          />
+        ))
       ) : (
         <h1 className="my-5 text-center text-2xl">
           لايوجد مقالات لهذا التصنيف
@@ -26,7 +46,7 @@ function PostList({ posts }: { posts: TPost[] }) {
   );
 }
 
-const PostCard = ({ post }: { post: TPost }) => {
+const PostCard = ({ ...post }: TPostListProps) => {
   return (
     <li className="flex flex-col items-center gap-4 rounded-xl border border-secondary p-4">
       <div className="relative h-[240px] w-full">

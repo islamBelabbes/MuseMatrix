@@ -18,7 +18,14 @@ function QuotesSlider({ quotes }: { quotes: TQuote[] }) {
         {quotes.map((quote) => (
           <Quote
             key={quote.id}
-            quote={quote}
+            id={quote.id}
+            author={{
+              avatar: quote.author.avatar,
+              name: quote.author.name,
+            }}
+            quote={quote.quote}
+            color={quote.color}
+            post={quote.post ?? undefined}
             className="shrink-0 grow-0 basis-[95%] select-none"
           />
         ))}

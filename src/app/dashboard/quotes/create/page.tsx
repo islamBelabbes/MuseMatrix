@@ -1,7 +1,8 @@
 import React from "react";
+import QuoteForm from "../_components/quote-form";
 
 function CreateQuotePage() {
-  return <div>CreateQuotePage</div>;
+  return <QuoteForm />;
 }
 
 export default CreateQuotePage;
