@@ -2,11 +2,7 @@ import { z } from "zod";
 import { PostSchema } from "prisma/generated/zod";
 import { ImageSchema } from "./schema";
 
-export const getPostsSchema = PostSchema.pick({
-  title: true,
-  status: true,
-  genreId: true,
-}).extend({
+export const getPostsSchema = z.object({
   status: PostSchema.shape.status.optional().catch("Draft"),
   title: PostSchema.shape.title.optional(),
   genreId: PostSchema.shape.genreId.optional(),
