@@ -1,4 +1,4 @@
-import { TPost, postsDtoMapper } from "@/dtos/posts";
+import { postsDtoMapper } from "@/dtos/posts";
 import prisma from "@/lib/prisma";
 import {
   TCreatePost,
@@ -7,6 +7,7 @@ import {
   TUpdatePost,
 } from "@/schema/posts";
 import { TPaginationQuery } from "@/types/types";
+import { Post } from "@prisma/client";
 
 export const getPosts = async ({
   limit,
@@ -49,7 +50,7 @@ export const countPosts = async (where: TGetPosts = {}) => {
 };
 
 export const createPost = async (
-  data: Omit<TCreatePost, "cover"> & { cover: TPost["cover"] },
+  data: Omit<TCreatePost, "cover"> & { cover: Post["cover"] },
 ) => {
   const post = await prisma.post.create({
     data,
@@ -65,7 +66,7 @@ export const createPost = async (
 export const updatePost = async ({
   id,
   ...data
-}: Omit<TUpdatePost, "cover"> & { cover: TPost["cover"] }) => {
+}: Omit<TUpdatePost, "cover"> & { cover: Post["cover"] }) => {
   const post = await prisma.post.update({
     where: {
       id,
