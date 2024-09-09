@@ -3,11 +3,11 @@ import prisma from "@/lib/prisma";
 import { TCreateAuthor, TGetAuthors } from "@/schema/author";
 import { Author } from "@prisma/client";
 
-export const getAuthors = async ({ name }: TGetAuthors) => {
+export const getAuthors = async (where?: TGetAuthors) => {
   const authors = await prisma.author.findMany({
     where: {
       name: {
-        contains: name,
+        contains: where?.name,
       },
     },
     take: 8,

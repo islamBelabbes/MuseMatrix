@@ -1,3 +1,4 @@
+import apiResponse from "@/lib/api-response";
 import { AppError } from "@/lib/error";
 import { flatZodError } from "@/lib/utils";
 import { createPostSchema } from "@/schema/posts";
@@ -26,7 +27,13 @@ export async function POST(req: NextRequest) {
     }
 
     await createPostUseCase(validated.data);
-    return NextResponse.json("post created successfully");
+
+    const response = apiResponse({
+      success: true,
+      message: "post created successfully",
+      status: 200,
+    });
+    return NextResponse.json(response, { status: response.status });
   } catch (error) {
     if (error instanceof AppError) {
       return NextResponse.json(error.message, { status: error.statusCode });

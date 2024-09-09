@@ -2,8 +2,8 @@ import { createAuthor, getAuthorById, getAuthors } from "@/data-access/authors";
 import { AppError } from "@/lib/error";
 import { type TCreateAuthor, type TGetAuthors } from "@/schema/author";
 
-export const getAuthorsUseCase = ({ name }: TGetAuthors) => {
-  return getAuthors({ name });
+export const getAuthorsUseCase = (where?: TGetAuthors) => {
+  return getAuthors(where);
 };
 
 export const getAuthorByIdUseCase = async (id: number) => {
@@ -13,8 +13,8 @@ export const getAuthorByIdUseCase = async (id: number) => {
   return author;
 };
 
-export const createAuthorUseCase = (data: TCreateAuthor) => {
-  return createAuthor(data);
-};
+// export const createAuthorUseCase = (data: TCreateAuthor) => {
+//   return createAuthor(data);
+// };
 
 // export const updateAuthorUseCase = () => {};
