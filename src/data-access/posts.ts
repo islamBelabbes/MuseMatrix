@@ -31,7 +31,7 @@ export const getPosts = async ({
     take: limit,
     skip,
     orderBy: {
-      updatedAt: "desc",
+      createdAt: "desc",
     },
   });
 

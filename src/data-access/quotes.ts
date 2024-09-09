@@ -8,9 +8,6 @@ export const getQuotes = async ({ limit, page }: TPaginationQuery) => {
   const quotes = await prisma.quote.findMany({
     take: limit,
     skip,
-    orderBy: {
-      createdAt: "desc",
-    },
     where: {
       OR: [
         { postId: null },
@@ -24,6 +21,9 @@ export const getQuotes = async ({ limit, page }: TPaginationQuery) => {
     include: {
       author: true,
       post: true,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
 

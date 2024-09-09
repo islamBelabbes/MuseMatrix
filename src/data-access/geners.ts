@@ -18,7 +18,7 @@ export const getGenres = async ({
     take: limit,
     skip,
     orderBy: {
-      updatedAt: "desc",
+      createdAt: "desc",
     },
   });
 

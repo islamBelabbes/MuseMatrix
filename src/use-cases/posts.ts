@@ -9,7 +9,6 @@ import {
 import { AppError } from "@/lib/error";
 import { safeAsync } from "@/lib/safe";
 import { utapi } from "@/lib/upload-thing";
-import { uploadThingGetFileKeyFromUrl } from "@/lib/utils";
 import {
   TCreatePost,
   TGetPostById,
@@ -100,11 +99,8 @@ export const updatePostUseCase = async (data: TUpdatePost) => {
 export const deletePostUseCase = async (id: number) => {
   const post = await getPostByIdUseCase({ id });
 
-  const fileKey = uploadThingGetFileKeyFromUrl(post.cover);
-  if (!fileKey) return true;
-
   // delete cover from UploadThing
-  const deletedFile = await safeAsync(utapi.deleteFiles(fileKey));
+  const deletedFile = await safeAsync(utapi.deleteFiles(post.cover));
   if (!deletedFile.success) throw new AppError("failed to delete file", 500);
 
   await deletePost(id);

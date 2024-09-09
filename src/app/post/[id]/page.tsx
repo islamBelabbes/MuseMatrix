@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import React, { cache } from "react";
 import { z } from "zod";
 import { generateSeoTitle } from "@/lib/utils";
+import { MEDIA_URL } from "@/lib/constants";
 
 type TParams = {
   params: {
@@ -57,7 +58,7 @@ async function PostPage({ params: { id } }: TParams) {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-[12px]">
               <AuthorAvatar
-                avatar={post.data.author.avatar}
+                avatar={`${MEDIA_URL}/${post.data.author.avatar}`}
                 className="size-9"
               />
               <span className="text-base font-medium">

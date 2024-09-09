@@ -12,7 +12,7 @@ export const getAuthors = async ({ name }: TGetAuthors) => {
     },
     take: 8,
     orderBy: {
-      updatedAt: "desc",
+      createdAt: "desc",
     },
   });
 

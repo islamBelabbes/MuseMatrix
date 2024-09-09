@@ -4,6 +4,8 @@ import React from "react";
 import Tag from "./tag";
 import Link from "next/link";
 import { TPost } from "@/dtos/posts";
+import { MEDIA_URL } from "@/lib/constants";
+import AuthorAvatar from "./author-avatar";
 
 // pick only the fields we need
 type TPostListProps = Pick<TPost, "id" | "title" | "cover"> & {
@@ -27,7 +29,7 @@ function PostList({ posts }: { posts: TPost[] }) {
             key={post.id}
             id={post.id}
             title={post.title}
-            cover={post.cover}
+            cover={`${MEDIA_URL}/${post.cover}`}
             author={{
               avatar: post.author.avatar,
               name: post.author.name,
@@ -47,8 +49,6 @@ function PostList({ posts }: { posts: TPost[] }) {
 }
 
 const PostCard = ({ ...post }: TPostListProps) => {
-  console.log(post.cover);
-
   return (
     <li className="flex flex-col items-center gap-4 rounded-xl border border-secondary p-4">
       <div className="relative h-[240px] w-full">
@@ -78,14 +78,10 @@ const PostCard = ({ ...post }: TPostListProps) => {
 
         <div className="mt-auto flex items-center gap-6">
           <div className="flex items-center gap-[12px]">
-            <div className="relative h-[36px] w-[36px] rounded-full">
-              <Image
-                src={post.author.avatar}
-                alt="avatar"
-                className="h-full w-full rounded-full object-cover"
-                fill
-              />
-            </div>
+            <AuthorAvatar
+              avatar={`${MEDIA_URL}/${post.author.avatar}`}
+              className="size-9"
+            />
             <span className="text-base font-medium">{post.author.name}</span>
           </div>
 

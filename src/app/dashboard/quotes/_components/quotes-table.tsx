@@ -6,6 +6,7 @@ import { TDataWithPagination } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 import TableActions from "../../_components/table-actions";
+import { MEDIA_URL } from "@/lib/constants";
 
 type TQuotesTable = Pick<TQuote, "author" | "quote">;
 
@@ -16,7 +17,12 @@ const columns: ColumnDef<TQuotesTable>[] = [
     header: "صورة صاحب المقولة",
     cell: ({ row }) => {
       const quote = row.original;
-      return <AuthorAvatar avatar={quote.author.avatar} className="size-14" />;
+      return (
+        <AuthorAvatar
+          avatar={`${MEDIA_URL}/${quote.author.avatar}`}
+          className="size-14"
+        />
+      );
     },
   },
   {
