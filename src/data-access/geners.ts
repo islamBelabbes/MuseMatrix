@@ -36,8 +36,8 @@ export const getGenreById = async (id: number) => {
   return genresDtoMapper(genre);
 };
 
-export const countGenres = async ({ title }: TGetGenres = {}) => {
-  return prisma.genre.count({ where: { title: { contains: title } } });
+export const countGenres = async (where?: TGetGenres) => {
+  return prisma.genre.count({ where: { title: { contains: where?.title } } });
 };
 
 export const createGenre = async ({ title }: TCreateGenre) => {

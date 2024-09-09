@@ -48,6 +48,8 @@ export const getPostsUseCase = async ({
   };
 };
 
+getPostsUseCase();
+
 export const getPostByIdUseCase = async ({ id, status }: TGetPostById) => {
   const post = await getPostById({ id, status });
   if (!post) throw new AppError("post not found", 404);

@@ -51,7 +51,7 @@ export const getPostById = async (where: TGetPostById) => {
   return postsDtoMapper(post);
 };
 
-export const countPosts = async (where: TGetPosts = {}) => {
+export const countPosts = async (where?: TGetPosts) => {
   return prisma.post.count({ where });
 };
 
