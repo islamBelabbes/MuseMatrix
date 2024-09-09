@@ -23,9 +23,8 @@ export const createPostSchema = PostSchema.pick({
   cover: ImageSchema,
 });
 
-export const updatePostSchema = createPostSchema.extend({
+export const updatePostSchema = createPostSchema.partial().extend({
   id: z.number().int(),
-  cover: createPostSchema.shape.cover.optional(),
 });
 
 export type TGetPosts = z.infer<typeof getPostsSchema>;

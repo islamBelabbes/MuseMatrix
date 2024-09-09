@@ -11,8 +11,8 @@ export async function POST(req: NextRequest) {
       title: formData.get("title") || undefined,
       content: formData.get("content") || undefined,
       cover: formData.get("cover"),
-      genreId: +(formData.get("genreId") as string) || NaN,
-      authorId: +(formData.get("authorId") as string) || NaN,
+      genreId: +(formData.get("genreId") as string) || undefined,
+      authorId: +(formData.get("authorId") as string) || undefined,
     };
 
     const validated = createPostSchema.safeParse(body);

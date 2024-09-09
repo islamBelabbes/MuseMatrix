@@ -47,6 +47,8 @@ function PostList({ posts }: { posts: TPost[] }) {
 }
 
 const PostCard = ({ ...post }: TPostListProps) => {
+  console.log(post.cover);
+
   return (
     <li className="flex flex-col items-center gap-4 rounded-xl border border-secondary p-4">
       <div className="relative h-[240px] w-full">

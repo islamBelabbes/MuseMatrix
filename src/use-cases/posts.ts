@@ -57,17 +57,9 @@ export const getPostByIdUseCase = async ({ id, status }: TGetPostById) => {
 
 export const createPostUseCase = async (data: TCreatePost) => {
   // make sure the genre and author exist
-  const genrePromise = safeAsync(getGenreByIdUseCase(data.genreId));
-  const authorPromise = safeAsync(getAuthorByIdUseCase(data.authorId));
-  const [genre, author] = await Promise.all([genrePromise, authorPromise]);
-
-  if (!genre.success) {
-    throw genre.error;
-  }
-
-  if (!author.success) {
-    throw author.error;
-  }
+  const genrePromise = getGenreByIdUseCase(data.genreId);
+  const authorPromise = getAuthorByIdUseCase(data.authorId);
+  await Promise.all([genrePromise, authorPromise]); // this will throw if any of the relations doesn't exist
 
   const file = await utapi.uploadFiles(data.cover);
   if (file.error) throw new AppError("error occurred while uploading", 500);
@@ -81,24 +73,39 @@ export const createPostUseCase = async (data: TCreatePost) => {
   return post.data;
 };
 
-export const updatePostUseCase = (data: TUpdatePost) => {
-  // return updatePost(data);
+export const updatePostUseCase = async (data: TUpdatePost) => {
+  const post = await getPostByIdUseCase({ id: data.id });
+
+  // check if the genre and author exist if provided
+  const genrePromise = data.genreId && getGenreByIdUseCase(data.genreId);
+  const authorPromise = data.authorId && getAuthorByIdUseCase(data.authorId);
+  await Promise.all([genrePromise, authorPromise].filter(Boolean)); // this will throw if any of the relations doesn't exist
+
+  let cover: undefined | string;
+  if (data.cover) {
+    const file = await utapi.uploadFiles(data.cover);
+    if (file.error) throw new AppError("error occurred while uploading", 500);
+    cover = file.data.key;
+    await utapi.deleteFiles(post.cover);
+  }
+
+  return updatePost({
+    ...data,
+    cover,
+  });
 };
 
 export const deletePostUseCase = async (id: number) => {
-  const post = await getPostById({ id });
-  if (!post) throw new AppError("post not found", 404);
+  const post = await getPostByIdUseCase({ id });
 
   const fileKey = uploadThingGetFileKeyFromUrl(post.cover);
-  if (fileKey) {
-    // delete cover from UploadThing
-    const deletedFile = await safeAsync(utapi.deleteFiles(fileKey));
-    if (!deletedFile.success) throw new AppError("failed to delete file", 500);
+  if (!fileKey) return true;
 
-    await deletePost(id);
-    revalidateTag("posts_listing");
-    return true;
-  }
+  // delete cover from UploadThing
+  const deletedFile = await safeAsync(utapi.deleteFiles(fileKey));
+  if (!deletedFile.success) throw new AppError("failed to delete file", 500);
 
+  await deletePost(id);
+  revalidateTag("posts_listing");
   return true;
 };

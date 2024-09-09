@@ -72,7 +72,7 @@ export const createPost = async (
 export const updatePost = async ({
   id,
   ...data
-}: Omit<TUpdatePost, "cover"> & { cover: Post["cover"] }) => {
+}: Omit<TUpdatePost, "cover"> & { cover?: Post["cover"] }) => {
   const post = await prisma.post.update({
     where: {
       id,
