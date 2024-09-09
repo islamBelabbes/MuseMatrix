@@ -22,6 +22,7 @@ export const getPosts = async ({
       ...where,
       title: {
         contains: title,
+        mode: "insensitive",
       },
     },
     include: {

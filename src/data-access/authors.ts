@@ -8,6 +8,7 @@ export const getAuthors = async (where?: TGetAuthors) => {
     where: {
       name: {
         contains: where?.name,
+        mode: "insensitive",
       },
     },
     take: 8,

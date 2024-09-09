@@ -13,6 +13,7 @@ export const getGenres = async ({
     where: {
       title: {
         contains: title,
+        mode: "insensitive",
       },
     },
     take: limit,
