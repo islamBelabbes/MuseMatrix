@@ -1,17 +1,17 @@
 import { QuoteSchema } from "prisma/generated/zod";
 import { z } from "zod";
+import { IdSchema } from "./schema";
 
 export const createQuoteSchema = QuoteSchema.pick({
-  authorId: true,
-  postId: true,
   quote: true,
   color: true,
 }).extend({
-  postId: QuoteSchema.shape.postId.optional(),
+  postId: IdSchema,
+  authorId: IdSchema,
 });
 
 export const updateQuoteSchema = createQuoteSchema.extend({
-  id: z.number().int(),
+  id: IdSchema,
 });
 
 export type TCreateQuote = z.infer<typeof createQuoteSchema>;

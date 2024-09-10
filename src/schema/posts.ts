@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { PostSchema } from "prisma/generated/zod";
-import { ImageSchema } from "./schema";
+import { IdSchema, ImageSchema } from "./schema";
 
 export const getPostsSchema = z.object({
   status: PostSchema.shape.status.optional().catch("Draft"),
@@ -8,23 +8,22 @@ export const getPostsSchema = z.object({
   genreId: PostSchema.shape.genreId.optional(),
 });
 
-export const getPostByIdSchema = PostSchema.pick({
-  id: true,
-}).extend({
+export const getPostByIdSchema = z.object({
+  id: IdSchema,
   status: getPostsSchema.shape.status,
 });
 
 export const createPostSchema = PostSchema.pick({
   title: true,
   content: true,
-  genreId: true,
-  authorId: true,
 }).extend({
   cover: ImageSchema,
+  genreId: IdSchema,
+  authorId: IdSchema,
 });
 
 export const updatePostSchema = createPostSchema.partial().extend({
-  id: z.number().int(),
+  id: IdSchema,
 });
 
 export type TGetPosts = z.infer<typeof getPostsSchema>;

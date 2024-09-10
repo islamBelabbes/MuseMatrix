@@ -12,8 +12,6 @@ type ApiErrorResponse<T> = {
   errors?: unknown;
 };
 
-type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse<T>;
-
 type ApiResponseParams<T> = {
   success: boolean;
   status: number;
@@ -21,6 +19,8 @@ type ApiResponseParams<T> = {
   data?: T;
   errors?: unknown;
 };
+
+export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse<T>;
 
 const apiResponse = <T>({
   data,
