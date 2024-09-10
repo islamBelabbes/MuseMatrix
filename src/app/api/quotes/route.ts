@@ -13,7 +13,7 @@ const postHandler = async (req: NextRequest) => {
   const response = apiResponse({
     success: true,
     message: "quote created successfully",
-    status: 200,
+    status: 201,
   });
   return NextResponse.json(response, { status: response.status });
 };

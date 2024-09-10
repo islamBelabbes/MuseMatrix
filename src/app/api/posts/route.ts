@@ -1,5 +1,4 @@
 import apiResponse from "@/lib/api-response";
-import { AppError } from "@/lib/error";
 import withErrorHandler from "@/lib/with-error-handling";
 import { createPostSchema } from "@/schema/posts";
 import { createPostUseCase } from "@/use-cases/posts";
@@ -28,7 +27,7 @@ export async function postHandler(req: NextRequest) {
   const response = apiResponse({
     success: true,
     message: "post created successfully",
-    status: 200,
+    status: 201,
   });
   return NextResponse.json(response, { status: response.status });
 }

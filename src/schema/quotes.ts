@@ -10,7 +10,7 @@ export const createQuoteSchema = QuoteSchema.pick({
   authorId: IdSchema,
 });
 
-export const updateQuoteSchema = createQuoteSchema.extend({
+export const updateQuoteSchema = createQuoteSchema.partial().extend({
   id: IdSchema,
 });
 
