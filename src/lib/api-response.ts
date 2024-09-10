@@ -1,15 +1,15 @@
-type ApiSuccessResponse<T> = {
+export type ApiSuccessResponse<T> = {
   success: true;
   status: number;
   message: string;
   data?: T;
 };
 
-type ApiErrorResponse<T> = {
+export type ApiErrorResponse = {
   success: false;
   status: number;
   message: string;
-  errors?: unknown;
+  errors?: any;
 };
 
 type ApiResponseParams<T> = {
@@ -17,10 +17,10 @@ type ApiResponseParams<T> = {
   status: number;
   message: string;
   data?: T;
-  errors?: unknown;
+  errors?: any;
 };
 
-export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse<T>;
+export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
 
 const apiResponse = <T>({
   data,

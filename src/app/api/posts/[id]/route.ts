@@ -1,5 +1,5 @@
 import apiResponse from "@/lib/api-response";
-import withErrorHandling from "@/lib/with-error-handling";
+import withErrorHandler from "@/lib/with-error-handling";
 import { updatePostSchema } from "@/schema/posts";
 import { IdSchema } from "@/schema/schema";
 import { deletePostUseCase, updatePostUseCase } from "@/use-cases/posts";
@@ -41,5 +41,5 @@ export async function deleteHandler(
   return new Response(null, { status: 204 });
 }
 
-export const PUT = withErrorHandling(putHandler);
-export const DELETE = withErrorHandling(deleteHandler);
+export const PUT = withErrorHandler(putHandler);
+export const DELETE = withErrorHandler(deleteHandler);

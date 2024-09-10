@@ -1,6 +1,6 @@
 import apiResponse from "@/lib/api-response";
 import { AppError } from "@/lib/error";
-import withErrorHandling from "@/lib/with-error-handling";
+import withErrorHandler from "@/lib/with-error-handling";
 import { createPostSchema } from "@/schema/posts";
 import { createPostUseCase } from "@/use-cases/posts";
 import { NextRequest, NextResponse } from "next/server";
@@ -33,5 +33,5 @@ export async function postHandler(req: NextRequest) {
   return NextResponse.json(response, { status: response.status });
 }
 
-export const GET = withErrorHandling(getHandler);
-export const POST = withErrorHandling(postHandler);
+export const GET = withErrorHandler(getHandler);
+export const POST = withErrorHandler(postHandler);

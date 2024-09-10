@@ -1,5 +1,5 @@
 import apiResponse from "@/lib/api-response";
-import withErrorHandling from "@/lib/with-error-handling";
+import withErrorHandler from "@/lib/with-error-handling";
 import { getAuthorsSchema } from "@/schema/author";
 import { getAuthorsUseCase } from "@/use-cases/authors";
 import { NextRequest, NextResponse } from "next/server";
@@ -20,4 +20,4 @@ export async function getHandler(req: NextRequest) {
   return NextResponse.json(response, { status: response.status });
 }
 
-export const GET = withErrorHandling(getHandler);
+export const GET = withErrorHandler(getHandler);
