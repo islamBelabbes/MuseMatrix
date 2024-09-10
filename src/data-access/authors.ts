@@ -1,17 +1,24 @@
 import { authorsDtoMapper } from "@/dtos/authors";
 import prisma from "@/lib/prisma";
 import { TCreateAuthor, TGetAuthors } from "@/schema/author";
+import { TPaginationQuery } from "@/types/types";
 import { Author } from "@prisma/client";
 
-export const getAuthors = async (where?: TGetAuthors) => {
+export const getAuthors = async ({
+  name,
+  limit,
+  page,
+}: TGetAuthors & TPaginationQuery = {}) => {
+  const skip = page && limit && (page - 1) * limit;
   const authors = await prisma.author.findMany({
     where: {
       name: {
-        contains: where?.name,
+        contains: name,
         mode: "insensitive",
       },
     },
-    take: 8,
+    take: limit,
+    skip,
     orderBy: {
       createdAt: "desc",
     },
@@ -29,6 +36,17 @@ export const getAuthorById = async (id: number) => {
 
   if (!author) return null;
   return authorsDtoMapper(author);
+};
+
+export const countAuthors = async (where?: TGetAuthors) => {
+  return prisma.author.count({
+    where: {
+      name: {
+        contains: where?.name,
+        mode: "insensitive",
+      },
+    },
+  });
 };
 
 export const createAuthor = async (

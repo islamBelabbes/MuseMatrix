@@ -1,9 +1,30 @@
-import { createAuthor, getAuthorById, getAuthors } from "@/data-access/authors";
+import {
+  countAuthors,
+  createAuthor,
+  getAuthorById,
+  getAuthors,
+} from "@/data-access/authors";
 import { AppError } from "@/lib/error";
 import { type TCreateAuthor, type TGetAuthors } from "@/schema/author";
+import { TPaginationQuery } from "@/types/types";
 
-export const getAuthorsUseCase = (where?: TGetAuthors) => {
-  return getAuthors(where);
+export const getAuthorsUseCase = async ({
+  limit = 5,
+  page = 1,
+  name,
+}: TGetAuthors & TPaginationQuery = {}) => {
+  const countPromise = countAuthors({ name });
+  const authorsPromise = getAuthors({ limit, page, name });
+
+  const [count, authors] = await Promise.all([countPromise, authorsPromise]);
+  const totalPages = Math.ceil(count / limit);
+
+  return {
+    data: authors,
+    count,
+    totalPages,
+    hasNext: page < totalPages,
+  };
 };
 
 export const getAuthorByIdUseCase = async (id: number) => {
