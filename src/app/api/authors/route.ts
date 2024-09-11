@@ -12,6 +12,7 @@ export async function getHandler(req: NextRequest) {
   const limit = url.searchParams.get("limit");
 
   const pagination = PaginationSchema.parse({ page, limit });
+  console.log(pagination);
   const validatedBody = getAuthorsSchema.parse({ name });
 
   const authors = await getAuthorsUseCase({ ...validatedBody, ...pagination });

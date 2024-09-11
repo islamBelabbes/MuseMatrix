@@ -23,7 +23,11 @@ const cachedPost = cache((id: number) =>
 );
 
 export async function generateStaticParams() {
-  const posts = await getPostsUseCase({ status: "Published" });
+  const posts = await getPostsUseCase({
+    status: "Published",
+    page: 1,
+    limit: -1,
+  });
   return posts.data.map((post) => ({
     id: post.id.toString(),
   }));

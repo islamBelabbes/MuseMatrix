@@ -8,7 +8,9 @@ export const getGenres = async ({
   limit,
   page,
 }: TQueryWithPagination<TGetGenres>) => {
-  const skip = page && limit && (page - 1) * limit;
+  const skip = limit === -1 ? undefined : (page - 1) * limit;
+  const take = limit === -1 ? undefined : limit;
+
   const genres = await prisma.genre.findMany({
     where: {
       title: {
@@ -16,7 +18,7 @@ export const getGenres = async ({
         mode: "insensitive",
       },
     },
-    take: limit,
+    take,
     skip,
     orderBy: {
       createdAt: "desc",

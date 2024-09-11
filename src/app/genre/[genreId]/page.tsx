@@ -26,7 +26,7 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const genres = await getGenresUseCase();
+  const genres = await getGenresUseCase({ limit: -1, page: 1 });
 
   return genres.data.map((genre) => ({
     genreId: genre.id.toString(),
@@ -40,6 +40,8 @@ async function Page({ params: { genreId } }: { params: { genreId: string } }) {
   const posts = await getPostsUseCase({
     genreId: _genreId,
     status: "Published",
+    limit: 5,
+    page: 1,
   });
 
   return <main className="app">{<PostList posts={posts.data} />}</main>;

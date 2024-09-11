@@ -15,8 +15,8 @@ export const getPosts = async ({
   title,
   ...where
 }: TQueryWithPagination<TGetPosts>) => {
-  const skip = page && limit && (page - 1) * limit;
-
+  const skip = limit === -1 ? undefined : (page - 1) * limit;
+  const take = limit === -1 ? undefined : limit;
   const post = await prisma.post.findMany({
     where: {
       ...where,
@@ -29,7 +29,7 @@ export const getPosts = async ({
       author: true,
       genre: true,
     },
-    take: limit,
+    take,
     skip,
     orderBy: {
       createdAt: "desc",

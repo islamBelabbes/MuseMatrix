@@ -7,7 +7,8 @@ const generatePagination = ({
   page: number;
   limit: number;
 }) => {
-  const totalPages = Math.ceil(total / limit);
+  const isUnlimited = limit === -1;
+  const totalPages = isUnlimited ? 1 : Math.ceil(total / limit);
 
   return {
     total,

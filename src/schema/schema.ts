@@ -16,5 +16,7 @@ export const ImageSchema = z
 
 export const PaginationSchema = z.object({
   page: PageSchema,
-  limit: PageSchema.removeCatch().catch(5),
+  limit: PageSchema.removeCatch()
+    .or(z.coerce.number().pipe(z.literal(-1)))
+    .catch(5),
 });

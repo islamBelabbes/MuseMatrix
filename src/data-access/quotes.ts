@@ -4,10 +4,10 @@ import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";
 import { TPaginationQuery } from "@/types/types";
 
 export const getQuotes = async ({ limit, page }: TPaginationQuery) => {
-  const skip = page && limit && (page - 1) * limit;
+  const skip = limit === -1 ? undefined : (page - 1) * limit;
+  const take = limit === -1 ? undefined : limit;
+
   const quotes = await prisma.quote.findMany({
-    take: limit,
-    skip,
     where: {
       OR: [
         { postId: null },
@@ -22,6 +22,8 @@ export const getQuotes = async ({ limit, page }: TPaginationQuery) => {
       author: true,
       post: true,
     },
+    take,
+    skip,
     orderBy: {
       createdAt: "desc",
     },
