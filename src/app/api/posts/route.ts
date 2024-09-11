@@ -1,13 +1,30 @@
 import apiResponse from "@/lib/api-response";
 import withErrorHandler from "@/lib/with-error-handling";
-import { createPostSchema } from "@/schema/posts";
-import { createPostUseCase } from "@/use-cases/posts";
+import { createPostSchema, getPostsSchema } from "@/schema/posts";
+import { PaginationSchema } from "@/schema/schema";
+import { createPostUseCase, getPostsUseCase } from "@/use-cases/posts";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function getHandler() {
-  return new Response(null, {
-    status: 204,
+export async function getHandler(req: NextRequest) {
+  const url = new URL(req.url);
+  const status = "Published";
+  const title = url.searchParams.get("title") || undefined;
+  const genreId = url.searchParams.get("genreId") || undefined;
+  const page = url.searchParams.get("page");
+  const limit = url.searchParams.get("limit");
+
+  const validatedBody = getPostsSchema.parse({ status, title, genreId });
+  const pagination = PaginationSchema.parse({ page, limit });
+
+  const posts = await getPostsUseCase({ ...validatedBody, ...pagination });
+
+  const response = apiResponse({
+    success: true,
+    status: 200,
+    message: "posts fetched successfully",
+    data: posts,
   });
+  return NextResponse.json(response, { status: response.status });
 }
 
 export async function postHandler(req: NextRequest) {
