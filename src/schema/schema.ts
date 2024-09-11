@@ -13,3 +13,8 @@ export const ImageSchema = z
     if (!file) return false;
     return ["image/png", "image/jpeg", "image/jpg"].includes(file.type);
   }, "File must be a PNG");
+
+export const PaginationSchema = z.object({
+  page: PageSchema,
+  limit: PageSchema.removeCatch().catch(5),
+});

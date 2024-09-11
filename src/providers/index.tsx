@@ -1,3 +1,4 @@
+import { ReachQueryProvider } from "./react-query-provider";
 import { ThemeProvider } from "./theme-provider";
 
 function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -8,7 +9,7 @@ function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
       enableSystem
       disableTransitionOnChange
     >
-      {children}
+      <ReachQueryProvider>{children}</ReachQueryProvider>
     </ThemeProvider>
   );
 }

@@ -1,7 +1,9 @@
 export type TPaginationQuery = {
-  page?: number;
-  limit?: number;
+  page: number;
+  limit: number;
 };
+
+export type TQueryWithPagination<T> = TPaginationQuery & T;
 
 export type TNavMenu = {
   name: string;

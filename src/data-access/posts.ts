@@ -6,7 +6,7 @@ import {
   TGetPosts,
   TUpdatePost,
 } from "@/schema/posts";
-import { TPaginationQuery } from "@/types/types";
+import { TQueryWithPagination } from "@/types/types";
 import { Post } from "@prisma/client";
 
 export const getPosts = async ({
@@ -14,7 +14,7 @@ export const getPosts = async ({
   page,
   title,
   ...where
-}: TPaginationQuery & TGetPosts) => {
+}: TQueryWithPagination<TGetPosts>) => {
   const skip = page && limit && (page - 1) * limit;
 
   const post = await prisma.post.findMany({

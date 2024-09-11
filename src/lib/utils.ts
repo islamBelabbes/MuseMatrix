@@ -17,4 +17,14 @@ export const flatZodError = (error: z.ZodError) => {
   }));
 };
 
-// export const generatePagination = () => {}
+export function generateSearchParams(params: {
+  [key: string]: string | number | undefined;
+}) {
+  const searchParams = new URLSearchParams();
+  Object.keys(params).forEach((key) => {
+    if (!params[key]) return;
+    searchParams.append(key, params[key]!.toString());
+  });
+
+  return searchParams;
+}

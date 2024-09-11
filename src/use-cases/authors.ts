@@ -5,14 +5,16 @@ import {
   getAuthors,
 } from "@/data-access/authors";
 import { AppError } from "@/lib/error";
+import { safeAsync } from "@/lib/safe";
+import { utapi } from "@/lib/upload-thing";
 import { type TCreateAuthor, type TGetAuthors } from "@/schema/author";
-import { TPaginationQuery } from "@/types/types";
+import { TQueryWithPagination } from "@/types/types";
 
 export const getAuthorsUseCase = async ({
-  limit = 5,
-  page = 1,
+  limit,
+  page,
   name,
-}: TGetAuthors & TPaginationQuery = {}) => {
+}: TQueryWithPagination<TGetAuthors>) => {
   const countPromise = countAuthors({ name });
   const authorsPromise = getAuthors({ limit, page, name });
 
@@ -34,8 +36,20 @@ export const getAuthorByIdUseCase = async (id: number) => {
   return author;
 };
 
-// export const createAuthorUseCase = (data: TCreateAuthor) => {
-//   return createAuthor(data);
-// };
+export const createAuthorUseCase = async (data: TCreateAuthor) => {
+  const file = await utapi.uploadFiles(data.avatar);
+  if (file.error) throw new AppError("avatar upload failed", 500);
+
+  const author = await safeAsync(
+    createAuthor({ ...data, avatar: file.data.key }),
+  );
+
+  if (!author.success) {
+    await utapi.deleteFiles(file.data.key);
+    throw author.error;
+  }
+
+  return author.data;
+};
 
 // export const updateAuthorUseCase = () => {};

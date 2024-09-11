@@ -15,7 +15,7 @@ import {
   TGetPosts,
   TUpdatePost,
 } from "@/schema/posts";
-import { TPaginationQuery } from "@/types/types";
+import { TQueryWithPagination } from "@/types/types";
 import { revalidateTag } from "next/cache";
 import { getGenreByIdUseCase } from "./genres";
 import { getAuthorByIdUseCase } from "./authors";
@@ -26,7 +26,7 @@ export const getPostsUseCase = async ({
   genreId,
   limit = 5,
   page = 1,
-}: TPaginationQuery & TGetPosts = {}) => {
+}: TQueryWithPagination<TGetPosts>) => {
   const countPromise = countPosts({ status, title });
   const dataPromise = getPosts({
     status,
@@ -46,8 +46,6 @@ export const getPostsUseCase = async ({
     hasNext: page < totalPages,
   };
 };
-
-getPostsUseCase();
 
 export const getPostByIdUseCase = async ({ id, status }: TGetPostById) => {
   const post = await getPostById({ id, status });

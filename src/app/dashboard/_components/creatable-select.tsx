@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   CommandDialog,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
@@ -18,37 +17,55 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useState } from "react";
+import { CommandLoading } from "cmdk";
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  // {
-  //   value: "nuxt.js",
-  //   label: "Nuxt.js",
-  // },
-  // {
-  //   value: "remix",
-  //   label: "Remix",
-  // },
-  // {
-  //   value: "astro",
-  //   label: "Astro",
-  // },
-];
-
-type TCreatableSelectProps = {
-  placeholder?: string;
+export type TSelectData = {
+  label: string;
+  value: string;
 };
 
-function CreatableSelect({ placeholder = "Select..." }: TCreatableSelectProps) {
+type TCreatableSelectProps = {
+  data: TSelectData[];
+  value: TSelectData;
+  onChange: (selected: TSelectData) => void;
+  search: string;
+  setSearch: (search: string) => void;
+  placeholder?: string;
+  isLoading?: boolean;
+  onCreate?: (search: string, setOpen: (open: boolean) => void) => void;
+};
+
+function CreatableSelect({
+  placeholder = "Select...",
+  data,
+  isLoading,
+  onChange,
+  value,
+  search,
+  setSearch,
+  onCreate,
+}: TCreatableSelectProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+
+  const resetValue = () => {
+    return onChange({
+      label: "",
+      value: "",
+    });
+  };
+
+  const handleOnSelect = (selectedValue: string, item: TSelectData) => {
+    if (selectedValue === value.value) {
+      resetValue();
+    } else {
+      onChange({
+        label: item.label,
+        value: item.value,
+      });
+    }
+
+    return setOpen(false);
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -59,8 +76,8 @@ function CreatableSelect({ placeholder = "Select..." }: TCreatableSelectProps) {
           aria-expanded={open}
           className="!my-0 w-full justify-between px-3 py-2"
         >
-          {value ? (
-            frameworks.find((framework) => framework.value === value)?.label
+          {value.label ? (
+            value.label
           ) : (
             <span className="text-muted-foreground">{placeholder}</span>
           )}
@@ -69,30 +86,48 @@ function CreatableSelect({ placeholder = "Select..." }: TCreatableSelectProps) {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <CommandDialog open={open} onOpenChange={setOpen}>
-          <CommandInput placeholder={placeholder} className="outline-0" />
+          <CommandInput
+            placeholder={placeholder}
+            className="outline-0"
+            value={search}
+            onValueChange={setSearch}
+          />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
-            <CommandGroup>
-              {frameworks.map((framework) => (
+            {!data.length && !isLoading && (
+              <CommandItem
+                className="cursor-pointer"
+                onSelect={() => onCreate?.(search, setOpen)}
+              >
+                انشاء {search}
+              </CommandItem>
+            )}
+
+            {isLoading && (
+              <CommandLoading className="py-2 text-center">
+                جاري التحميل...
+              </CommandLoading>
+            )}
+
+            {!isLoading &&
+              data.map((item) => (
                 <CommandItem
-                  className="flex justify-between"
-                  key={framework.value}
-                  value={framework.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                    setOpen(false);
+                  className="flex cursor-pointer justify-between"
+                  key={item.value}
+                  value={item.value}
+                  onSelect={(selected) => {
+                    return handleOnSelect(selected, item);
                   }}
                 >
-                  {framework.label}
+                  {item.label}
+
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === framework.value ? "opacity-100" : "opacity-0",
+                      value?.value === item.value ? "opacity-100" : "opacity-0",
                     )}
                   />
                 </CommandItem>
               ))}
-            </CommandGroup>
           </CommandList>
         </CommandDialog>
       </PopoverContent>

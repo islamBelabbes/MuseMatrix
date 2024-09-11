@@ -14,7 +14,7 @@ import { revalidateTag } from "next/cache";
 export const getQuotesUseCase = async ({
   page = 1,
   limit = 5,
-}: TPaginationQuery = {}) => {
+}: TPaginationQuery) => {
   const [count, data] = await Promise.all([
     countQuotes(),
     getQuotes({ page, limit }),

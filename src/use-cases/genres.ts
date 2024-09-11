@@ -6,13 +6,13 @@ import {
 } from "@/data-access/geners";
 import { AppError } from "@/lib/error";
 import { TCreateGenre, TGetGenres } from "@/schema/genre";
-import { TPaginationQuery } from "@/types/types";
+import { TQueryWithPagination } from "@/types/types";
 
 export const getGenresUseCase = async ({
   limit = 5,
   page = 1,
   title,
-}: TGetGenres & TPaginationQuery = {}) => {
+}: TQueryWithPagination<TGetGenres>) => {
   const countPromise = countGenres({ title });
   const genresPromise = getGenres({ limit, page, title });
 

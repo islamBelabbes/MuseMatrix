@@ -1,13 +1,13 @@
 import { genresDtoMapper } from "@/dtos/geners";
 import prisma from "@/lib/prisma";
 import { TCreateGenre, TGetGenres } from "@/schema/genre";
-import { TPaginationQuery } from "@/types/types";
+import { TQueryWithPagination } from "@/types/types";
 
 export const getGenres = async ({
   title,
   limit,
   page,
-}: TGetGenres & TPaginationQuery = {}) => {
+}: TQueryWithPagination<TGetGenres>) => {
   const skip = page && limit && (page - 1) * limit;
   const genres = await prisma.genre.findMany({
     where: {
