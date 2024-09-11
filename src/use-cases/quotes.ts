@@ -10,22 +10,20 @@ import { AppError } from "@/lib/error";
 import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";
 import { TPaginationQuery } from "@/types/types";
 import { revalidateTag } from "next/cache";
+import generatePagination from "@/lib/generate-pagination";
 
 export const getQuotesUseCase = async ({
   page = 1,
   limit = 5,
 }: TPaginationQuery) => {
-  const [count, data] = await Promise.all([
+  const [total, data] = await Promise.all([
     countQuotes(),
     getQuotes({ page, limit }),
   ]);
 
-  const totalPages = Math.ceil(count / limit);
   return {
     data,
-    count,
-    totalPages,
-    hasNext: page < totalPages,
+    ...generatePagination({ total, page, limit }),
   };
 };
 

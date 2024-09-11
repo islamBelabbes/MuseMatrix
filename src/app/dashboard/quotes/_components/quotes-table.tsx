@@ -67,7 +67,7 @@ function QuotesTable({ limit, quotes }: TQuoteTableProps) {
       data={quotes.data}
       columns={columns}
       limit={limit}
-      total={quotes.count}
+      total={quotes.total}
       withPagination
     />
   );

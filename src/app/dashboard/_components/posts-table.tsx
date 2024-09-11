@@ -59,7 +59,7 @@ export default function PostsTable({ posts, limit }: TPostTableProps) {
       data={posts.data}
       columns={columns}
       limit={limit}
-      total={posts.count}
+      total={posts.total}
       withPagination
     />
   );

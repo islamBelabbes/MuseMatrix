@@ -19,6 +19,7 @@ import { TQueryWithPagination } from "@/types/types";
 import { revalidateTag } from "next/cache";
 import { getGenreByIdUseCase } from "./genres";
 import { getAuthorByIdUseCase } from "./authors";
+import generatePagination from "@/lib/generate-pagination";
 
 export const getPostsUseCase = async ({
   status,
@@ -36,14 +37,11 @@ export const getPostsUseCase = async ({
     page,
   });
 
-  const [count, data] = await Promise.all([countPromise, dataPromise]);
-  const totalPages = Math.ceil(count / limit);
+  const [total, data] = await Promise.all([countPromise, dataPromise]);
 
   return {
     data,
-    count,
-    totalPages,
-    hasNext: page < totalPages,
+    ...generatePagination({ total, page, limit }),
   };
 };
 

@@ -1,3 +1,5 @@
+import { TPagination } from "@/lib/generate-pagination";
+
 export type TPaginationQuery = {
   page: number;
   limit: number;
@@ -10,9 +12,6 @@ export type TNavMenu = {
   href: string;
 };
 
-export type TDataWithPagination<T> = {
+export type TDataWithPagination<T> = TPagination & {
   data: T;
-  count: number;
-  totalPages: number;
-  hasNext: boolean;
 };

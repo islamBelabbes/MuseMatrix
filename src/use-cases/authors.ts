@@ -9,6 +9,7 @@ import { safeAsync } from "@/lib/safe";
 import { utapi } from "@/lib/upload-thing";
 import { type TCreateAuthor, type TGetAuthors } from "@/schema/author";
 import { TQueryWithPagination } from "@/types/types";
+import generatePagination from "@/lib/generate-pagination";
 
 export const getAuthorsUseCase = async ({
   limit,
@@ -18,14 +19,11 @@ export const getAuthorsUseCase = async ({
   const countPromise = countAuthors({ name });
   const authorsPromise = getAuthors({ limit, page, name });
 
-  const [count, authors] = await Promise.all([countPromise, authorsPromise]);
-  const totalPages = Math.ceil(count / limit);
+  const [total, authors] = await Promise.all([countPromise, authorsPromise]);
 
   return {
     data: authors,
-    count,
-    totalPages,
-    hasNext: page < totalPages,
+    ...generatePagination({ total, page, limit }),
   };
 };
 

@@ -7,6 +7,7 @@ import {
 import { AppError } from "@/lib/error";
 import { TCreateGenre, TGetGenres } from "@/schema/genre";
 import { TQueryWithPagination } from "@/types/types";
+import generatePagination from "@/lib/generate-pagination";
 
 export const getGenresUseCase = async ({
   limit = 5,
@@ -16,14 +17,11 @@ export const getGenresUseCase = async ({
   const countPromise = countGenres({ title });
   const genresPromise = getGenres({ limit, page, title });
 
-  const [count, genres] = await Promise.all([countPromise, genresPromise]);
-  const totalPages = Math.ceil(count / limit);
+  const [total, genres] = await Promise.all([countPromise, genresPromise]);
 
   return {
     data: genres,
-    count,
-    totalPages,
-    hasNext: page < totalPages,
+    ...generatePagination({ total, page, limit }),
   };
 };
 
