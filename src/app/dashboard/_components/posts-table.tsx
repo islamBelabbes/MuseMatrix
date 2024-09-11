@@ -5,6 +5,7 @@ import { TDataWithPagination } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/app/dashboard/_components/data-table";
 import TableActions from "./table-actions";
+import { MEDIA_URL } from "@/lib/constants";
 
 type TPostTable = Pick<TPost, "title" | "cover">;
 
@@ -18,7 +19,7 @@ const columns: ColumnDef<TPostTable>[] = [
       return (
         <div className="relative h-[50px] w-[50px]">
           <Image
-            src={post.cover}
+            src={`${MEDIA_URL}/${post.cover}`}
             alt="image"
             fill
             className="object-contain"
