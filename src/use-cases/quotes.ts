@@ -15,7 +15,7 @@ import generatePagination from "@/lib/generate-pagination";
 export const getQuotesUseCase = async ({
   page = 1,
   limit = 5,
-}: TPaginationQuery) => {
+}: TPaginationQuery = {}) => {
   const [total, data] = await Promise.all([
     countQuotes(),
     getQuotes({ page, limit }),

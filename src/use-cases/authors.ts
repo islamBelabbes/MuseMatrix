@@ -15,7 +15,7 @@ export const getAuthorsUseCase = async ({
   limit,
   page,
   name,
-}: TQueryWithPagination<TGetAuthors>) => {
+}: TQueryWithPagination<TGetAuthors> = {}) => {
   const countPromise = countAuthors({ name });
   const authorsPromise = getAuthors({ limit, page, name });
 

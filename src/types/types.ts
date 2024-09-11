@@ -1,8 +1,8 @@
 import { TPagination } from "@/lib/generate-pagination";
 
 export type TPaginationQuery = {
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
 };
 
 export type TQueryWithPagination<T extends object> = TPaginationQuery & T;

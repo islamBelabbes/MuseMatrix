@@ -10,10 +10,10 @@ import { TQueryWithPagination } from "@/types/types";
 import generatePagination from "@/lib/generate-pagination";
 
 export const getGenresUseCase = async ({
-  limit = 5,
-  page = 1,
+  limit,
+  page,
   title,
-}: TQueryWithPagination<TGetGenres>) => {
+}: TQueryWithPagination<TGetGenres> = {}) => {
   const countPromise = countGenres({ title });
   const genresPromise = getGenres({ limit, page, title });
 

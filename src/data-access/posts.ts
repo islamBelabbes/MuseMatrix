@@ -1,4 +1,5 @@
 import { postsDtoMapper } from "@/dtos/posts";
+import { PAGINATION } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import {
   TCreatePost,
@@ -10,8 +11,8 @@ import { TQueryWithPagination } from "@/types/types";
 import { Post } from "@prisma/client";
 
 export const getPosts = async ({
-  limit,
-  page,
+  limit = PAGINATION.LIMIT,
+  page = PAGINATION.PAGE,
   title,
   ...where
 }: TQueryWithPagination<TGetPosts>) => {

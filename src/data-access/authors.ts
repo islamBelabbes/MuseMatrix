@@ -1,4 +1,5 @@
 import { authorsDtoMapper } from "@/dtos/authors";
+import { PAGINATION } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import { TCreateAuthor, TGetAuthors } from "@/schema/author";
 import { TQueryWithPagination } from "@/types/types";
@@ -6,8 +7,8 @@ import { Author } from "@prisma/client";
 
 export const getAuthors = async ({
   name,
-  limit,
-  page,
+  limit = PAGINATION.LIMIT,
+  page = PAGINATION.PAGE,
 }: TQueryWithPagination<TGetAuthors>) => {
   const skip = limit === -1 ? undefined : (page - 1) * limit;
   const take = limit === -1 ? undefined : limit;

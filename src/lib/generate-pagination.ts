@@ -1,11 +1,13 @@
+import { PAGINATION } from "./constants";
+
 const generatePagination = ({
-  limit,
-  page,
+  limit = PAGINATION.LIMIT,
+  page = PAGINATION.PAGE,
   total,
 }: {
+  limit?: number;
+  page?: number;
   total: number;
-  page: number;
-  limit: number;
 }) => {
   const isUnlimited = limit === -1;
   const totalPages = isUnlimited ? 1 : Math.ceil(total / limit);
