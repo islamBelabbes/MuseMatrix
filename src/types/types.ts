@@ -3,7 +3,7 @@ export type TPaginationQuery = {
   limit: number;
 };
 
-export type TQueryWithPagination<T> = TPaginationQuery & T;
+export type TQueryWithPagination<T extends object> = TPaginationQuery & T;
 
 export type TNavMenu = {
   name: string;
