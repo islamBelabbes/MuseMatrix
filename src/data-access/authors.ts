@@ -10,8 +10,9 @@ export const getAuthors = async ({
   limit = PAGINATION.LIMIT,
   page = PAGINATION.PAGE,
 }: TQueryWithPagination<TGetAuthors>) => {
-  const skip = limit === -1 ? undefined : (page - 1) * limit;
-  const take = limit === -1 ? undefined : limit;
+  const disablePaginate = limit === -1;
+  const skip = disablePaginate ? undefined : (page - 1) * limit;
+  const take = disablePaginate ? undefined : limit;
 
   const authors = await prisma.author.findMany({
     where: {

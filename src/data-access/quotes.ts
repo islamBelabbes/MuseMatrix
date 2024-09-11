@@ -1,11 +1,16 @@
 import { quotesDtoMapper } from "@/dtos/quotes";
+import { PAGINATION } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";
 import { TPaginationQuery } from "@/types/types";
 
-export const getQuotes = async ({ limit, page }: TPaginationQuery) => {
-  const skip = limit === -1 ? undefined : (page - 1) * limit;
-  const take = limit === -1 ? undefined : limit;
+export const getQuotes = async ({
+  limit = PAGINATION.LIMIT,
+  page = PAGINATION.PAGE,
+}: TPaginationQuery) => {
+  const disablePaginate = limit === -1;
+  const skip = disablePaginate ? undefined : (page - 1) * limit;
+  const take = disablePaginate ? undefined : limit;
 
   const quotes = await prisma.quote.findMany({
     where: {
