@@ -22,13 +22,13 @@ export async function putHandler(
   const validatedBody = updatePostSchema.parse(body);
 
   await updatePostUseCase(validatedBody);
-  return NextResponse.json(
-    apiResponse({
-      success: true,
-      message: "post updated successfully",
-      status: 200,
-    }),
-  );
+
+  const response = apiResponse({
+    success: true,
+    message: "post updated successfully",
+    status: 200,
+  });
+  return NextResponse.json(response, { status: response.status });
 }
 
 export async function deleteHandler(
