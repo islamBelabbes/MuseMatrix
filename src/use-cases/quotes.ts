@@ -29,7 +29,7 @@ export const getQuotesUseCase = async ({
 
 export const getQuoteByIdUseCase = async (id: number) => {
   const quote = await getQuoteById(id);
-  if (!quote) throw new AppError("quote not found");
+  if (!quote) throw new AppError("quote not found", 404);
 
   return quote;
 };
@@ -43,6 +43,8 @@ export const updateQuoteUseCase = (data: TUpdateQuote) => {
 };
 
 export const deleteQuoteUseCase = async (id: number) => {
+  await getQuoteByIdUseCase(id);
+
   await DeleteQuote(id);
   revalidateTag("quotes");
   return true;

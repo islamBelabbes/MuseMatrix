@@ -14,7 +14,7 @@ export async function putHandler(
     id,
     title: formData.get("title") || undefined,
     content: formData.get("content") || undefined,
-    cover: formData.get("cover") || undefined,
+    cover: formData.get("cover"),
     genreId: formData.get("genreId"),
     authorId: formData.get("authorId"),
   };

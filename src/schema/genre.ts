@@ -5,8 +5,8 @@ export const getGenresSchema = z.object({
   title: GenreSchema.shape.title.optional(),
 });
 
-export const createGenreSchema = GenreSchema.pick({
-  title: true,
+export const createGenreSchema = z.object({
+  title: GenreSchema.shape.title.min(1),
 });
 
 export type TGetGenres = z.infer<typeof getGenresSchema>;

@@ -1,8 +1,8 @@
 import apiResponse from "@/lib/api-response";
 import withErrorHandler from "@/lib/with-error-handling";
-import { getGenresSchema } from "@/schema/genre";
+import { createGenreSchema, getGenresSchema } from "@/schema/genre";
 import { PaginationSchema } from "@/schema/schema";
-import { getGenresUseCase } from "@/use-cases/genres";
+import { createGenreUseCase, getGenresUseCase } from "@/use-cases/genres";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function getHandler(req: NextRequest) {
@@ -25,4 +25,20 @@ export async function getHandler(req: NextRequest) {
   return NextResponse.json(response, { status: response.status });
 }
 
+export async function postHandler(req: NextRequest) {
+  const body = await req.json();
+  const validatedBody = createGenreSchema.parse(body);
+
+  await createGenreUseCase(validatedBody);
+
+  const response = apiResponse({
+    success: true,
+    status: 201,
+    message: "genre created successfully",
+  });
+
+  return NextResponse.json(response, { status: response.status });
+}
+
 export const GET = withErrorHandler(getHandler);
+export const POST = withErrorHandler(postHandler);

@@ -29,7 +29,7 @@ export async function getHandler(req: NextRequest) {
 export async function postHandler(req: NextRequest) {
   const formData = await req.formData();
   const body = {
-    name: formData.get("name"),
+    name: formData.get("name") || undefined,
     avatar: formData.get("avatar"),
   };
 
