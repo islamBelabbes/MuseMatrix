@@ -22,19 +22,30 @@ import { Button } from "@/components/ui/button";
 import PostContentViewer from "@/components/post-content-viewr";
 import AuthorSelect from "../author-select";
 import GenreSelect from "../genre-select";
-import { TAuthor } from "@/dto/authors";
 import { TCreatePost } from "@/schema/posts";
-import { TGenre } from "@/dto/genres";
+import { TPost } from "@/dto/posts";
 
 type TPostFormProps = {
-  initialData?: Partial<TCreatePost>;
+  initialData?: TCreatePost & {
+    author: TPost["author"];
+    genre: TPost["genre"];
+  };
 };
 
 function PostForm({ initialData }: TPostFormProps) {
-  const [genre, setGenre] = useState<TGenre | undefined>();
-  const [author, setAuthor] = useState<TAuthor | undefined>();
+  const [genre, setGenre] = useState<TPost["genre"] | undefined>(
+    initialData?.genre,
+  );
+  const [author, setAuthor] = useState<TPost["author"] | undefined>(
+    initialData?.author,
+  );
   const form = useForm<TCreatePost>({
-    defaultValues: initialData,
+    defaultValues: {
+      authorId: initialData?.authorId,
+      genreId: initialData?.genreId,
+      title: initialData?.title,
+      status: initialData?.status,
+    },
   });
 
   const cover = form.watch("cover");

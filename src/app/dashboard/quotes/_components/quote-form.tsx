@@ -17,19 +17,31 @@ import PostSelect from "../../_components/post-select";
 import AuthorSelect from "../../_components/author-select";
 import { HexColorPicker } from "react-colorful";
 import { TCreateQuote, createQuoteSchema } from "@/schema/quotes";
-import { TAuthor } from "@/dto/authors";
 import { MEDIA_URL } from "@/lib/constants";
-import { TPost } from "@/dto/posts";
+import { TQuote } from "@/dto/quotes";
 
 type TQuoteFormProps = {
-  initialData?: Partial<TCreateQuote>;
+  initialData?: TCreateQuote & {
+    author: TQuote["author"];
+    post?: TQuote["post"];
+  };
 };
 
 function QuoteForm({ initialData }: TQuoteFormProps) {
-  const [author, setAuthor] = useState<TAuthor | undefined>();
-  const [post, setPost] = useState<TPost | undefined>();
+  const [author, setAuthor] = useState<TQuote["author"] | undefined>(
+    initialData?.author,
+  );
+  const [post, setPost] = useState<TQuote["post"] | undefined>(
+    initialData?.post ?? undefined,
+  );
+
   const form = useForm<TCreateQuote>({
-    defaultValues: initialData,
+    defaultValues: {
+      authorId: initialData?.authorId,
+      postId: initialData?.postId ?? undefined,
+      color: initialData?.color,
+      quote: initialData?.quote,
+    },
     resolver: zodResolver(createQuoteSchema),
   });
 
@@ -55,10 +67,12 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
             id={1}
             quote={quote}
             post={
-              post && {
-                id: post.id,
-                title: post.title,
-              }
+              post
+                ? {
+                    id: post.id,
+                    title: post.title,
+                  }
+                : undefined
             }
             className="shrink-0 md:basis-1/4"
           />
