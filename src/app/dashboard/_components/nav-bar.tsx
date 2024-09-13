@@ -6,19 +6,19 @@ import React from "react";
 
 const NAVBAR_LINKS = [
   {
-    name: "Home",
+    name: "الرئيسية",
     path: "/dashboard",
   },
   {
-    name: "Posts",
+    name: "المقالات",
     path: "/dashboard/posts",
   },
   {
-    name: "Drafts",
+    name: "مسودات",
     path: "/dashboard/drafts",
   },
   {
-    name: "Quotes",
+    name: "اقتباسات",
     path: "/dashboard/quotes",
   },
 ];

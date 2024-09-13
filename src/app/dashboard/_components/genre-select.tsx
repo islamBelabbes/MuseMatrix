@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CreatableSelect, { TSelectData } from "./creatable-select";
 import useSearch from "@/hooks/use-search";
 import { useGenresQuery } from "@/lib/react-query/queries";
+import ErrorFullBack from "@/components/error-fullback";
 
 type TGenreSelectProps = {
   value: TSelectData;
@@ -16,7 +17,9 @@ function GenreSelect() {
 
   const { search, setSearch, debouncedSearch } = useSearch();
 
-  const { data, isLoading } = useGenresQuery({ title: debouncedSearch });
+  const { data, isLoading, error, refetch } = useGenresQuery({
+    title: debouncedSearch,
+  });
   const refinedData = data
     ? data.data.map((item) => ({
         label: item.title,
@@ -24,6 +27,7 @@ function GenreSelect() {
       }))
     : [];
 
+  if (error) return <ErrorFullBack onRetry={refetch} />;
   return (
     <CreatableSelect
       placeholder="اختر تصنيف"
@@ -36,6 +40,7 @@ function GenreSelect() {
       search={search}
       setSearch={setSearch}
       isLoading={isLoading}
+      disabled={isLoading}
       onCreate={(search, setOpen) => {
         return setOpen(false);
       }}

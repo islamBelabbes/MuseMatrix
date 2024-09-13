@@ -3,6 +3,7 @@ import CreatableSelect, { TSelectData } from "./creatable-select";
 import { TPost } from "@/dtos/posts";
 import { usePostsQuery } from "@/lib/react-query/queries";
 import useSearch from "@/hooks/use-search";
+import ErrorFullBack from "@/components/error-fullback";
 
 type TPostSelectProps = {
   value: TSelectData;
@@ -17,13 +18,17 @@ function PostSelect() {
 
   const { search, setSearch, debouncedSearch } = useSearch();
 
-  const { data, isLoading } = usePostsQuery({ title: debouncedSearch });
+  const { data, isLoading, error, refetch } = usePostsQuery({
+    title: debouncedSearch,
+  });
   const refinedData = data
     ? data.data.map((item) => ({
         label: item.title,
         value: item.id.toString(),
       }))
     : [];
+
+  if (error) return <ErrorFullBack onRetry={refetch} />;
   return (
     <CreatableSelect
       placeholder="اختر مقالة"
@@ -36,6 +41,7 @@ function PostSelect() {
       search={search}
       setSearch={setSearch}
       isLoading={isLoading}
+      disabled={isLoading}
       onCreate={(search, setOpen) => {
         return setOpen(false);
       }}

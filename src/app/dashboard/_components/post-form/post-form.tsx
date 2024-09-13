@@ -94,7 +94,7 @@ function PostForm() {
               control={form.control}
               name="username"
               render={({ field }) => (
-                <FormItem className="mt-0 flex items-center gap-2">
+                <FormItem className="!mt-0 flex items-center gap-2">
                   <FormLabel className="w-16 shrink-0">المصدر</FormLabel>{" "}
                   <FormControl>
                     <AuthorSelect />

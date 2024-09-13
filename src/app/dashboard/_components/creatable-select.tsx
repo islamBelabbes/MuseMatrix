@@ -32,6 +32,7 @@ type TCreatableSelectProps = {
   setSearch: (search: string) => void;
   placeholder?: string;
   isLoading?: boolean;
+  disabled?: boolean;
   onCreate?: (search: string, setOpen: (open: boolean) => void) => void;
 };
 
@@ -39,6 +40,7 @@ function CreatableSelect({
   placeholder = "Select...",
   data,
   isLoading,
+  disabled,
   onChange,
   value,
   search,
@@ -70,7 +72,9 @@ function CreatableSelect({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
+        {/* Select Trigger */}
         <Button
+          disabled={disabled}
           variant="outline"
           role="combobox"
           aria-expanded={open}
@@ -108,6 +112,7 @@ function CreatableSelect({
               </CommandLoading>
             )}
 
+            {/* Search Result */}
             {!isLoading &&
               data.map((item) => (
                 <CommandItem
