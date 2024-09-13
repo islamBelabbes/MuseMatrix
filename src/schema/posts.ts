@@ -16,6 +16,7 @@ export const getPostByIdSchema = z.object({
 export const createPostSchema = PostSchema.pick({
   title: true,
   content: true,
+  status: true,
 }).extend({
   cover: ImageSchema,
   genreId: IdSchema,

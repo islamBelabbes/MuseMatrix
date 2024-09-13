@@ -7,15 +7,10 @@ import ErrorFullBack from "@/components/error-fullback";
 
 type TPostSelectProps = {
   value: TSelectData;
-  onChange: (value: TSelectData, post: TPost) => void;
+  onChange: (value: TSelectData, post?: TPost) => void;
 };
 
-function PostSelect() {
-  const [value, setValue] = useState({
-    value: "",
-    label: "",
-  });
-
+function PostSelect({ onChange, value }: TPostSelectProps) {
   const { search, setSearch, debouncedSearch } = useSearch();
 
   const { data, isLoading, error, refetch } = usePostsQuery({
@@ -28,16 +23,20 @@ function PostSelect() {
       }))
     : [];
 
+  const handleOnChange = (selected: TSelectData) => {
+    const selectedPost = data?.data.find(
+      (item) => String(item.id) === selected.value,
+    );
+    return onChange(selected, selectedPost);
+  };
+
   if (error) return <ErrorFullBack onRetry={refetch} />;
   return (
     <CreatableSelect
       placeholder="اختر مقالة"
       data={refinedData}
       value={value}
-      onChange={(v) => {
-        setValue(v);
-        console.log(v);
-      }}
+      onChange={handleOnChange}
       search={search}
       setSearch={setSearch}
       isLoading={isLoading}

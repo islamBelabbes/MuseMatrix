@@ -64,7 +64,7 @@ const QuoteContent = ({
     >
       {/* <div className="w-full top__bar">{children}</div> */}
 
-      <AuthorAvatar avatar={`${MEDIA_URL}/${quote.author.avatar}`} />
+      <AuthorAvatar avatar={quote.author.avatar} />
 
       <div className="px-3 text-center text-white">
         <p className={cn("line-clamp-1 text-xs font-medium leading-4")}>

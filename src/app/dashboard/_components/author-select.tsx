@@ -7,15 +7,10 @@ import ErrorFullBack from "@/components/error-fullback";
 
 type TAuthorSelectProps = {
   value: TSelectData;
-  onChange: (value: TSelectData, author: TAuthor) => void;
+  onChange: (value: TSelectData, author?: TAuthor) => void;
 };
 
-function AuthorSelect({}) {
-  const [value, setValue] = useState({
-    value: "",
-    label: "",
-  });
-
+function AuthorSelect({ onChange, value }: TAuthorSelectProps) {
   const { search, setSearch, debouncedSearch } = useSearch();
 
   const { data, isLoading, error, refetch } = useAuthorsQuery({
@@ -28,16 +23,20 @@ function AuthorSelect({}) {
       }))
     : [];
 
+  const handleOnChange = (selected: TSelectData) => {
+    const selectedAuthor = data?.data.find(
+      (item) => String(item.id) === selected.value,
+    );
+    return onChange(selected, selectedAuthor);
+  };
+
   if (error) return <ErrorFullBack onRetry={refetch} />;
   return (
     <CreatableSelect
       placeholder="اختر مؤلف"
       data={refinedData}
       value={value}
-      onChange={(v) => {
-        setValue(v);
-        console.log(v);
-      }}
+      onChange={handleOnChange}
       search={search}
       setSearch={setSearch}
       isLoading={isLoading}

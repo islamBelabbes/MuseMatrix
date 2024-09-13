@@ -1,12 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import {
   Select,
@@ -23,28 +22,34 @@ import { Button } from "@/components/ui/button";
 import PostContentViewer from "@/components/post-content-viewr";
 import AuthorSelect from "../author-select";
 import GenreSelect from "../genre-select";
-import { TPost } from "@/dtos/posts";
+import { TAuthor } from "@/dtos/authors";
+import { TCreatePost } from "@/schema/posts";
+import { TGenre } from "@/dtos/geners";
 
 type TPostFormProps = {
-  initialData?: TPost;
+  initialData?: Partial<TCreatePost>;
 };
 
-function PostForm() {
-  const [image, setImage] = React.useState<File | null>(null);
-  const form = useForm();
+function PostForm({ initialData }: TPostFormProps) {
+  const [genre, setGenre] = useState<TGenre | undefined>();
+  const [author, setAuthor] = useState<TAuthor | undefined>();
+  const form = useForm<TCreatePost>({
+    defaultValues: initialData,
+  });
 
+  const cover = form.watch("cover");
   return (
     <Form {...form}>
       <form className="flex flex-col gap-3 text-lg">
         <div className="flex gap-4 rounded-md border border-primary p-3 sm:flex-row">
-          <div className="relative h-[240px] sm:w-[400px]">
-            {!image ? (
+          <div className="relative sm:w-[400px]">
+            {!cover ? (
               <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform select-none">
                 صورة المقالة
               </span>
             ) : (
               <Image
-                src={URL.createObjectURL(image)}
+                src={URL.createObjectURL(cover)}
                 alt="post_cover"
                 fill
                 className="rounded-xl object-cover"
@@ -53,12 +58,25 @@ function PostForm() {
           </div>
 
           <div className="flex grow flex-col gap-4">
-            <ImageUpload image={image} setImage={setImage} />
+            <FormField
+              control={form.control}
+              name="cover"
+              render={({ field }) => (
+                <FormItem className="mt-0 flex items-center gap-2">
+                  <FormControl>
+                    <ImageUpload
+                      image={field.value}
+                      setImage={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
             {/* Title Field */}
             <FormField
               control={form.control}
-              name="username"
+              name="title"
               render={({ field }) => (
                 <FormItem className="mt-0 flex items-center gap-2">
                   <FormLabel className="w-16 shrink-0">العنوان</FormLabel>{" "}
@@ -66,10 +84,10 @@ function PostForm() {
                     <Input
                       placeholder="عنوان المقالة"
                       {...field}
+                      value={field.value ?? ""}
                       className="!m-0 h-full"
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -77,14 +95,22 @@ function PostForm() {
             {/* Genre Select */}
             <FormField
               control={form.control}
-              name="username"
+              name="genreId"
               render={({ field }) => (
                 <FormItem className="mt-0 flex items-center gap-2">
                   <FormLabel className="w-16 shrink-0">التصنيف</FormLabel>{" "}
                   <FormControl>
-                    <GenreSelect />
+                    <GenreSelect
+                      value={{
+                        label: genre?.title ?? "",
+                        value: genre?.id.toString() ?? "",
+                      }}
+                      onChange={(selected, genre) => {
+                        setGenre(genre);
+                        return field.onChange(selected.value);
+                      }}
+                    />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -92,14 +118,22 @@ function PostForm() {
             {/* Author Select */}
             <FormField
               control={form.control}
-              name="username"
+              name="authorId"
               render={({ field }) => (
                 <FormItem className="!mt-0 flex items-center gap-2">
                   <FormLabel className="w-16 shrink-0">المصدر</FormLabel>{" "}
                   <FormControl>
-                    <AuthorSelect />
+                    <AuthorSelect
+                      value={{
+                        label: author?.name ?? "",
+                        value: author?.id.toString() ?? "",
+                      }}
+                      onChange={(selected, author) => {
+                        setAuthor(author);
+                        return field.onChange(selected.value);
+                      }}
+                    />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -107,7 +141,7 @@ function PostForm() {
             {/* Post Status */}
             <FormField
               control={form.control}
-              name="username"
+              name="status"
               render={({ field }) => (
                 <FormItem className="mt-0 flex items-center gap-2">
                   <FormLabel className="w-16 shrink-0">الحالة</FormLabel>
@@ -122,7 +156,6 @@ function PostForm() {
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />

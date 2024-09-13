@@ -6,43 +6,60 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Button } from "@/components/ui/button";
 import Quote from "@/components/quote";
 import { Input } from "@/components/ui/input";
 import PostSelect from "../../_components/post-select";
 import AuthorSelect from "../../_components/author-select";
 import { HexColorPicker } from "react-colorful";
-import { TCreateQuote } from "@/schema/quotes";
+import { TCreateQuote, createQuoteSchema } from "@/schema/quotes";
+import { TAuthor } from "@/dtos/authors";
+import { MEDIA_URL } from "@/lib/constants";
+import { TPost } from "@/dtos/posts";
 
 type TQuoteFormProps = {
   initialData?: Partial<TCreateQuote>;
 };
 
 function QuoteForm({ initialData }: TQuoteFormProps) {
+  const [author, setAuthor] = useState<TAuthor | undefined>();
+  const [post, setPost] = useState<TPost | undefined>();
   const form = useForm<TCreateQuote>({
     defaultValues: initialData,
+    resolver: zodResolver(createQuoteSchema),
   });
 
+  const handleOnSubmit = (data: TCreateQuote) => {
+    console.log(data);
+  };
+
   const color = form.watch("color");
+  const quote = form.watch("quote");
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-3 text-lg">
+      <form
+        className="flex flex-col gap-3 text-lg"
+        onSubmit={form.handleSubmit(handleOnSubmit)}
+      >
         <div className="flex gap-4 rounded-md border border-primary p-3 sm:flex-row">
           <Quote
             author={{
-              avatar: "https://avatars.githubusercontent.com/u/101989651?v=4",
-              name: "محمد المصطفى",
+              avatar: `${MEDIA_URL}/${author?.avatar}`,
+              name: author?.name ?? "",
             }}
             color={color}
             id={1}
-            quote="this is a quote"
-            post={{
-              id: 1,
-              title: "this is a post",
-            }}
+            quote={quote}
+            post={
+              post && {
+                id: post.id,
+                title: post.title,
+              }
+            }
             className="shrink-0 md:basis-1/4"
           />
 
@@ -57,39 +74,55 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                     <Input
                       placeholder="اقتباس الاقتباس"
                       {...field}
+                      value={field.value ?? ""}
                       className="!m-0"
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
 
             <FormField
-              name="quote"
+              name="authorId"
               control={form.control}
               render={({ field }) => (
                 <FormItem className="mt-0 flex items-center gap-2">
                   <FormLabel className="w-16 shrink-0">الكاتب</FormLabel>{" "}
                   <FormControl>
-                    <AuthorSelect />
+                    <AuthorSelect
+                      value={{
+                        label: author?.name ?? "",
+                        value: author?.id.toString() ?? "",
+                      }}
+                      onChange={(selected, author) => {
+                        setAuthor(author);
+                        return field.onChange(selected.value);
+                      }}
+                    />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
 
             <div className="flex items-start gap-2">
               <FormField
-                name="quote"
+                name="postId"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="mt-0 flex grow items-center gap-2">
                     <FormLabel className="w-16 shrink-0">المصدر</FormLabel>{" "}
                     <FormControl>
-                      <PostSelect />
+                      <PostSelect
+                        value={{
+                          label: post?.title ?? "",
+                          value: post?.id.toString() ?? "",
+                        }}
+                        onChange={(selected, post) => {
+                          setPost(post);
+                          field.onChange(selected.value);
+                        }}
+                      />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -105,7 +138,6 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                         onChange={field.onChange}
                       />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
