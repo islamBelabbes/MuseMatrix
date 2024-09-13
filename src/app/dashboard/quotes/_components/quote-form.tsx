@@ -17,9 +17,9 @@ import PostSelect from "../../_components/post-select";
 import AuthorSelect from "../../_components/author-select";
 import { HexColorPicker } from "react-colorful";
 import { TCreateQuote, createQuoteSchema } from "@/schema/quotes";
-import { TAuthor } from "@/dtos/authors";
+import { TAuthor } from "@/dto/authors";
 import { MEDIA_URL } from "@/lib/constants";
-import { TPost } from "@/dtos/posts";
+import { TPost } from "@/dto/posts";
 
 type TQuoteFormProps = {
   initialData?: Partial<TCreateQuote>;

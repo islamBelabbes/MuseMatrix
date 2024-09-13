@@ -1,7 +1,7 @@
 "use client";
 
 import Quote from "@/components/quote";
-import { TQuote } from "@/dtos/quotes";
+import { TQuote } from "@/dto/quotes";
 import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 

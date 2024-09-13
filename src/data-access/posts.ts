@@ -1,4 +1,4 @@
-import { postsDtoMapper } from "@/dtos/posts";
+import { postsDtoMapper } from "@/dto/posts";
 import { PAGINATION } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import {

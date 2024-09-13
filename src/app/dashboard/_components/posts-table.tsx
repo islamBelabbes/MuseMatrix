@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { TPost } from "@/dtos/posts";
+import { TPost } from "@/dto/posts";
 import { TDataWithPagination } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/app/dashboard/_components/data-table";

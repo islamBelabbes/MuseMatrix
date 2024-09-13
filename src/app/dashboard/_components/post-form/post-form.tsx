@@ -22,9 +22,9 @@ import { Button } from "@/components/ui/button";
 import PostContentViewer from "@/components/post-content-viewr";
 import AuthorSelect from "../author-select";
 import GenreSelect from "../genre-select";
-import { TAuthor } from "@/dtos/authors";
+import { TAuthor } from "@/dto/authors";
 import { TCreatePost } from "@/schema/posts";
-import { TGenre } from "@/dtos/geners";
+import { TGenre } from "@/dto/genres";
 
 type TPostFormProps = {
   initialData?: Partial<TCreatePost>;

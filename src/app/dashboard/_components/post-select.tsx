@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CreatableSelect, { TSelectData } from "./creatable-select";
-import { TPost } from "@/dtos/posts";
+import { TPost } from "@/dto/posts";
 import { usePostsQuery } from "@/lib/react-query/queries";
 import useSearch from "@/hooks/use-search";
 import ErrorFullBack from "@/components/error-fullback";

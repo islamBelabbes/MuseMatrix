@@ -1,4 +1,4 @@
-import { genresDtoMapper } from "@/dtos/geners";
+import { genresDtoMapper } from "@/dto/genres";
 import { PAGINATION } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import { TCreateGenre, TGetGenres } from "@/schema/genre";

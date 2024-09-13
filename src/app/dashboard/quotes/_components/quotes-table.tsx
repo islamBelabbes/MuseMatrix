@@ -1,7 +1,7 @@
 "use client";
 import AuthorAvatar from "@/components/author-avatar";
 import { DataTable } from "@/app/dashboard/_components/data-table";
-import { TQuote } from "@/dtos/quotes";
+import { TQuote } from "@/dto/quotes";
 import { TDataWithPagination } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";

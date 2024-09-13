@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import Tag from "./tag";
 import Link from "next/link";
-import { TPost } from "@/dtos/posts";
+import { TPost } from "@/dto/posts";
 import { MEDIA_URL } from "@/lib/constants";
 import AuthorAvatar from "./author-avatar";
 

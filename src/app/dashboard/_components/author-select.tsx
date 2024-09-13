@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CreatableSelect, { TSelectData } from "./creatable-select";
 import { useAuthorsQuery } from "@/lib/react-query/queries";
 import useSearch from "@/hooks/use-search";
-import { TAuthor } from "@/dtos/authors";
+import { TAuthor } from "@/dto/authors";
 import ErrorFullBack from "@/components/error-fullback";
 
 type TAuthorSelectProps = {

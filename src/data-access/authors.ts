@@ -1,4 +1,4 @@
-import { authorsDtoMapper } from "@/dtos/authors";
+import { authorsDtoMapper } from "@/dto/authors";
 import { PAGINATION } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import { TCreateAuthor, TGetAuthors } from "@/schema/author";

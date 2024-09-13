@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import AuthorAvatar from "@/components/author-avatar";
 import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog";
-import { TQuote } from "@/dtos/quotes";
+import { TQuote } from "@/dto/quotes";
 import { MEDIA_URL } from "@/lib/constants";
 
 const DEFAULT_COLOR = "#262D33";

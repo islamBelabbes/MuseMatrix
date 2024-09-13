@@ -3,7 +3,7 @@ import CreatableSelect, { TSelectData } from "./creatable-select";
 import useSearch from "@/hooks/use-search";
 import { useGenresQuery } from "@/lib/react-query/queries";
 import ErrorFullBack from "@/components/error-fullback";
-import { TGenre } from "@/dtos/geners";
+import { TGenre } from "@/dto/genres";
 
 type TGenreSelectProps = {
   value: TSelectData;

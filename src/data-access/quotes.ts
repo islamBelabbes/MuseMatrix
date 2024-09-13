@@ -1,4 +1,4 @@
-import { quotesDtoMapper } from "@/dtos/quotes";
+import { quotesDtoMapper } from "@/dto/quotes";
 import { PAGINATION } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";

@@ -1,5 +1,5 @@
 import Quote from "@/components/quote";
-import { TQuote } from "@/dtos/quotes";
+import { TQuote } from "@/dto/quotes";
 
 function QuoteList({ quotes }: { quotes: TQuote[] }) {
   return (
