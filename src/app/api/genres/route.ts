@@ -29,12 +29,13 @@ export async function postHandler(req: NextRequest) {
   const body = await req.json();
   const validatedBody = createGenreSchema.parse(body);
 
-  await createGenreUseCase(validatedBody);
+  const genre = await createGenreUseCase(validatedBody);
 
   const response = apiResponse({
     success: true,
     status: 201,
     message: "genre created successfully",
+    data: genre,
   });
 
   return NextResponse.json(response, { status: response.status });

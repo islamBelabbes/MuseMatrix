@@ -26,9 +26,11 @@ import { TCreatePost } from "@/schema/posts";
 import { TPost } from "@/dto/posts";
 
 type TPostFormProps = {
-  initialData?: TCreatePost & {
+  initialData?: Omit<TCreatePost, "cover"> & {
     author: TPost["author"];
     genre: TPost["genre"];
+    coverUrl: string;
+    id: number;
   };
 };
 
@@ -48,7 +50,9 @@ function PostForm({ initialData }: TPostFormProps) {
     },
   });
 
-  const cover = form.watch("cover");
+  const cover = form.watch("cover") ?? initialData?.coverUrl ?? undefined;
+  const fullCover =
+    typeof cover === "object" ? URL.createObjectURL(cover) : cover;
   return (
     <Form {...form}>
       <form className="flex flex-col gap-3 text-lg">
@@ -60,7 +64,7 @@ function PostForm({ initialData }: TPostFormProps) {
               </span>
             ) : (
               <Image
-                src={URL.createObjectURL(cover)}
+                src={fullCover}
                 alt="post_cover"
                 fill
                 className="rounded-xl object-cover"

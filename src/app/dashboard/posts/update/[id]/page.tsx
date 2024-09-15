@@ -27,6 +27,7 @@ export default async function UpdatePostPage({
   return (
     <PostForm
       initialData={{
+        id: post.data.id,
         author: post.data.author,
         genre: post.data.genre,
         title: post.data.title,
@@ -34,7 +35,7 @@ export default async function UpdatePostPage({
         authorId: post.data.authorId,
         genreId: post.data.genreId,
         content: post.data.content,
-        // cover: "",
+        coverUrl: `${MEDIA_URL}/${post.data.cover}`,
       }}
     />
   );

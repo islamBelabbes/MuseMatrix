@@ -3,7 +3,7 @@ import { useDebounce } from "./use-debounce";
 
 function useSearch() {
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 500);
+  const debouncedSearch = useDebounce(search, 200);
 
   return { search, setSearch, debouncedSearch };
 }
