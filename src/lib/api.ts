@@ -32,9 +32,6 @@ export const getGenres = async (params: TGetGenres) => {
 };
 
 export const createGenre = async (genre: TCreateGenre) => {
-  await new Promise<void>((resolve, reject) => {
-    setTimeout(() => resolve(), 5000);
-  });
   const response = await fetch("/api/genres", {
     method: "POST",
     headers: {
