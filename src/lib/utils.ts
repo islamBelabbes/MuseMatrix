@@ -46,3 +46,7 @@ export async function urlToFile(url: string): Promise<File> {
   // Create and return a new File object
   return new File([blob], filename, { type: mimeType });
 }
+
+export const wait = (ms: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};

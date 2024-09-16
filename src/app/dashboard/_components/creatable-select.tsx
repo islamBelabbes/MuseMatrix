@@ -66,11 +66,16 @@ function CreatableSelect({
       });
     }
 
-    return setOpen(false);
+    return onOpenChange(false);
+  };
+
+  const onOpenChange = (open: boolean) => {
+    setSearch("");
+    setOpen(open);
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
         {/* Select Trigger */}
         <Button
@@ -88,21 +93,21 @@ function CreatableSelect({
           <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <CommandDialog open={open} onOpenChange={setOpen}>
+
+      <PopoverContent className="w-[200px] p-0" forceMount>
+        <CommandDialog open={open} onOpenChange={onOpenChange}>
           <CommandInput
             placeholder={placeholder}
             className="outline-0"
-            value={search}
             onValueChange={setSearch}
           />
           <CommandList>
-            {!data.length && !isLoading && (
+            {!data.length && !isLoading && Boolean(search) && (
               <CommandItem
                 className="cursor-pointer"
-                onSelect={() => onCreate?.(search, setOpen)}
+                onSelect={() => onCreate?.(search, onOpenChange)}
               >
-                انشاء {search}
+                انشاء: {search}
               </CommandItem>
             )}
 

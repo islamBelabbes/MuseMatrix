@@ -14,10 +14,12 @@ export const getAuthors = async ({
   const skip = disablePaginate ? undefined : (page - 1) * limit;
   const take = disablePaginate ? undefined : limit;
 
+  const search = name?.split(" ").join("&");
+
   const authors = await prisma.author.findMany({
     where: {
       name: {
-        contains: name,
+        search,
         mode: "insensitive",
       },
     },

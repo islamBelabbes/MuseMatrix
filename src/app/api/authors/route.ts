@@ -1,4 +1,5 @@
 import apiResponse from "@/lib/api-response";
+import { wait } from "@/lib/utils";
 import withErrorHandler from "@/lib/with-error-handling";
 import { createAuthorSchema, getAuthorsSchema } from "@/schema/author";
 import { PaginationSchema } from "@/schema/schema";
@@ -35,12 +36,13 @@ export async function postHandler(req: NextRequest) {
 
   const validatedBody = createAuthorSchema.parse(body);
 
-  await createAuthorUseCase(validatedBody);
+  const author = await createAuthorUseCase(validatedBody);
 
   const response = apiResponse({
     success: true,
     status: 201,
     message: "author created successfully",
+    data: author,
   });
   return NextResponse.json(response, { status: response.status });
 }
