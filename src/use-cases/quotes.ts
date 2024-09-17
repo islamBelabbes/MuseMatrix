@@ -41,7 +41,7 @@ export const createQuoteUseCase = async (data: TCreateQuote) => {
   revalidatePath("/");
   revalidatePath("/quotes");
 
-  return createQuote(data);
+  return quote;
 };
 
 export const updateQuoteUseCase = async (data: TUpdateQuote) => {
