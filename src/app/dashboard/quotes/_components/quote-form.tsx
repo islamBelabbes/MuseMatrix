@@ -6,6 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,18 +17,31 @@ import { Input } from "@/components/ui/input";
 import PostSelect from "../../_components/post-select";
 import AuthorSelect from "../../_components/author-select";
 import { HexColorPicker } from "react-colorful";
-import { TCreateQuote, createQuoteSchema } from "@/schema/quotes";
+import {
+  TCreateQuote,
+  TUpdateQuote,
+  createQuoteSchema,
+  updateQuoteSchema,
+} from "@/schema/quotes";
 import { MEDIA_URL } from "@/lib/constants";
 import { TQuote } from "@/dto/quotes";
+import { useCreateQuoteMutation } from "@/lib/react-query/mutations";
+import { useRouter } from "next/navigation";
+import { safeAsync } from "@/lib/safe";
+import toast from "react-hot-toast";
+
+const DEFAULT_COLOR = "#000000";
 
 type TQuoteFormProps = {
   initialData?: TCreateQuote & {
+    id: number;
     author: TQuote["author"];
     post?: TQuote["post"];
   };
 };
 
 function QuoteForm({ initialData }: TQuoteFormProps) {
+  const isUpdate = Boolean(initialData?.id);
   const [author, setAuthor] = useState<TQuote["author"] | undefined>(
     initialData?.author,
   );
@@ -35,24 +49,45 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
     initialData?.post ?? undefined,
   );
 
-  const form = useForm<TCreateQuote>({
+  const router = useRouter();
+
+  const form = useForm<TCreateQuote | TUpdateQuote>({
     defaultValues: {
+      id: initialData?.id,
       authorId: initialData?.authorId,
       postId: initialData?.postId ?? undefined,
-      color: initialData?.color,
+      color: isUpdate ? initialData?.color : DEFAULT_COLOR,
       quote: initialData?.quote,
     },
-    resolver: zodResolver(createQuoteSchema),
+    resolver: zodResolver(isUpdate ? updateQuoteSchema : createQuoteSchema),
   });
 
-  const handleOnSubmit = (data: TCreateQuote) => {
-    console.log(data);
+  const createMutation = useCreateQuoteMutation();
+
+  const handleOnSubmit = async (data: TCreateQuote | TUpdateQuote) => {
+    if (isUpdate) {
+      console.log(data);
+
+      // handle update
+      return toast.success("تم تحديث الاقتباس بنجاح");
+    }
+    const quote = await safeAsync(
+      createMutation.mutateAsync(data as TCreateQuote),
+    );
+    if (!quote.success) return toast.error("حصلت خطأ أثناء إنشاء الاقتباس");
+
+    toast.success("تم إنشاء الاقتباس بنجاح");
+    return router.push(`/dashboard/quotes/update/${quote.data.id}`);
   };
 
   const color = form.watch("color");
   const quote = form.watch("quote");
+
+  const isFormLoading =
+    form.formState.isSubmitting || form.formState.isSubmitSuccessful;
   return (
     <Form {...form}>
+      {JSON.stringify(form.formState.validatingFields.postId)}
       <form
         className="flex flex-col gap-3 text-lg"
         onSubmit={form.handleSubmit(handleOnSubmit)}
@@ -63,9 +98,8 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
               avatar: `${MEDIA_URL}/${author?.avatar}`,
               name: author?.name ?? "",
             }}
-            color={color}
-            id={1}
-            quote={quote}
+            color={color ?? DEFAULT_COLOR}
+            quote={quote ?? ""}
             post={
               post
                 ? {
@@ -148,7 +182,7 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                   <FormItem>
                     <FormControl>
                       <HexColorPicker
-                        color={field.value ?? undefined}
+                        color={field.value ?? DEFAULT_COLOR}
                         onChange={field.onChange}
                       />
                     </FormControl>
@@ -158,7 +192,9 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
             </div>
           </div>
         </div>
-        <Button className="w-full">انشاء اقتباس</Button>
+        <Button className="w-full" disabled={isFormLoading}>
+          {isUpdate ? "تحديث الاقتباس" : "انشاء اقتباس"}
+        </Button>
       </form>
     </Form>
   );

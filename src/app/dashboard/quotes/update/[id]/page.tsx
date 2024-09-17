@@ -25,6 +25,7 @@ export default async function UpdateQuotePage({
   return (
     <QuoteForm
       initialData={{
+        id: quote.data.id,
         authorId: quote.data.authorId,
         author: quote.data.author,
         postId: quote.data.postId ?? undefined,

@@ -6,11 +6,10 @@ import { cn } from "@/lib/utils";
 import AuthorAvatar from "@/components/author-avatar";
 import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog";
 import { TQuote } from "@/dto/quotes";
-import { MEDIA_URL } from "@/lib/constants";
 
 const DEFAULT_COLOR = "#262D33";
 
-type TQuoteProps = Pick<TQuote, "id" | "color" | "quote"> & {
+type TQuoteProps = Pick<TQuote, "color" | "quote"> & {
   post?: Pick<NonNullable<TQuote["post"]>, "id" | "title">;
   author: Pick<NonNullable<TQuote["author"]>, "name" | "avatar">;
   className?: string;

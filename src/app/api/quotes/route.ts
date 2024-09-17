@@ -8,12 +8,15 @@ const postHandler = async (req: NextRequest) => {
   const body = await req.json();
   const validatedBody = createQuoteSchema.parse(body);
 
-  await createQuoteUseCase(validatedBody);
+  const quote = await createQuoteUseCase(validatedBody);
 
   const response = apiResponse({
     success: true,
     message: "quote created successfully",
     status: 201,
+    data: {
+      id: quote.id,
+    },
   });
   return NextResponse.json(response, { status: response.status });
 };

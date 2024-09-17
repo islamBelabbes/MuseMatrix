@@ -3,9 +3,9 @@ import { z } from "zod";
 import { IdSchema } from "./schema";
 
 export const createQuoteSchema = QuoteSchema.pick({
-  quote: true,
   color: true,
 }).extend({
+  quote: QuoteSchema.shape.quote.min(1),
   postId: IdSchema.optional(),
   authorId: IdSchema,
 });
