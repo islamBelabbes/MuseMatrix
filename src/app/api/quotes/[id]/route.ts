@@ -16,12 +16,13 @@ const putHandler = async (
   const body = await req.json();
   const validatedBody = updateQuoteSchema.parse({ ...body, id });
 
-  await updateQuoteUseCase(validatedBody);
+  const quote = await updateQuoteUseCase(validatedBody);
 
   const response = apiResponse({
     success: true,
     message: "quote updated successfully",
     status: 200,
+    data: quote,
   });
   return NextResponse.json(response, { status: response.status });
 };

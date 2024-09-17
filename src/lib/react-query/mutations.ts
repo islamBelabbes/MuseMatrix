@@ -1,8 +1,8 @@
 import { TCreateGenre } from "@/schema/genre";
 import { useMutation } from "@tanstack/react-query";
-import { createAuthor, createGenre, createQuote } from "../api";
+import { createAuthor, createGenre, createQuote, updateQuote } from "../api";
 import { TCreateAuthor } from "@/schema/author";
-import { TCreateQuote } from "@/schema/quotes";
+import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";
 
 export const useCreateGenreMutation = () => {
   return useMutation({
@@ -28,5 +28,14 @@ export const useCreateQuoteMutation = () => {
       return createQuote(quote);
     },
     mutationKey: ["create-quote"],
+  });
+};
+
+export const useUpdateQuoteMutation = () => {
+  return useMutation({
+    mutationFn: (quote: TUpdateQuote) => {
+      return updateQuote(quote);
+    },
+    mutationKey: ["update-quote"],
   });
 };

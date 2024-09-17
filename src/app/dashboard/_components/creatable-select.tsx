@@ -20,8 +20,8 @@ import { useState } from "react";
 import { CommandLoading } from "cmdk";
 
 export type TSelectData = {
-  label: string;
-  value: string;
+  label: string | undefined;
+  value: string | undefined;
 };
 
 type TCreatableSelectProps = {
@@ -51,8 +51,8 @@ function CreatableSelect({
 
   const resetValue = () => {
     return onChange({
-      label: "",
-      value: "",
+      label: undefined,
+      value: undefined,
     });
   };
 

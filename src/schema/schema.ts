@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const PageSchema = z.coerce.number().int().min(1).catch(1);
 
-export const IdSchema = z.coerce.number().min(1);
+export const IdSchema = z.coerce.number().positive();
 
 export const PaginationSchema = z.object({
   page: PageSchema,

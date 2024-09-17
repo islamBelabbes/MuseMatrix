@@ -25,10 +25,14 @@ import {
 } from "@/schema/quotes";
 import { MEDIA_URL } from "@/lib/constants";
 import { TQuote } from "@/dto/quotes";
-import { useCreateQuoteMutation } from "@/lib/react-query/mutations";
+import {
+  useCreateQuoteMutation,
+  useUpdateQuoteMutation,
+} from "@/lib/react-query/mutations";
 import { useRouter } from "next/navigation";
 import { safeAsync } from "@/lib/safe";
 import toast from "react-hot-toast";
+import { getDirtyFields } from "@/lib/utils";
 
 const DEFAULT_COLOR = "#000000";
 
@@ -41,7 +45,7 @@ type TQuoteFormProps = {
 };
 
 function QuoteForm({ initialData }: TQuoteFormProps) {
-  const isUpdate = Boolean(initialData?.id);
+  const isUpdate = initialData?.id !== undefined;
   const [author, setAuthor] = useState<TQuote["author"] | undefined>(
     initialData?.author,
   );
@@ -63,14 +67,26 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
   });
 
   const createMutation = useCreateQuoteMutation();
+  const updateMutation = useUpdateQuoteMutation();
 
   const handleOnSubmit = async (data: TCreateQuote | TUpdateQuote) => {
-    if (isUpdate) {
-      console.log(data);
+    // we check if we are on update form
+    if ("id" in data) {
+      const dirtyFields = form.formState.dirtyFields;
+      const dirtyData = {
+        ...(getDirtyFields(dirtyFields, data) as {}),
+        id: data.id,
+      };
 
-      // handle update
+      const quote = await safeAsync(
+        updateMutation.mutateAsync(dirtyData as TUpdateQuote),
+      );
+      if (!quote.success) return toast.error("حصلت خطأ أثناء تحديث الاقتباس");
+
       return toast.success("تم تحديث الاقتباس بنجاح");
     }
+
+    // we are on create form so lets create the quote
     const quote = await safeAsync(
       createMutation.mutateAsync(data as TCreateQuote),
     );
@@ -84,10 +100,10 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
   const quote = form.watch("quote");
 
   const isFormLoading =
-    form.formState.isSubmitting || form.formState.isSubmitSuccessful;
+    form.formState.isSubmitting ||
+    (form.formState.isSubmitSuccessful && !isUpdate);
   return (
     <Form {...form}>
-      {JSON.stringify(form.formState.validatingFields.postId)}
       <form
         className="flex flex-col gap-3 text-lg"
         onSubmit={form.handleSubmit(handleOnSubmit)}
@@ -122,7 +138,7 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                     <Input
                       placeholder="اقتباس الاقتباس"
                       {...field}
-                      value={field.value ?? ""}
+                      value={field.value}
                       className="!m-0"
                     />
                   </FormControl>
@@ -139,12 +155,12 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                   <FormControl>
                     <AuthorSelect
                       value={{
-                        label: author?.name ?? "",
-                        value: author?.id.toString() ?? "",
+                        label: author?.name,
+                        value: author?.id.toString(),
                       }}
                       onChange={(selected, author) => {
                         setAuthor(author);
-                        return field.onChange(selected.value);
+                        return field.onChange(selected.value ?? null);
                       }}
                     />
                   </FormControl>
@@ -162,12 +178,12 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                     <FormControl>
                       <PostSelect
                         value={{
-                          label: post?.title ?? "",
-                          value: post?.id.toString() ?? "",
+                          label: post?.title,
+                          value: post?.id.toString(),
                         }}
                         onChange={(selected, post) => {
                           setPost(post);
-                          field.onChange(selected.value);
+                          field.onChange(selected.value ?? null);
                         }}
                       />
                     </FormControl>

@@ -7,7 +7,8 @@ import { TGenre } from "@/dto/genres";
 import { TGetPosts } from "@/schema/posts";
 import { TPost } from "@/dto/posts";
 import { AppError } from "./error";
-import { TCreateQuote } from "@/schema/quotes";
+import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";
+import { TQuote } from "@/dto/quotes";
 
 // Authors
 export const getAuthors = async (params: TGetAuthors) => {
@@ -93,4 +94,21 @@ export const createQuote = async (quote: TCreateQuote) => {
   }
   const data = await response.json();
   return data.data as { id: number };
+};
+
+export const updateQuote = async (quote: TUpdateQuote) => {
+  const response = await fetch("/api/quotes/" + quote.id, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(quote),
+  });
+
+  if (!response.ok) {
+    throw new AppError("something went wrong", response.status);
+  }
+
+  const data = await response.json();
+  return data.data as TQuote;
 };

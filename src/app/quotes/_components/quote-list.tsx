@@ -1,5 +1,6 @@
 import Quote from "@/components/quote";
 import { TQuote } from "@/dto/quotes";
+import { MEDIA_URL } from "@/lib/constants";
 
 function QuoteList({ quotes }: { quotes: TQuote[] }) {
   return (
@@ -7,9 +8,8 @@ function QuoteList({ quotes }: { quotes: TQuote[] }) {
       {quotes.map((quote) => (
         <Quote
           key={quote.id}
-          id={quote.id}
           author={{
-            avatar: quote.author.avatar,
+            avatar: `${MEDIA_URL}/${quote.author.avatar}`,
             name: quote.author.name,
           }}
           quote={quote.quote}

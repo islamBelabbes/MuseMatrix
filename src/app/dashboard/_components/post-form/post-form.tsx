@@ -22,8 +22,14 @@ import { Button } from "@/components/ui/button";
 import PostContentViewer from "@/components/post-content-viewr";
 import AuthorSelect from "../author-select";
 import GenreSelect from "../genre-select";
-import { TCreatePost } from "@/schema/posts";
+import {
+  TCreatePost,
+  createPostSchema,
+  updatePostSchema,
+} from "@/schema/posts";
 import { TPost } from "@/dto/posts";
+import toast from "react-hot-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type TPostFormProps = {
   initialData?: Omit<TCreatePost, "cover"> & {
@@ -47,15 +53,26 @@ function PostForm({ initialData }: TPostFormProps) {
       genreId: initialData?.genreId,
       title: initialData?.title,
       status: initialData?.status,
+      content: "hey",
     },
+    resolver: zodResolver(updatePostSchema),
   });
+
+  const handleSubmit = async (data: TCreatePost) => {
+    toast.success("تم إنشاء المقالة بنجاح");
+    console.log(data);
+  };
 
   const cover = form.watch("cover") ?? initialData?.coverUrl ?? undefined;
   const fullCover =
     typeof cover === "object" ? URL.createObjectURL(cover) : cover;
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-3 text-lg">
+      {JSON.stringify(form.formState.errors)}
+      <form
+        className="flex flex-col gap-3 text-lg"
+        onSubmit={form.handleSubmit(handleSubmit)}
+      >
         <div className="flex gap-4 rounded-md border border-primary p-3 sm:flex-row">
           <div className="relative sm:w-[400px]">
             {!cover ? (

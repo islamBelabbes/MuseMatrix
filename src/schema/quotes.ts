@@ -6,7 +6,7 @@ export const createQuoteSchema = QuoteSchema.pick({
   color: true,
 }).extend({
   quote: QuoteSchema.shape.quote.min(1),
-  postId: IdSchema.optional(),
+  postId: IdSchema.optional().nullable(),
   authorId: IdSchema,
 });
 
