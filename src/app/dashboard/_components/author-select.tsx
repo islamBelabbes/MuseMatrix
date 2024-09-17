@@ -21,12 +21,10 @@ function AuthorSelect({ onChange, value }: TAuthorSelectProps) {
   const { data, error, refetch, ...query } = useAuthorsQuery({
     name: debouncedSearch,
   });
-  const refinedData = data
-    ? data.data.map((item) => ({
-        label: item.name,
-        value: item.id.toString(),
-      }))
-    : [];
+
+  const isAuthorMutating = useIsMutating({
+    mutationKey: ["create-author"],
+  });
 
   const handleOnChange = (
     selected: TSelectData,
@@ -43,12 +41,16 @@ function AuthorSelect({ onChange, value }: TAuthorSelectProps) {
     handleOnChange({ label: author.name, value: String(author.id) }, data.data);
   };
 
-  if (error) return <ErrorFullBack onRetry={refetch} />;
+  const refinedData = data
+    ? data.data.map((item) => ({
+        label: item.name,
+        value: item.id.toString(),
+      }))
+    : [];
 
-  const isAuthorMutating = useIsMutating({
-    mutationKey: ["create-author"],
-  });
   const isLoading = query.isLoading || Boolean(isAuthorMutating);
+
+  if (error) return <ErrorFullBack onRetry={refetch} />;
   return (
     <>
       <CreatableSelect

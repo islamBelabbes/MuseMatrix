@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PostSchema } from "prisma/generated/zod";
+import { PostSchema } from "../../prisma/generated/zod";
 import { IdSchema, ImageSchema } from "./schema";
 
 export const getPostsSchema = z.object({

@@ -9,7 +9,7 @@ export type ApiErrorResponse = {
   success: false;
   status: number;
   message: string;
-  errors?: any;
+  errors?: unknown;
 };
 
 type ApiResponseParams<T> = {
@@ -17,7 +17,7 @@ type ApiResponseParams<T> = {
   status: number;
   message: string;
   data?: T;
-  errors?: any;
+  errors?: unknown;
 };
 
 export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;

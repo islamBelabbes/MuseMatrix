@@ -5,7 +5,7 @@ import { createQuoteUseCase } from "@/use-cases/quotes";
 import { NextRequest, NextResponse } from "next/server";
 
 const postHandler = async (req: NextRequest) => {
-  const body = await req.json();
+  const body = (await req.json()) as unknown;
   const validatedBody = createQuoteSchema.parse(body);
 
   const quote = await createQuoteUseCase(validatedBody);

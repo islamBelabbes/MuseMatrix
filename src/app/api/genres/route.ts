@@ -5,9 +5,9 @@ import { PaginationSchema } from "@/schema/schema";
 import { createGenreUseCase, getGenresUseCase } from "@/use-cases/genres";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function getHandler(req: NextRequest) {
+async function getHandler(req: NextRequest) {
   const url = new URL(req.url);
-  const title = url.searchParams.get("title") || undefined;
+  const title = url.searchParams.get("title") ?? undefined;
   const page = url.searchParams.get("page");
   const limit = url.searchParams.get("limit");
 
@@ -25,8 +25,8 @@ export async function getHandler(req: NextRequest) {
   return NextResponse.json(response, { status: response.status });
 }
 
-export async function postHandler(req: NextRequest) {
-  const body = await req.json();
+async function postHandler(req: NextRequest) {
+  const body = (await req.json()) as unknown;
   const validatedBody = createGenreSchema.parse(body);
 
   const genre = await createGenreUseCase(validatedBody);

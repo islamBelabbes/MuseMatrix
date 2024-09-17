@@ -1,4 +1,4 @@
-import { AuthorSchema } from "prisma/generated/zod";
+import { AuthorSchema } from "../../prisma/generated/zod";
 import { z } from "zod";
 import { ImageSchema } from "./schema";
 

@@ -17,14 +17,17 @@ export const flatZodError = (error: z.ZodError) => {
   }));
 };
 
-export function generateSearchParams(params: {
-  [key: string]: string | number | undefined;
-}) {
+export function generateSearchParams(
+  params: Record<string, string | number | undefined>,
+) {
+  // filter out undefined values
   const searchParams = new URLSearchParams();
-  Object.keys(params).forEach((key) => {
-    if (!params[key]) return;
-    searchParams.append(key, params[key]!.toString());
-  });
+  Object.keys(params)
+    .filter(Boolean)
+    .forEach((key) => {
+      if (!params[key]) return;
+      searchParams.append(key, params[key]!.toString());
+    });
 
   return searchParams;
 }
@@ -37,7 +40,7 @@ export async function urlToFile(url: string): Promise<File> {
   const blob = await response.blob();
 
   // Extract the filename from the URL
-  const filename = url.split("/").pop() || "file";
+  const filename = url.split("/").pop() ?? "file";
 
   // Extract the file extension to determine the MIME type
   const ext = filename.split(".").pop();
@@ -58,11 +61,11 @@ export function getDirtyFields(
   dirtyFields: UnknownArrayOrObject | boolean | unknown,
   allValues: UnknownArrayOrObject | unknown,
 ): UnknownArrayOrObject | unknown {
-  if (dirtyFields === true || Array.isArray(dirtyFields)) {
+  if (dirtyFields === true ?? Array.isArray(dirtyFields)) {
     return allValues;
   }
 
-  if (typeof dirtyFields !== "object" || dirtyFields === null) {
+  if (typeof dirtyFields !== "object" ?? dirtyFields === null) {
     return undefined;
   }
 

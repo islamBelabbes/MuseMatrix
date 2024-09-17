@@ -1,4 +1,4 @@
-import { QuoteSchema } from "prisma/generated/zod";
+import { QuoteSchema } from "../../prisma/generated/zod";
 import { z } from "zod";
 import { IdSchema } from "./schema";
 

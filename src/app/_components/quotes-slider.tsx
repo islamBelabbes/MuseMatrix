@@ -2,6 +2,7 @@
 
 import Quote from "@/components/quote";
 import { TQuote } from "@/dto/quotes";
+import { MEDIA_URL } from "@/lib/constants";
 import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 
@@ -18,9 +19,8 @@ function QuotesSlider({ quotes }: { quotes: TQuote[] }) {
         {quotes.map((quote) => (
           <Quote
             key={quote.id}
-            id={quote.id}
             author={{
-              avatar: quote.author.avatar,
+              avatar: `${MEDIA_URL}/${quote.author.avatar}`,
               name: quote.author.name,
             }}
             quote={quote.quote}

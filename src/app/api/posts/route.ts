@@ -5,11 +5,11 @@ import { PaginationSchema } from "@/schema/schema";
 import { createPostUseCase, getPostsUseCase } from "@/use-cases/posts";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function getHandler(req: NextRequest) {
+async function getHandler(req: NextRequest) {
   const url = new URL(req.url);
   const status = "Published";
-  const title = url.searchParams.get("title") || undefined;
-  const genreId = url.searchParams.get("genreId") || undefined;
+  const title = url.searchParams.get("title") ?? undefined;
+  const genreId = url.searchParams.get("genreId") ?? undefined;
   const page = url.searchParams.get("page");
   const limit = url.searchParams.get("limit");
 
@@ -27,11 +27,11 @@ export async function getHandler(req: NextRequest) {
   return NextResponse.json(response, { status: response.status });
 }
 
-export async function postHandler(req: NextRequest) {
+async function postHandler(req: NextRequest) {
   const formData = await req.formData();
   const body = {
-    title: formData.get("title") || undefined,
-    content: formData.get("content") || undefined,
+    title: formData.get("title") ?? undefined,
+    content: formData.get("content") ?? undefined,
     cover: formData.get("cover"),
     genreId: formData.get("genreId"),
     authorId: formData.get("authorId"),

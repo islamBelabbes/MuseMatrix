@@ -1,4 +1,4 @@
-import { GenreSchema } from "prisma/generated/zod";
+import { GenreSchema } from "../../prisma/generated/zod";
 import { z } from "zod";
 
 export const getGenresSchema = z.object({

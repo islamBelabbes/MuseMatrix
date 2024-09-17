@@ -6,9 +6,9 @@ import { PaginationSchema } from "@/schema/schema";
 import { createAuthorUseCase, getAuthorsUseCase } from "@/use-cases/authors";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function getHandler(req: NextRequest) {
+async function getHandler(req: NextRequest) {
   const url = new URL(req.url);
-  const name = url.searchParams.get("name") || undefined;
+  const name = url.searchParams.get("name") ?? undefined;
   const page = url.searchParams.get("page");
   const limit = url.searchParams.get("limit");
 
@@ -27,10 +27,10 @@ export async function getHandler(req: NextRequest) {
   return NextResponse.json(response, { status: response.status });
 }
 
-export async function postHandler(req: NextRequest) {
+async function postHandler(req: NextRequest) {
   const formData = await req.formData();
   const body = {
-    name: formData.get("name") || undefined,
+    name: formData.get("name") ?? undefined,
     avatar: formData.get("avatar"),
   };
 

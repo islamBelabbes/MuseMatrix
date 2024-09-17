@@ -2,7 +2,6 @@ import PostForm from "@/app/dashboard/_components/post-form/post-form";
 import { MEDIA_URL } from "@/lib/constants";
 import { AppError } from "@/lib/error";
 import { safeAsync } from "@/lib/safe";
-import { urlToFile } from "@/lib/utils";
 import { IdSchema } from "@/schema/schema";
 import { getPostByIdUseCase } from "@/use-cases/posts";
 import { notFound } from "next/navigation";

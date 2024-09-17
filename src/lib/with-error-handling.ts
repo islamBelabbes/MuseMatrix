@@ -23,7 +23,9 @@ const withErrorHandler = <T extends object>(handler: ApiHandler<T>) => {
       console.log("from error handler: ", error);
       if (error instanceof AppError) {
         response.message = error.message;
-        error.statusCode && (response.status = error.statusCode);
+        if (error.statusCode) {
+          response.status = error.statusCode;
+        }
       }
 
       if (error instanceof ZodError) {

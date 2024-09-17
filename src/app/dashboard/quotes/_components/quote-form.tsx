@@ -6,7 +6,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -87,9 +86,7 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
     }
 
     // we are on create form so lets create the quote
-    const quote = await safeAsync(
-      createMutation.mutateAsync(data as TCreateQuote),
-    );
+    const quote = await safeAsync(createMutation.mutateAsync(data));
     if (!quote.success) return toast.error("حصلت خطأ أثناء إنشاء الاقتباس");
 
     toast.success("تم إنشاء الاقتباس بنجاح");
