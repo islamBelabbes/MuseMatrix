@@ -9,7 +9,7 @@ import {
 import { AppError } from "@/lib/error";
 import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";
 import { TPaginationQuery } from "@/types/types";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import generatePagination from "@/lib/generate-pagination";
 
 export const getQuotesUseCase = async ({
@@ -34,18 +34,34 @@ export const getQuoteByIdUseCase = async (id: number) => {
   return quote;
 };
 
-export const createQuoteUseCase = (data: TCreateQuote) => {
+export const createQuoteUseCase = async (data: TCreateQuote) => {
+  const quote = await createQuote(data);
+
+  // TODO : use dependency for Nextjs specific Apis
+  revalidatePath("/");
+  revalidatePath("/quotes");
+
   return createQuote(data);
 };
 
-export const updateQuoteUseCase = (data: TUpdateQuote) => {
-  return updateQuote(data);
+export const updateQuoteUseCase = async (data: TUpdateQuote) => {
+  const quote = await updateQuote(data);
+
+  // TODO : use dependency for Nextjs specific Apis
+  revalidatePath("/");
+  revalidatePath("/quotes");
+
+  return quote;
 };
 
 export const deleteQuoteUseCase = async (id: number) => {
   await getQuoteByIdUseCase(id);
 
   await DeleteQuote(id);
-  revalidateTag("quotes");
+
+  // TODO : use dependency for Nextjs specific Apis
+  revalidatePath("/");
+  revalidatePath("/quotes");
+
   return true;
 };

@@ -16,7 +16,7 @@ import {
   TUpdatePost,
 } from "@/schema/posts";
 import { TQueryWithPagination } from "@/types/types";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { getGenreByIdUseCase } from "./genres";
 import { getAuthorByIdUseCase } from "./authors";
 import generatePagination from "@/lib/generate-pagination";
@@ -67,6 +67,10 @@ export const createPostUseCase = async (data: TCreatePost) => {
     throw post.error;
   }
 
+  // TODO : use dependency for Nextjs specific Apis
+  revalidatePath("/");
+  revalidatePath(`/genre/${post.data.genreId}`);
+
   return post.data;
 };
 
@@ -86,10 +90,17 @@ export const updatePostUseCase = async (data: TUpdatePost) => {
     await utapi.deleteFiles(post.cover);
   }
 
-  return updatePost({
+  const updatedPost = await updatePost({
     ...data,
     cover,
   });
+
+  // TODO : use dependency for Nextjs specific Apis
+  revalidatePath("/");
+  revalidatePath(`/genre/${updatedPost.genreId}`);
+  revalidatePath(`/post/${updatedPost.id}`);
+
+  return updatedPost;
 };
 
 export const deletePostUseCase = async (id: number) => {
@@ -100,6 +111,11 @@ export const deletePostUseCase = async (id: number) => {
   if (!deletedFile.success) throw new AppError("failed to delete file", 500);
 
   await deletePost(id);
-  revalidateTag("posts_listing");
+
+  // TODO : use dependency for Nextjs specific Apis
+  revalidatePath("/");
+  revalidatePath(`/genre/${post.genreId}`);
+  revalidatePath(`/post/${post.id}`);
+
   return true;
 };

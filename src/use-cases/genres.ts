@@ -8,6 +8,7 @@ import { AppError } from "@/lib/error";
 import { TCreateGenre, TGetGenres } from "@/schema/genre";
 import { TQueryWithPagination } from "@/types/types";
 import generatePagination from "@/lib/generate-pagination";
+import { revalidatePath } from "next/cache";
 
 export const getGenresUseCase = async ({
   limit,
@@ -32,6 +33,10 @@ export const getGenreByIdUseCase = async (id: number) => {
   return genre;
 };
 
-export const createGenreUseCase = (data: TCreateGenre) => {
-  return createGenre(data);
+export const createGenreUseCase = async (data: TCreateGenre) => {
+  const genre = await createGenre(data);
+
+  // TODO : use dependency for Nextjs specific Apis
+  revalidatePath("/");
+  return genre;
 };
