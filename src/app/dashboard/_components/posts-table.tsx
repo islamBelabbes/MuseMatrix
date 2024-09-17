@@ -42,7 +42,7 @@ const columns: ColumnDef<TPostTable>[] = [
       return (
         <TableActions
           updateRoute={`posts/update/${id}`}
-          deleteRoute={`posts/delete`}
+          deleteRoute={`posts/${id}`}
         />
       );
     },

@@ -4,11 +4,24 @@ import { generateSearchParams } from "./utils";
 import { TAuthor } from "@/dto/authors";
 import { TCreateGenre, TGetGenres } from "@/schema/genre";
 import { TGenre } from "@/dto/genres";
-import { TGetPosts } from "@/schema/posts";
+import { TCreatePost, TGetPosts, TUpdatePost } from "@/schema/posts";
 import { TPost } from "@/dto/posts";
 import { AppError } from "./error";
 import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";
 import { TQuote } from "@/dto/quotes";
+
+// Global
+export const deleteEntry = async (route: string) => {
+  const response = await fetch(`/api/${route}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new AppError("something went wrong", response.status);
+  }
+
+  return true;
+};
 
 // Authors
 export const getAuthors = async (params: TGetAuthors) => {
@@ -76,6 +89,49 @@ export const getPosts = async (params: TGetPosts) => {
 
   const data = await response.json();
   return data?.data as TDataWithPagination<TPost[]>;
+};
+
+export const createPost = async (post: TCreatePost) => {
+  const formData = new FormData();
+  formData.append("title", post.title);
+  formData.append("status", post.status);
+  formData.append("content", post.content);
+  formData.append("cover", post.cover);
+  formData.append("genreId", post.genreId.toString());
+  formData.append("authorId", post.authorId.toString());
+
+  const response = await fetch("/api/posts", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new AppError("something went wrong", response.status);
+  }
+  const data = await response.json();
+  return data.data as TPost;
+};
+
+export const updatePost = async (post: TUpdatePost) => {
+  const formData = new FormData();
+  post.title && formData.append("title", post.title);
+  post.content && formData.append("content", post.content);
+  post.cover && formData.append("cover", post.cover);
+  post.genreId && formData.append("genreId", post.genreId.toString());
+  post.authorId && formData.append("authorId", post.authorId.toString());
+  post.status && formData.append("status", post.status);
+
+  const response = await fetch("/api/posts/" + post.id, {
+    method: "PUT",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new AppError("something went wrong", response.status);
+  }
+
+  const data = await response.json();
+  return data.data as TPost;
 };
 
 // Quotes

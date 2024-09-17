@@ -49,7 +49,7 @@ const columns: ColumnDef<TQuotesTable>[] = [
       return (
         <TableActions
           updateRoute={`quotes/update/${id}`}
-          deleteRoute={`quotes/delete`}
+          deleteRoute={`quotes/${id}`}
         />
       );
     },

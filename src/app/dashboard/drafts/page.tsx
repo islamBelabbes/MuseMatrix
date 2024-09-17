@@ -3,7 +3,7 @@ import { getPostsUseCase } from "@/use-cases/posts";
 import PostsTable from "../_components/posts-table";
 import { PageSchema } from "@/schema/schema";
 
-const LIMIT = 1;
+const LIMIT = 10;
 
 export default async function DraftPage({
   searchParams,
@@ -18,7 +18,7 @@ export default async function DraftPage({
   });
   return (
     <div>
-      <CreateButton>إنشاء مقالة</CreateButton>
+      <CreateButton href="/dashboard/posts/create">إنشاء مقالة</CreateButton>
       <PostsTable posts={posts} limit={LIMIT} />
     </div>
   );

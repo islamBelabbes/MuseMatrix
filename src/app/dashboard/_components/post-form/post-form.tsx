@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Form,
   FormControl,
@@ -24,12 +24,20 @@ import AuthorSelect from "../author-select";
 import GenreSelect from "../genre-select";
 import {
   TCreatePost,
+  TUpdatePost,
   createPostSchema,
   updatePostSchema,
 } from "@/schema/posts";
 import { TPost } from "@/dto/posts";
 import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  useCreatePostMutation,
+  useUpdatePostMutation,
+} from "@/lib/react-query/mutations";
+import { safeAsync } from "@/lib/safe";
+import { useRouter } from "next/navigation";
+import { cn, getDirtyFields } from "@/lib/utils";
 
 type TPostFormProps = {
   initialData?: Omit<TCreatePost, "cover"> & {
@@ -41,41 +49,75 @@ type TPostFormProps = {
 };
 
 function PostForm({ initialData }: TPostFormProps) {
+  const isUpdate = initialData?.id !== undefined;
   const [genre, setGenre] = useState<TPost["genre"] | undefined>(
     initialData?.genre,
   );
   const [author, setAuthor] = useState<TPost["author"] | undefined>(
     initialData?.author,
   );
-  const form = useForm<TCreatePost>({
+
+  const router = useRouter();
+
+  const form = useForm<TCreatePost | TUpdatePost>({
     defaultValues: {
+      id: initialData?.id,
       authorId: initialData?.authorId,
       genreId: initialData?.genreId,
       title: initialData?.title,
-      status: initialData?.status,
-      content: "hey",
+      status: initialData?.status ?? "Draft",
+      content: initialData?.content ?? "hey",
     },
-    resolver: zodResolver(updatePostSchema),
+    resolver: zodResolver(isUpdate ? updatePostSchema : createPostSchema),
   });
 
-  const handleSubmit = async (data: TCreatePost) => {
+  const createMutation = useCreatePostMutation();
+  const updateMutation = useUpdatePostMutation();
+
+  const handleSubmit = async (data: TCreatePost | TUpdatePost) => {
+    if ("id" in data) {
+      const dirtyFields = form.formState.dirtyFields;
+      const dirtyData = {
+        ...(getDirtyFields(dirtyFields, data) as {}),
+        id: data.id,
+      };
+
+      const quote = await safeAsync(
+        updateMutation.mutateAsync(dirtyData as TUpdatePost),
+      );
+      if (!quote.success) return toast.error("حصلت خطأ أثناء تحديث الاقتباس");
+
+      return toast.success("تم تحديث الاقتباس بنجاح");
+    }
+
+    const post = await safeAsync(createMutation.mutateAsync(data));
+    if (!post.success) return toast.error("حصلت خطأ أثناء إنشاء المقالة");
+
     toast.success("تم إنشاء المقالة بنجاح");
-    console.log(data);
+    return router.push(`/dashboard/posts/update/${post.data.id}`);
   };
 
   const cover = form.watch("cover") ?? initialData?.coverUrl ?? undefined;
-  const fullCover =
-    typeof cover === "object" ? URL.createObjectURL(cover) : cover;
+  const fullCover = useMemo(() => {
+    if (typeof cover === "object") return URL.createObjectURL(cover);
+    return cover;
+  }, [cover]);
+
+  const isFormLoading =
+    form.formState.isSubmitting || (createMutation.isSuccess && !isUpdate);
   return (
     <Form {...form}>
-      {JSON.stringify(form.formState.errors)}
       <form
         className="flex flex-col gap-3 text-lg"
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <div className="flex gap-4 rounded-md border border-primary p-3 sm:flex-row">
-          <div className="relative sm:w-[400px]">
-            {!cover ? (
+          <div
+            className={cn("relative sm:w-[400px]", {
+              "border border-red-700": form.formState.errors.cover,
+            })}
+          >
+            {!fullCover ? (
               <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform select-none">
                 صورة المقالة
               </span>
@@ -97,7 +139,7 @@ function PostForm({ initialData }: TPostFormProps) {
                 <FormItem className="mt-0 flex items-center gap-2">
                   <FormControl>
                     <ImageUpload
-                      image={field.value}
+                      image={field.value ?? null}
                       setImage={field.onChange}
                     />
                   </FormControl>
@@ -178,13 +220,17 @@ function PostForm({ initialData }: TPostFormProps) {
                 <FormItem className="mt-0 flex items-center gap-2">
                   <FormLabel className="w-16 shrink-0">الحالة</FormLabel>
                   <FormControl>
-                    <Select dir="rtl" defaultValue="draft">
+                    <Select
+                      dir="rtl"
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
                       <SelectTrigger className="!my-0">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-none shadow-none">
-                        <SelectItem value="published">منشور</SelectItem>
-                        <SelectItem value="draft">معلق</SelectItem>
+                        <SelectItem value="Published">منشور</SelectItem>
+                        <SelectItem value="Draft">معلق</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -196,7 +242,9 @@ function PostForm({ initialData }: TPostFormProps) {
 
         <PostContentViewer htmlContent="hey" />
 
-        <Button className="w-full">انشاء مقالة</Button>
+        <Button className="w-full" disabled={isFormLoading}>
+          {isUpdate ? "تعديل المقالة" : "انشاء المقالة"}
+        </Button>
       </form>
     </Form>
   );

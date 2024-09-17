@@ -14,19 +14,23 @@ export async function putHandler(
     id,
     title: formData.get("title") || undefined,
     content: formData.get("content") || undefined,
-    cover: formData.get("cover"),
-    genreId: formData.get("genreId"),
-    authorId: formData.get("authorId"),
+    genreId: formData.get("genreId") || undefined,
+    authorId: formData.get("authorId") || undefined,
+    status: formData.get("status") || undefined,
+    cover: formData.get("cover") || undefined,
   };
+
+  console.log(body);
 
   const validatedBody = updatePostSchema.parse(body);
 
-  await updatePostUseCase(validatedBody);
+  const post = await updatePostUseCase(validatedBody);
 
   const response = apiResponse({
     success: true,
     message: "post updated successfully",
     status: 200,
+    data: post,
   });
   return NextResponse.json(response, { status: response.status });
 }

@@ -7,8 +7,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useDeleteEntryMutation } from "@/lib/react-query/mutations";
+import { safeAsync } from "@/lib/safe";
 import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 type TTableActionsProps = {
   updateRoute: string;
@@ -18,13 +21,24 @@ type TTableActionsProps = {
 function TableActions({ deleteRoute, updateRoute }: TTableActionsProps) {
   const router = useRouter();
 
+  const mutation = useDeleteEntryMutation();
+
   const handleEdit = () => {
     router.push(updateRoute);
   };
+
+  const handleDelete = async () => {
+    const deleted = await safeAsync(mutation.mutateAsync(deleteRoute));
+    if (!deleted.success) return toast.error("حصلت خطأ أثناء الحذف ");
+
+    toast.success("تم الحذف بنجاح");
+    return router.refresh();
+  };
+
   return (
     <div className="flex w-full items-center justify-between">
       <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild disabled={mutation.isPending}>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">فتح</span>
             <MoreHorizontal className="h-4 w-4" />
@@ -40,7 +54,7 @@ function TableActions({ deleteRoute, updateRoute }: TTableActionsProps) {
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer justify-end"
-            // onClick={onDelete}
+            onClick={handleDelete}
           >
             حذف
           </DropdownMenuItem>

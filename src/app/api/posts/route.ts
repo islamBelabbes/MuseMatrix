@@ -35,16 +35,18 @@ export async function postHandler(req: NextRequest) {
     cover: formData.get("cover"),
     genreId: formData.get("genreId"),
     authorId: formData.get("authorId"),
+    status: formData.get("status"),
   };
 
   const validatedBody = createPostSchema.parse(body);
 
-  await createPostUseCase(validatedBody);
+  const post = await createPostUseCase(validatedBody);
 
   const response = apiResponse({
     success: true,
     message: "post created successfully",
     status: 201,
+    data: post,
   });
   return NextResponse.json(response, { status: response.status });
 }

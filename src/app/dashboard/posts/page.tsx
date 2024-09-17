@@ -3,7 +3,7 @@ import { getPostsUseCase } from "@/use-cases/posts";
 import PostsTable from "../_components/posts-table";
 import { PageSchema } from "@/schema/schema";
 
-const LIMIT = 1;
+const LIMIT = 10;
 
 export default async function PostsPage({
   searchParams,
