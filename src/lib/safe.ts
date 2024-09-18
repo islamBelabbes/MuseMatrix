@@ -31,9 +31,6 @@ export async function safeAsync<T>(
     if (err !== undefined) {
       return { success: false, error: err };
     }
-    if (e instanceof Error) {
-      return { success: false, error: e };
-    }
     return { success: false, error: "Something went wrong" };
   }
 }

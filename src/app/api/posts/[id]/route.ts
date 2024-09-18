@@ -20,8 +20,6 @@ async function putHandler(
     cover: formData.get("cover") ?? undefined,
   };
 
-  console.log(body);
-
   const validatedBody = updatePostSchema.parse(body);
 
   const post = await updatePostUseCase(validatedBody);

@@ -42,8 +42,6 @@ function CreateAuthorModal({
     toast.success("تم إنشاء المؤلف بنجاح");
     onOpenChange(false);
 
-    console.log(author.data);
-
     return onSuccess?.(author.data);
   };
 
