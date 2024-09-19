@@ -4,12 +4,14 @@ import {
   getAuthorById,
   getAuthors,
 } from "@/data-access/authors";
-import { AppError } from "@/lib/error";
+import { AppError, AuthError } from "@/lib/error";
 import { safeAsync } from "@/lib/safe";
 import { utapi } from "@/lib/upload-thing";
 import { type TCreateAuthor, type TGetAuthors } from "@/schema/author";
 import { TQueryWithPagination } from "@/types/types";
 import generatePagination from "@/lib/generate-pagination";
+import { TUser } from "@/dto/users";
+import { isAdmin } from "@/lib/utils";
 
 export const getAuthorsUseCase = async ({
   limit,
@@ -34,7 +36,12 @@ export const getAuthorByIdUseCase = async (id: number) => {
   return author;
 };
 
-export const createAuthorUseCase = async (data: TCreateAuthor) => {
+export const createAuthorUseCase = async ({
+  user,
+  ...data
+}: TCreateAuthor & { user: TUser }) => {
+  if (!isAdmin(user)) throw new AuthError();
+
   const file = await utapi.uploadFiles(data.avatar);
   if (file.error) throw new AppError("avatar upload failed", 500);
 

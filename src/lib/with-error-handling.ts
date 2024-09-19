@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { AppError } from "./error";
-import apiResponse, { ApiErrorResponse, ApiResponse } from "./api-response";
+import { AppError, AuthError } from "./error";
+import apiResponse, { TApiErrorResponse, TApiResponse } from "./api-response";
 import { ZodError } from "zod";
 import { flatZodError } from "./utils";
+import { TApiHandler } from "@/types/types";
 
-type ApiHandler<T extends object> = (
-  req: NextRequest,
-  params: T,
-) => Promise<NextResponse<ApiResponse<unknown>> | Response>;
-
-const withErrorHandler = <T extends object>(handler: ApiHandler<T>) => {
+const withErrorHandler = <T extends object>(handler: TApiHandler<T>) => {
   return async (req: NextRequest, params: T) => {
     try {
       return await handler(req, params);
@@ -18,7 +14,7 @@ const withErrorHandler = <T extends object>(handler: ApiHandler<T>) => {
         success: false,
         status: 500,
         message: "an error occurred",
-      }) as ApiErrorResponse;
+      }) as TApiErrorResponse;
 
       console.log("from error handler: ", error);
       if (error instanceof AppError) {
@@ -32,6 +28,11 @@ const withErrorHandler = <T extends object>(handler: ApiHandler<T>) => {
         response.message = "validation Errors";
         response.status = 400;
         response.errors = flatZodError(error);
+      }
+
+      if (error instanceof AuthError) {
+        response.message = error.message;
+        response.status = error.statusCode;
       }
 
       return NextResponse.json(response, { status: response.status });

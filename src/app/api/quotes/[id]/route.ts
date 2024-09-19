@@ -1,4 +1,6 @@
+import { TUser } from "@/dto/users";
 import apiResponse from "@/lib/api-response";
+import withAuth from "@/lib/with-auth";
 import withErrorHandler from "@/lib/with-error-handling";
 import { updateQuoteSchema } from "@/schema/quotes";
 import { IdSchema } from "@/schema/schema";
@@ -38,5 +40,5 @@ const deleteHandler = async (
   return new Response(null, { status: 204 });
 };
 
-export const PUT = withErrorHandler(putHandler);
-export const DELETE = withErrorHandler(deleteHandler);
+export const PUT = withErrorHandler(withAuth(putHandler));
+export const DELETE = withErrorHandler(withAuth(deleteHandler));

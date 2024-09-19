@@ -1,4 +1,6 @@
+import { TApiResponse } from "@/lib/api-response";
 import { TPagination } from "@/lib/generate-pagination";
+import { NextRequest, NextResponse } from "next/server";
 
 export type TPaginationQuery = {
   page?: number;
@@ -15,3 +17,8 @@ export type TNavMenu = {
 export type TDataWithPagination<T> = TPagination & {
   data: T;
 };
+
+export type TApiHandler<T extends object> = (
+  req: NextRequest,
+  params: T,
+) => Promise<NextResponse<TApiResponse<unknown>> | Response>;

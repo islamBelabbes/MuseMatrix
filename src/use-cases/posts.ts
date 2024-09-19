@@ -6,7 +6,7 @@ import {
   getPosts,
   updatePost,
 } from "@/data-access/posts";
-import { AppError } from "@/lib/error";
+import { AppError, AuthError } from "@/lib/error";
 import { safeAsync } from "@/lib/safe";
 import { utapi } from "@/lib/upload-thing";
 import {
@@ -16,10 +16,12 @@ import {
   TUpdatePost,
 } from "@/schema/posts";
 import { TQueryWithPagination } from "@/types/types";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { getGenreByIdUseCase } from "./genres";
 import { getAuthorByIdUseCase } from "./authors";
 import generatePagination from "@/lib/generate-pagination";
+import { TUser } from "@/dto/users";
+import { isAdmin } from "@/lib/utils";
 
 export const getPostsUseCase = async ({
   status,
@@ -52,7 +54,11 @@ export const getPostByIdUseCase = async ({ id, status }: TGetPostById) => {
   return post;
 };
 
-export const createPostUseCase = async (data: TCreatePost) => {
+export const createPostUseCase = async ({
+  user,
+  ...data
+}: TCreatePost & { user: TUser }) => {
+  if (!isAdmin(user)) throw new AuthError();
   // make sure the genre and author exist
   const genrePromise = getGenreByIdUseCase(data.genreId);
   const authorPromise = getAuthorByIdUseCase(data.authorId);
@@ -67,14 +73,19 @@ export const createPostUseCase = async (data: TCreatePost) => {
     throw post.error;
   }
 
-  // TODO : use dependency for Nextjs specific Apis
+  // TODO : use dependency injection for Nextjs specific Apis
   revalidatePath("/");
   revalidatePath(`/genre/${post.data.genreId}`);
 
   return post.data;
 };
 
-export const updatePostUseCase = async (data: TUpdatePost) => {
+export const updatePostUseCase = async ({
+  user,
+  ...data
+}: TUpdatePost & { user: TUser }) => {
+  if (!isAdmin(user)) throw new AuthError();
+
   const post = await getPostByIdUseCase({ id: data.id });
 
   // check if the genre and author exist if provided
@@ -95,7 +106,7 @@ export const updatePostUseCase = async (data: TUpdatePost) => {
     cover,
   });
 
-  // TODO : use dependency for Nextjs specific Apis
+  // TODO : use dependency injection for Nextjs specific Apis
   revalidatePath("/");
   revalidatePath(`/genre/${updatedPost.genreId}`);
   revalidatePath(`/post/${updatedPost.id}`);
@@ -103,7 +114,9 @@ export const updatePostUseCase = async (data: TUpdatePost) => {
   return updatedPost;
 };
 
-export const deletePostUseCase = async (id: number) => {
+export const deletePostUseCase = async (id: number, user: TUser) => {
+  if (!isAdmin(user)) throw new AuthError();
+
   const post = await getPostByIdUseCase({ id });
 
   // delete cover from UploadThing
@@ -112,7 +125,7 @@ export const deletePostUseCase = async (id: number) => {
 
   await deletePost(id);
 
-  // TODO : use dependency for Nextjs specific Apis
+  // TODO : use dependency injection for Nextjs specific Apis
   revalidatePath("/");
   revalidatePath(`/genre/${post.genreId}`);
   revalidatePath(`/post/${post.id}`);

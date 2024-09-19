@@ -4,6 +4,7 @@ import NavMenu from "./nav-menu";
 import SideMenu from "./side-menu";
 import { getGenresUseCase } from "@/use-cases/genres";
 import { TNavMenu } from "@/types/types";
+import LogOut from "./logout";
 
 const NAV_LINKS: TNavMenu[] = [
   {
@@ -46,6 +47,7 @@ async function Header() {
 
         {/* Left */}
         <div className="flex items-center gap-x-8">
+          <LogOut />
           <ThemeToggle />
         </div>
       </div>

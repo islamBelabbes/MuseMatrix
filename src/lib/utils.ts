@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { SITE_NAME } from "./constants";
 import { z } from "zod";
+import { TUser } from "@/dto/users";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -54,9 +55,9 @@ export const wait = (ms: number): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
+// https://github.com/orgs/react-hook-form/discussions/1991#discussioncomment-4593488
 type UnknownObject = Record<string, unknown>;
 type UnknownArrayOrObject = unknown[] | UnknownObject;
-// https://github.com/orgs/react-hook-form/discussions/1991#discussioncomment-4593488
 export function getDirtyFields(
   dirtyFields: UnknownArrayOrObject | boolean | unknown,
   allValues: UnknownArrayOrObject | unknown,
@@ -79,3 +80,8 @@ export function getDirtyFields(
     ]),
   );
 }
+
+export const isAdmin = (user: TUser) => {
+  if (user.roles.find((role) => role.key === "admin")) return true;
+  return false;
+};

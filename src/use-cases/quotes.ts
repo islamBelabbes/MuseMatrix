@@ -6,11 +6,13 @@ import {
   getQuotes,
   updateQuote,
 } from "@/data-access/quotes";
-import { AppError } from "@/lib/error";
+import { AppError, AuthError } from "@/lib/error";
 import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";
 import { TPaginationQuery } from "@/types/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import generatePagination from "@/lib/generate-pagination";
+import { TUser } from "@/dto/users";
+import { isAdmin } from "@/lib/utils";
 
 export const getQuotesUseCase = async ({
   page = 1,
@@ -34,32 +36,44 @@ export const getQuoteByIdUseCase = async (id: number) => {
   return quote;
 };
 
-export const createQuoteUseCase = async (data: TCreateQuote) => {
+export const createQuoteUseCase = async ({
+  user,
+  ...data
+}: TCreateQuote & { user: TUser }) => {
+  if (!isAdmin(user)) throw new AuthError();
+
   const quote = await createQuote(data);
 
-  // TODO : use dependency for Nextjs specific Apis
+  // TODO : use dependency injection for Nextjs specific Apis
   revalidatePath("/");
   revalidatePath("/quotes");
 
   return quote;
 };
 
-export const updateQuoteUseCase = async (data: TUpdateQuote) => {
+export const updateQuoteUseCase = async ({
+  user,
+  ...data
+}: TUpdateQuote & { user: TUser }) => {
+  if (!isAdmin(user)) throw new AuthError();
+
   const quote = await updateQuote(data);
 
-  // TODO : use dependency for Nextjs specific Apis
+  // TODO : use dependency injection for Nextjs specific Apis
   revalidatePath("/");
   revalidatePath("/quotes");
 
   return quote;
 };
 
-export const deleteQuoteUseCase = async (id: number) => {
+export const deleteQuoteUseCase = async (id: number, user: TUser) => {
+  if (!isAdmin(user)) throw new AuthError();
+
   await getQuoteByIdUseCase(id);
 
   await DeleteQuote(id);
 
-  // TODO : use dependency for Nextjs specific Apis
+  // TODO : use dependency injection for Nextjs specific Apis
   revalidatePath("/");
   revalidatePath("/quotes");
 

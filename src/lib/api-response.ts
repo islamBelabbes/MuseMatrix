@@ -1,18 +1,18 @@
-export type ApiSuccessResponse<T> = {
+export type TApiSuccessResponse<T> = {
   success: true;
   status: number;
   message: string;
   data?: T;
 };
 
-export type ApiErrorResponse = {
+export type TApiErrorResponse = {
   success: false;
   status: number;
   message: string;
   errors?: unknown;
 };
 
-type ApiResponseParams<T> = {
+type TApiResponseParams<T> = {
   success: boolean;
   status: number;
   message: string;
@@ -20,14 +20,14 @@ type ApiResponseParams<T> = {
   errors?: unknown;
 };
 
-export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+export type TApiResponse<T> = TApiSuccessResponse<T> | TApiErrorResponse;
 
 const apiResponse = <T>({
   data,
   message,
   status,
   success,
-}: ApiResponseParams<T>): ApiResponse<T> => {
+}: TApiResponseParams<T>): TApiResponse<T> => {
   return {
     success: success ? true : false,
     status,

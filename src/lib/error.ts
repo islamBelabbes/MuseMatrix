@@ -8,3 +8,14 @@ export class AppError extends Error {
     Error.captureStackTrace(this, this.constructor);
   }
 }
+
+export class AuthError extends Error {
+  statusCode: number;
+
+  constructor() {
+    super("You are not authorized to access this resource.");
+    this.name = "AuthError";
+    this.statusCode = 401;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}

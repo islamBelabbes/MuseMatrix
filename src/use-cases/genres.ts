@@ -4,11 +4,13 @@ import {
   getGenreById,
   getGenres,
 } from "@/data-access/geners";
-import { AppError } from "@/lib/error";
+import { AppError, AuthError } from "@/lib/error";
 import { TCreateGenre, TGetGenres } from "@/schema/genre";
 import { TQueryWithPagination } from "@/types/types";
 import generatePagination from "@/lib/generate-pagination";
 import { revalidatePath } from "next/cache";
+import { isAdmin } from "@/lib/utils";
+import { TUser } from "@/dto/users";
 
 export const getGenresUseCase = async ({
   limit,
@@ -33,10 +35,15 @@ export const getGenreByIdUseCase = async (id: number) => {
   return genre;
 };
 
-export const createGenreUseCase = async (data: TCreateGenre) => {
+export const createGenreUseCase = async ({
+  user,
+  ...data
+}: TCreateGenre & { user: TUser }) => {
+  if (!isAdmin(user)) throw new AuthError();
+
   const genre = await createGenre(data);
 
-  // TODO : use dependency for Nextjs specific Apis
+  // TODO : use dependency injection for Nextjs specific Apis
   revalidatePath("/");
   return genre;
 };
