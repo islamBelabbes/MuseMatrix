@@ -1,4 +1,6 @@
+import { TUser } from "@/dto/users";
 import apiResponse from "@/lib/api-response";
+import withAuth from "@/lib/with-auth";
 import withErrorHandler from "@/lib/with-error-handling";
 import { createGenreSchema, getGenresSchema } from "@/schema/genre";
 import { PaginationSchema } from "@/schema/schema";
@@ -25,11 +27,11 @@ async function getHandler(req: NextRequest) {
   return NextResponse.json(response, { status: response.status });
 }
 
-async function postHandler(req: NextRequest) {
+async function postHandler(req: NextRequest, params: {}, user: TUser) {
   const body = (await req.json()) as unknown;
   const validatedBody = createGenreSchema.parse(body);
 
-  const genre = await createGenreUseCase(validatedBody);
+  const genre = await createGenreUseCase({ ...validatedBody, user });
 
   const response = apiResponse({
     success: true,
@@ -42,4 +44,4 @@ async function postHandler(req: NextRequest) {
 }
 
 export const GET = withErrorHandler(getHandler);
-export const POST = withErrorHandler(postHandler);
+export const POST = withErrorHandler(withAuth(postHandler));

@@ -14,11 +14,12 @@ type TParams = {
 const putHandler = async (
   req: NextRequest,
   { params: { id } }: { params: TParams },
+  user: TUser,
 ) => {
   const body = await req.json();
   const validatedBody = updateQuoteSchema.parse({ ...body, id });
 
-  const quote = await updateQuoteUseCase(validatedBody);
+  const quote = await updateQuoteUseCase({ ...validatedBody, user });
 
   const response = apiResponse({
     success: true,
@@ -32,10 +33,11 @@ const putHandler = async (
 const deleteHandler = async (
   _: NextRequest,
   { params: { id } }: { params: TParams },
+  user: TUser,
 ) => {
   const _id = IdSchema.parse(id);
 
-  await deleteQuoteUseCase(_id);
+  await deleteQuoteUseCase(_id, user);
 
   return new Response(null, { status: 204 });
 };

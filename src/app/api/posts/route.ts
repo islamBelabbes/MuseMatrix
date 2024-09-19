@@ -1,4 +1,6 @@
+import { TUser } from "@/dto/users";
 import apiResponse from "@/lib/api-response";
+import withAuth from "@/lib/with-auth";
 import withErrorHandler from "@/lib/with-error-handling";
 import { createPostSchema, getPostsSchema } from "@/schema/posts";
 import { PaginationSchema } from "@/schema/schema";
@@ -27,7 +29,7 @@ async function getHandler(req: NextRequest) {
   return NextResponse.json(response, { status: response.status });
 }
 
-async function postHandler(req: NextRequest) {
+async function postHandler(req: NextRequest, params: {}, user: TUser) {
   const formData = await req.formData();
   const body = {
     title: formData.get("title") ?? undefined,
@@ -40,7 +42,7 @@ async function postHandler(req: NextRequest) {
 
   const validatedBody = createPostSchema.parse(body);
 
-  const post = await createPostUseCase(validatedBody);
+  const post = await createPostUseCase({ ...validatedBody, user });
 
   const response = apiResponse({
     success: true,
@@ -52,4 +54,4 @@ async function postHandler(req: NextRequest) {
 }
 
 export const GET = withErrorHandler(getHandler);
-export const POST = withErrorHandler(postHandler);
+export const POST = withErrorHandler(withAuth(postHandler));
