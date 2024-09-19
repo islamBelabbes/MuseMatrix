@@ -11,7 +11,7 @@ import { type TCreateAuthor, type TGetAuthors } from "@/schema/author";
 import { TQueryWithPagination } from "@/types/types";
 import generatePagination from "@/lib/generate-pagination";
 import { TUser } from "@/dto/users";
-import { isAdmin } from "@/lib/utils";
+import { isAdminUseCase } from "@/use-cases/authentication";
 
 export const getAuthorsUseCase = async ({
   limit,
@@ -40,7 +40,7 @@ export const createAuthorUseCase = async ({
   user,
   ...data
 }: TCreateAuthor & { user: TUser }) => {
-  if (!isAdmin(user)) throw new AuthError();
+  if (!isAdminUseCase(user)) throw new AuthError();
 
   const file = await utapi.uploadFiles(data.avatar);
   if (file.error) throw new AppError("avatar upload failed", 500);

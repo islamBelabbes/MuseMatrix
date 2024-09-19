@@ -21,7 +21,7 @@ import { getGenreByIdUseCase } from "./genres";
 import { getAuthorByIdUseCase } from "./authors";
 import generatePagination from "@/lib/generate-pagination";
 import { TUser } from "@/dto/users";
-import { isAdmin } from "@/lib/utils";
+import { isAdminUseCase } from "@/use-cases/authentication";
 
 export const getPostsUseCase = async ({
   status,
@@ -58,7 +58,7 @@ export const createPostUseCase = async ({
   user,
   ...data
 }: TCreatePost & { user: TUser }) => {
-  if (!isAdmin(user)) throw new AuthError();
+  if (!isAdminUseCase(user)) throw new AuthError();
   // make sure the genre and author exist
   const genrePromise = getGenreByIdUseCase(data.genreId);
   const authorPromise = getAuthorByIdUseCase(data.authorId);
@@ -84,7 +84,7 @@ export const updatePostUseCase = async ({
   user,
   ...data
 }: TUpdatePost & { user: TUser }) => {
-  if (!isAdmin(user)) throw new AuthError();
+  if (!isAdminUseCase(user)) throw new AuthError();
 
   const post = await getPostByIdUseCase({ id: data.id });
 
@@ -115,7 +115,7 @@ export const updatePostUseCase = async ({
 };
 
 export const deletePostUseCase = async (id: number, user: TUser) => {
-  if (!isAdmin(user)) throw new AuthError();
+  if (!isAdminUseCase(user)) throw new AuthError();
 
   const post = await getPostByIdUseCase({ id });
 

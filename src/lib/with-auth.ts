@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { TApiResponse } from "./api-response";
 import { TUser } from "@/dto/users";
 import { AuthError } from "./error";
+import { getCurrentUserUseCase } from "@/use-cases/authentication";
 
 type TApiHandlerWithAuth<T extends object> = (
   req: NextRequest,
@@ -10,22 +10,27 @@ type TApiHandlerWithAuth<T extends object> = (
   user: TUser,
 ) => Promise<NextResponse<TApiResponse<unknown>> | Response>;
 
+type TApiHandlerWithOptionalAuth<T extends object> = (
+  req: NextRequest,
+  params: T,
+  user: TUser | undefined,
+) => Promise<NextResponse<TApiResponse<unknown>> | Response>;
+
 const withAuth = <T extends object>(handler: TApiHandlerWithAuth<T>) => {
   return async (req: NextRequest, params: T) => {
-    const { isAuthenticated, getRoles, getUser } = getKindeServerSession();
+    const user = await getCurrentUserUseCase();
+    if (!user) throw new AuthError();
 
-    const user = await getUser();
-    const roles = await getRoles();
-    const isLoggedIn = await isAuthenticated();
+    return handler(req, params, user);
+  };
+};
 
-    const _user: TUser = {
-      ...user,
-      roles: roles ?? [],
-    };
-
-    if (isLoggedIn) return await handler(req, params, _user);
-
-    throw new AuthError();
+export const withOptionalAuth = <T extends object>(
+  handler: TApiHandlerWithOptionalAuth<T>,
+) => {
+  return async (req: NextRequest, params: T) => {
+    const user = (await getCurrentUserUseCase()) ?? undefined;
+    return handler(req, params, user);
   };
 };
 

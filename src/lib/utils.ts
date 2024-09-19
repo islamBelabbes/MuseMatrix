@@ -80,8 +80,3 @@ export function getDirtyFields(
     ]),
   );
 }
-
-export const isAdmin = (user: TUser) => {
-  if (user.roles.find((role) => role.key === "admin")) return true;
-  return false;
-};

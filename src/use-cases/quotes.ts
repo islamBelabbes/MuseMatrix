@@ -12,7 +12,7 @@ import { TPaginationQuery } from "@/types/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import generatePagination from "@/lib/generate-pagination";
 import { TUser } from "@/dto/users";
-import { isAdmin } from "@/lib/utils";
+import { isAdminUseCase } from "@/use-cases/authentication";
 
 export const getQuotesUseCase = async ({
   page = 1,
@@ -40,7 +40,7 @@ export const createQuoteUseCase = async ({
   user,
   ...data
 }: TCreateQuote & { user: TUser }) => {
-  if (!isAdmin(user)) throw new AuthError();
+  if (!isAdminUseCase(user)) throw new AuthError();
 
   const quote = await createQuote(data);
 
@@ -55,7 +55,7 @@ export const updateQuoteUseCase = async ({
   user,
   ...data
 }: TUpdateQuote & { user: TUser }) => {
-  if (!isAdmin(user)) throw new AuthError();
+  if (!isAdminUseCase(user)) throw new AuthError();
 
   const quote = await updateQuote(data);
 
@@ -67,7 +67,7 @@ export const updateQuoteUseCase = async ({
 };
 
 export const deleteQuoteUseCase = async (id: number, user: TUser) => {
-  if (!isAdmin(user)) throw new AuthError();
+  if (!isAdminUseCase(user)) throw new AuthError();
 
   await getQuoteByIdUseCase(id);
 

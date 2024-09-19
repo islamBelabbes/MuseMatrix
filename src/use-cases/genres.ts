@@ -9,7 +9,7 @@ import { TCreateGenre, TGetGenres } from "@/schema/genre";
 import { TQueryWithPagination } from "@/types/types";
 import generatePagination from "@/lib/generate-pagination";
 import { revalidatePath } from "next/cache";
-import { isAdmin } from "@/lib/utils";
+import { isAdminUseCase } from "@/use-cases/authentication";
 import { TUser } from "@/dto/users";
 
 export const getGenresUseCase = async ({
@@ -39,7 +39,7 @@ export const createGenreUseCase = async ({
   user,
   ...data
 }: TCreateGenre & { user: TUser }) => {
-  if (!isAdmin(user)) throw new AuthError();
+  if (!isAdminUseCase(user)) throw new AuthError();
 
   const genre = await createGenre(data);
 
