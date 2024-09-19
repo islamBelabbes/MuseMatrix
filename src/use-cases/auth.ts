@@ -1,10 +1,14 @@
 import { getCurrentUser } from "@/data-access/authentication";
 import { TUser } from "@/dto/users";
+import { AuthError } from "@/lib/error";
 
 // here both GLOBAL authentication and authorization logic
 
 export const getCurrentUserUseCase = async () => {
-  return await getCurrentUser();
+  const user = await getCurrentUser();
+  if (!user) throw new AuthError();
+
+  return user;
 };
 
 export const isAdminUseCase = (user: TUser) => {
