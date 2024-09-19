@@ -1,6 +1,8 @@
 import { getCurrentUser } from "@/data-access/authentication";
 import { TUser } from "@/dto/users";
 
+// here both GLOBAL authentication and authorization logic
+
 export const getCurrentUserUseCase = async () => {
   return await getCurrentUser();
 };

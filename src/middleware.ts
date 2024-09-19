@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  getCurrentUserUseCase,
-  isAdminUseCase,
-} from "./use-cases/authentication";
+import { getCurrentUserUseCase, isAdminUseCase } from "./use-cases/auth";
 
 export async function middleware(request: NextRequest) {
   const user = await getCurrentUserUseCase();

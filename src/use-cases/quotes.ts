@@ -12,7 +12,7 @@ import { TPaginationQuery } from "@/types/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import generatePagination from "@/lib/generate-pagination";
 import { TUser } from "@/dto/users";
-import { isAdminUseCase } from "@/use-cases/authentication";
+import { isAdminUseCase } from "@/use-cases/auth";
 
 export const getQuotesUseCase = async ({
   page = 1,

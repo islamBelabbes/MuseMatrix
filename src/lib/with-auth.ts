@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { TApiResponse } from "./api-response";
 import { TUser } from "@/dto/users";
 import { AuthError } from "./error";
-import { getCurrentUserUseCase } from "@/use-cases/authentication";
+import { getCurrentUserUseCase } from "@/use-cases/auth";
 
 type TApiHandlerWithAuth<T extends object> = (
   req: NextRequest,
