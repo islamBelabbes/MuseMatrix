@@ -48,5 +48,5 @@ async function postHandler(req: NextRequest, params: {}, user: TUser) {
   return NextResponse.json(response, { status: response.status });
 }
 
-export const GET = withErrorHandler(getHandler);
+export const GET = withErrorHandler(withAuth(getHandler));
 export const POST = withErrorHandler(withAuth(postHandler));
