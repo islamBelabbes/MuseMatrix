@@ -82,12 +82,20 @@ function PostForm({ initialData }: TPostFormProps) {
         id: data.id,
       };
 
-      const quote = await safeAsync(
+      const post = await safeAsync(
         updateMutation.mutateAsync(dirtyData as TUpdatePost),
       );
-      if (!quote.success) return toast.error("حصلت خطأ أثناء تحديث الاقتباس");
+      if (!post.success) return toast.error("حصلت خطأ أثناء تحديث الاقتباس");
 
-      return toast.success("تم تحديث الاقتباس بنجاح");
+      toast.success("تم تحديث الاقتباس بنجاح");
+      return form.reset({
+        id: post.data.id,
+        authorId: post.data.authorId,
+        genreId: post.data.genreId,
+        title: post.data.title,
+        status: post.data.status,
+        content: post.data.content,
+      });
     }
 
     const post = await safeAsync(createMutation.mutateAsync(data));
