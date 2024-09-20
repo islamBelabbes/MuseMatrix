@@ -9,7 +9,7 @@ import { TCreateGenre, TGetGenres } from "@/schema/genre";
 import { TQueryWithPagination } from "@/types/types";
 import generatePagination from "@/lib/generate-pagination";
 import { revalidatePath } from "next/cache";
-import { isAdminUseCase } from "@/use-cases/auth";
+import { isAdminUseCase } from "@/use-cases/authorization";
 import { TUser } from "@/dto/users";
 
 export const getGenresUseCase = async ({

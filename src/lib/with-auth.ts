@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { TApiResponse } from "./api-response";
 import { TUser } from "@/dto/users";
-import { AuthError } from "./error";
-import { getCurrentUserUseCase } from "@/use-cases/auth";
 import { safeAsync } from "./safe";
+import { getCurrentUser } from "./kinde-auth";
 
 type TApiHandlerWithAuth<T extends object> = (
   req: NextRequest,
@@ -19,7 +18,7 @@ type TApiHandlerWithOptionalAuth<T extends object> = (
 
 const withAuth = <T extends object>(handler: TApiHandlerWithAuth<T>) => {
   return async (req: NextRequest, params: T) => {
-    const user = await getCurrentUserUseCase(); // this will throw if the user is not authenticated
+    const user = await getCurrentUser(); // this will throw if the user is not authenticated
     return handler(req, params, user);
   };
 };
@@ -28,7 +27,7 @@ export const withOptionalAuth = <T extends object>(
   handler: TApiHandlerWithOptionalAuth<T>,
 ) => {
   return async (req: NextRequest, params: T) => {
-    const user = await safeAsync(getCurrentUserUseCase());
+    const user = await safeAsync(getCurrentUser());
 
     let _user: TUser | undefined = undefined;
     if (user.success) _user = user.data;

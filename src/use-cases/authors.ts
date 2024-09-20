@@ -11,7 +11,7 @@ import { type TCreateAuthor, type TGetAuthors } from "@/schema/author";
 import { TQueryWithPagination } from "@/types/types";
 import generatePagination from "@/lib/generate-pagination";
 import { TUser } from "@/dto/users";
-import { isAdminUseCase } from "@/use-cases/auth";
+import { isAdminUseCase } from "@/use-cases/authorization";
 
 export const getAuthorsUseCase = async ({
   limit,

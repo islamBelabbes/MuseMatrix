@@ -21,7 +21,7 @@ import { getGenreByIdUseCase } from "./genres";
 import { getAuthorByIdUseCase } from "./authors";
 import generatePagination from "@/lib/generate-pagination";
 import { TUser } from "@/dto/users";
-import { isAdminUseCase } from "@/use-cases/auth";
+import { isAdminUseCase } from "@/use-cases/authorization";
 
 export const getPostsUseCase = async ({
   status,
