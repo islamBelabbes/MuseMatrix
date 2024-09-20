@@ -94,7 +94,7 @@ export type Genre = z.infer<typeof GenreSchema>
 export const QuoteSchema = z.object({
   id: z.number().int(),
   quote: z.string(),
-  color: z.string().nullable(),
+  color: z.string(),
   postId: z.number().int().nullable(),
   authorId: z.number().int(),
   createdAt: z.coerce.date(),
