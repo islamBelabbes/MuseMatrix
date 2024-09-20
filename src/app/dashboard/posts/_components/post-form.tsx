@@ -14,14 +14,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ImageUpload from "../image-upload";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import PostContentViewer from "@/components/post-content-viewr";
-import AuthorSelect from "../author-select";
-import GenreSelect from "../genre-select";
 import {
   TCreatePost,
   TUpdatePost,
@@ -38,6 +35,9 @@ import {
 import { safeAsync } from "@/lib/safe";
 import { useRouter } from "next/navigation";
 import { cn, getDirtyFields } from "@/lib/utils";
+import ImageUpload from "../../_components/image-upload";
+import GenreSelect from "../../_components/genre-select";
+import AuthorSelect from "../../_components/author-select";
 
 type TPostFormProps = {
   initialData?: Omit<TCreatePost, "cover"> & {

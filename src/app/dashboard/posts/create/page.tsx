@@ -1,5 +1,5 @@
 import React from "react";
-import PostForm from "../../_components/post-form/post-form";
+import PostForm from "../_components/post-form";
 
 function CreatePostPage() {
   return <PostForm />;
