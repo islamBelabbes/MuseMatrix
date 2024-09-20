@@ -102,7 +102,7 @@ function CreatableSelect({
             onValueChange={setSearch}
           />
           <CommandList>
-            {!data.length && !isLoading && Boolean(search) && (
+            {!data.length && !isLoading && Boolean(search) && onCreate && (
               <CommandItem
                 className="cursor-pointer"
                 onSelect={() => onCreate?.(search, onOpenChange)}

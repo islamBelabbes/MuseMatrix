@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import CreatableSelect, { TSelectData } from "./creatable-select";
 import { TPost } from "@/dto/posts";
 import { usePostsQuery } from "@/lib/react-query/queries";
@@ -41,9 +41,6 @@ function PostSelect({ onChange, value }: TPostSelectProps) {
       setSearch={setSearch}
       isLoading={isLoading}
       disabled={isLoading}
-      onCreate={(search, setOpen) => {
-        return setOpen(false);
-      }}
     />
   );
 }
