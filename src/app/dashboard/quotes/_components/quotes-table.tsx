@@ -8,7 +8,7 @@ import React from "react";
 import TableActions from "../../_components/table-actions";
 import { MEDIA_URL } from "@/lib/constants";
 
-type TQuotesTable = Pick<TQuote, "author" | "quote">;
+type TQuotesTable = Pick<TQuote, "author" | "quote" | "id">;
 
 const columns: ColumnDef<TQuotesTable>[] = [
   {
@@ -45,7 +45,7 @@ const columns: ColumnDef<TQuotesTable>[] = [
     header: "الإجراءات",
     size: 100,
     cell: ({ row }) => {
-      const { id } = row.original as TQuote;
+      const { id } = row.original;
       return (
         <TableActions
           updateRoute={`quotes/update/${id}`}

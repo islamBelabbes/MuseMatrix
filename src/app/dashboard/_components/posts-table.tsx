@@ -7,7 +7,7 @@ import { DataTable } from "@/app/dashboard/_components/data-table";
 import TableActions from "./table-actions";
 import { MEDIA_URL } from "@/lib/constants";
 
-type TPostTable = Pick<TPost, "title" | "cover">;
+type TPostTable = Pick<TPost, "title" | "cover" | "id">;
 
 const columns: ColumnDef<TPostTable>[] = [
   {
@@ -38,7 +38,7 @@ const columns: ColumnDef<TPostTable>[] = [
     header: "الإجراءات",
     size: 100,
     cell: ({ row }) => {
-      const { id } = row.original as TPost;
+      const { id } = row.original;
       return (
         <TableActions
           updateRoute={`posts/update/${id}`}

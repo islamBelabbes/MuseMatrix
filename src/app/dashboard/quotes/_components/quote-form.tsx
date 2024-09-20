@@ -90,7 +90,8 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
     if (!quote.success) return toast.error("حصلت خطأ أثناء إنشاء الاقتباس");
 
     toast.success("تم إنشاء الاقتباس بنجاح");
-    return router.push(`/dashboard/quotes/update/${quote.data.id}`);
+    router.push(`/dashboard/quotes/update/${quote.data.id}`);
+    return router.refresh();
   };
 
   const color = form.watch("color");

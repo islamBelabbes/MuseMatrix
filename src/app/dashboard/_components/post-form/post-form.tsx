@@ -94,7 +94,8 @@ function PostForm({ initialData }: TPostFormProps) {
     if (!post.success) return toast.error("حصلت خطأ أثناء إنشاء المقالة");
 
     toast.success("تم إنشاء المقالة بنجاح");
-    return router.push(`/dashboard/posts/update/${post.data.id}`);
+    router.push(`/dashboard/posts/update/${post.data.id}`);
+    return router.refresh();
   };
 
   const cover = form.watch("cover") ?? initialData?.coverUrl ?? undefined;
