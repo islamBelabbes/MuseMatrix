@@ -193,3 +193,11 @@ article#content blockquote p {
   outline-width: 0px !important;
   outline-offset: 0px !important;
 } */
+
+.muse-editor .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: right;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
