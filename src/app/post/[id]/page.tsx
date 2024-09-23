@@ -72,7 +72,7 @@ async function PostPage({ params: { id } }: TParams) {
           </div>
         </div>
       </div>
-      <PostContentViewer htmlContent={post.data.content} Minimized={false} />
+      <PostContentViewer htmlContent={post.data.content} />
     </main>
   );
 }

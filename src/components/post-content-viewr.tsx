@@ -1,7 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
-import CollapsedSection from "./collapsed-section";
+import { useEffect } from "react";
 
 type PostContentViewerProps = {
   htmlContent: string;

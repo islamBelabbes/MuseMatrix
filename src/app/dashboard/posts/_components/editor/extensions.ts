@@ -26,7 +26,8 @@ const classes: Record<Levels, string> = {
 
 const Heading = BaseHeading.configure({ levels: [1, 2, 3] }).extend({
   renderHTML({ node, HTMLAttributes }) {
-    const hasLevel = this.options.levels.includes(node.attrs.level);
+    const _level: Levels = node.attrs.level;
+    const hasLevel = this.options.levels.includes(_level);
     const level: Levels = hasLevel ? node.attrs.level : this.options.levels[0];
 
     return [
