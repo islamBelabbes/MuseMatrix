@@ -38,6 +38,10 @@ import { cn, getDirtyFields } from "@/lib/utils";
 import ImageUpload from "../../_components/image-upload";
 import GenreSelect from "../../_components/genre-select";
 import AuthorSelect from "../../_components/author-select";
+import Editor from "./editor/advanced-editor";
+
+import { generateJSON, generateHTML } from "@tiptap/react";
+import { defaultExtensions } from "./editor/extensions";
 
 type TPostFormProps = {
   initialData?: Omit<TCreatePost, "cover"> & {
@@ -66,7 +70,7 @@ function PostForm({ initialData }: TPostFormProps) {
       genreId: initialData?.genreId,
       title: initialData?.title,
       status: initialData?.status ?? "Draft",
-      content: initialData?.content ?? "hey",
+      content: initialData?.content ?? "",
     },
     resolver: zodResolver(isUpdate ? updatePostSchema : createPostSchema),
   });
@@ -112,14 +116,17 @@ function PostForm({ initialData }: TPostFormProps) {
     return cover;
   }, [cover]);
 
+  const editorContent = useMemo(() => {
+    const content = form.watch("content");
+    if (!content) return undefined;
+    return generateJSON(content, defaultExtensions);
+  }, [form.watch("content")]);
+
   const isFormLoading =
     form.formState.isSubmitting || (createMutation.isSuccess && !isUpdate);
   return (
     <Form {...form}>
-      <form
-        className="flex flex-col gap-3 text-lg"
-        onSubmit={form.handleSubmit(handleSubmit)}
-      >
+      <form className="flex flex-col gap-3 text-lg">
         <div className="flex gap-4 rounded-md border border-primary p-3 sm:flex-row">
           <div
             className={cn("relative sm:w-[400px]", {
@@ -249,9 +256,28 @@ function PostForm({ initialData }: TPostFormProps) {
           </div>
         </div>
 
-        <PostContentViewer htmlContent="hey" />
+        <FormField
+          control={form.control}
+          name="content"
+          render={({ field }) => (
+            <FormItem className="mt-0">
+              <FormControl>
+                <Editor
+                  initialValue={editorContent}
+                  onChange={(value) =>
+                    field.onChange(generateHTML(value, defaultExtensions))
+                  }
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
 
-        <Button className="w-full" disabled={isFormLoading}>
+        <Button
+          className="w-full"
+          disabled={isFormLoading}
+          onClick={form.handleSubmit(handleSubmit)}
+        >
           {isUpdate ? "تعديل المقالة" : "انشاء المقالة"}
         </Button>
       </form>

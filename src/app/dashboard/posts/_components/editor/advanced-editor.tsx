@@ -22,6 +22,7 @@ import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import { uploadFn } from "./image-upload";
 import { Separator } from "@/components/ui/separator";
 import useIsMounted from "@/hooks/use-is-mounted";
+import Spinner from "@/components/ui/spinner";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -35,7 +36,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
 
-  if (!isMounted) return null;
+  if (!isMounted) return <Spinner className="mx-auto" />;
   return (
     <EditorRoot>
       <EditorContent
