@@ -1,5 +1,7 @@
 import NavBar from "./_components/nav-bar";
 
+import "@/styles/prosemirror.css";
+
 export default function DashboardLayout({
   children,
 }: {

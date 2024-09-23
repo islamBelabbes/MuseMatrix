@@ -126,15 +126,21 @@ function PostForm({ initialData }: TPostFormProps) {
     form.formState.isSubmitting || (createMutation.isSuccess && !isUpdate);
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-3 text-lg">
+      <form
+        className="flex flex-col gap-3 text-lg"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <div className="flex flex-col gap-4 rounded-md border border-primary p-3 md:flex-row">
-          <div
-            className={cn("relative h-[200px] w-full md:h-auto md:w-[400px]", {
-              "border border-red-700": form.formState.errors.cover,
-            })}
-          >
+          <div className="relative h-[200px] w-full md:h-auto md:w-[400px]">
             {!fullCover ? (
-              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform select-none">
+              <span
+                className={cn(
+                  "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform select-none",
+                  {
+                    "text-red-700": form.formState.errors.cover,
+                  },
+                )}
+              >
                 صورة المقالة
               </span>
             ) : (
