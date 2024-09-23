@@ -110,7 +110,7 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
         className="flex flex-col gap-3 text-lg"
         onSubmit={form.handleSubmit(handleOnSubmit)}
       >
-        <div className="flex gap-4 rounded-md border border-primary p-3 sm:flex-row">
+        <div className="flex flex-col gap-4 rounded-md border border-primary p-3 md:flex-row">
           <Quote
             author={{
               avatar: `${MEDIA_URL}/${author?.avatar}`,
@@ -126,7 +126,7 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                   }
                 : undefined
             }
-            className="shrink-0 md:basis-1/4"
+            className="shrink-0 md:basis-1/3 lg:basis-1/4"
           />
 
           <div className="flex basis-full flex-col gap-4">
@@ -170,12 +170,12 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
               )}
             />
 
-            <div className="flex items-start gap-2">
+            <div className="flex flex-col items-start gap-2 xl:flex-row">
               <FormField
                 name="postId"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem className="mt-0 flex grow items-center gap-2">
+                  <FormItem className="mt-0 flex w-full grow items-center gap-2 xl:w-auto">
                     <FormLabel className="w-16 shrink-0">المصدر</FormLabel>{" "}
                     <FormControl>
                       <PostSelect
@@ -197,11 +197,12 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                 name="color"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full xl:w-auto">
                     <FormControl>
                       <HexColorPicker
                         color={field.value ?? DEFAULT_COLOR}
                         onChange={field.onChange}
+                        className="!w-full xl:!w-52"
                       />
                     </FormControl>
                   </FormItem>

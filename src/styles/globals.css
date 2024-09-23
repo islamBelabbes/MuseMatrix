@@ -47,43 +47,25 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
   }
+
+  body {
+    min-height: 110vh;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
-body {
-  min-height: 110vh;
-  display: flex;
-  flex-direction: column;
-}
+/* @layer components {
+  @media screen and (max-width: 1023px) {
+    .react-colorful {
+      @apply !w-full;
+    }
+  }
+} */
 
-.app {
-  @apply mx-auto w-full p-8 sm:max-w-[1216px];
-}
-
-.ql-editor {
-  direction: rtl !important;
-  text-align: right !important;
-}
-.ql-container {
-  height: 95% !important;
-}
-article#content p {
-  font-weight: 500;
-}
-
-article#content blockquote {
-  border-left: none;
-  border-right: solid 2px #5e35b1;
-  margin-right: 0;
-  padding-right: 5px;
-  padding-left: 0;
-}
-article#content blockquote p {
-  color: #5e35b1;
-}
-
-@media screen and (max-width: 1000px) {
-  .react-colorful {
-    width: 100% !important;
+@layer utilities {
+  .app {
+    @apply mx-auto w-full p-8 sm:max-w-[1216px];
   }
 }
 

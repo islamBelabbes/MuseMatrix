@@ -3,7 +3,7 @@ import { TNavMenu } from "@/types/types";
 
 function NavMenu({ links }: { links: TNavMenu[] }) {
   return (
-    <ul className="hidden justify-center gap-10 md:flex">
+    <ul className="hidden justify-center gap-10 lg:flex">
       {links.map((link) => (
         <li
           key={link.href}

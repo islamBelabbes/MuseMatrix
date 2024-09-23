@@ -127,9 +127,9 @@ function PostForm({ initialData }: TPostFormProps) {
   return (
     <Form {...form}>
       <form className="flex flex-col gap-3 text-lg">
-        <div className="flex gap-4 rounded-md border border-primary p-3 sm:flex-row">
+        <div className="flex flex-col gap-4 rounded-md border border-primary p-3 md:flex-row">
           <div
-            className={cn("relative sm:w-[400px]", {
+            className={cn("relative h-[200px] w-full md:h-auto md:w-[400px]", {
               "border border-red-700": form.formState.errors.cover,
             })}
           >
