@@ -13,7 +13,6 @@ import {
 } from "novel/extensions";
 import TextDirection from "tiptap-text-direction";
 import TextAlign from "@tiptap/extension-text-align";
-import HardBreak from "@tiptap/extension-hard-break";
 
 import { createLowlight, common } from "lowlight";
 
@@ -148,7 +147,6 @@ const codeBlockLowlight = CodeBlockLowlight.configure({
 export const defaultExtensions = [
   starterKit,
   tiptapLink,
-  HardBreak,
   taskList,
   taskItem,
   horizontalRule,
