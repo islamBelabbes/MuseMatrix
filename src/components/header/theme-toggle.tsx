@@ -25,13 +25,13 @@ export default function ThemeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")} dir="rtl">
+        <DropdownMenuItem onClick={() => setTheme("light")} dir="auto">
           المظهر الفاتح
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")} dir="rtl">
+        <DropdownMenuItem onClick={() => setTheme("dark")} dir="auto">
           المظر الداكن
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")} dir="rtl">
+        <DropdownMenuItem onClick={() => setTheme("system")} dir="auto">
           تلقائي
         </DropdownMenuItem>
       </DropdownMenuContent>
