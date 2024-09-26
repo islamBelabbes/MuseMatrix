@@ -17,15 +17,6 @@ import { Command, renderItems } from "novel/extensions";
 
 export const suggestionItems = createSuggestionItems([
   {
-    title: "إرسال ملاحظات",
-    description: "أخبرنا كيف يمكننا التحسين.",
-    icon: <MessageSquarePlus size={18} />,
-    command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).run();
-      window.open("/feedback", "_blank");
-    },
-  },
-  {
     title: "نص",
     description: "ابدأ الكتابة بنص عادي.",
     searchTerms: ["p", "فقرة"],
@@ -90,24 +81,24 @@ export const suggestionItems = createSuggestionItems([
         .run();
     },
   },
-  {
-    title: "قائمة نقطية",
-    description: "إنشاء قائمة نقطية بسيطة.",
-    searchTerms: ["غير مرتبة", "نقطة"],
-    icon: <List size={18} />,
-    command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).toggleBulletList().run();
-    },
-  },
-  {
-    title: "قائمة مرقمة",
-    description: "إنشاء قائمة مرقمة.",
-    searchTerms: ["مرتبة"],
-    icon: <ListOrdered size={18} />,
-    command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).toggleOrderedList().run();
-    },
-  },
+  // {
+  //   title: "قائمة نقطية",
+  //   description: "إنشاء قائمة نقطية بسيطة.",
+  //   searchTerms: ["غير مرتبة", "نقطة"],
+  //   icon: <List size={18} />,
+  //   command: ({ editor, range }) => {
+  //     editor.chain().focus().deleteRange(range).toggleBulletList().run();
+  //   },
+  // },
+  // {
+  //   title: "قائمة مرقمة",
+  //   description: "إنشاء قائمة مرقمة.",
+  //   searchTerms: ["مرتبة"],
+  //   icon: <ListOrdered size={18} />,
+  //   command: ({ editor, range }) => {
+  //     editor.chain().focus().deleteRange(range).toggleOrderedList().run();
+  //   },
+  // },
   {
     title: "اقتباس",
     description: "التقاط اقتباس.",
@@ -130,27 +121,6 @@ export const suggestionItems = createSuggestionItems([
     icon: <Code size={18} />,
     command: ({ editor, range }) =>
       editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
-  },
-  {
-    title: "صورة",
-    description: "تحميل صورة من جهاز الكمبيوتر الخاص بك.",
-    searchTerms: ["photo", "صورة", "وسائط"],
-    icon: <ImageIcon size={18} />,
-    command: ({ editor, range }) => {
-      // editor.chain().focus().deleteRange(range).run();
-      // // upload image
-      // const input = document.createElement("input");
-      // input.type = "file";
-      // input.accept = "image/*";
-      // input.onchange = async () => {
-      //   if (input.files?.length) {
-      //     const file = input.files[0];
-      //     const pos = editor.view.state.selection.from;
-      //     uploadFn(file, editor.view, pos);
-      //   }
-      // };
-      // input.click();
-    },
   },
 ]);
 

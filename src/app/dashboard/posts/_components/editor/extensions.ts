@@ -13,6 +13,8 @@ import {
 } from "novel/extensions";
 import TextDirection from "tiptap-text-direction";
 import TextAlign from "@tiptap/extension-text-align";
+import HardBreak from "@tiptap/extension-hard-break";
+
 import { createLowlight, common } from "lowlight";
 
 import { cx } from "class-variance-authority";
@@ -121,7 +123,7 @@ const starterKit = StarterKit.configure({
   },
   blockquote: {
     HTMLAttributes: {
-      class: cx("border-primary"),
+      class: cx("border-purple-900"),
     },
   },
   codeBlock: false,
@@ -146,6 +148,7 @@ const codeBlockLowlight = CodeBlockLowlight.configure({
 export const defaultExtensions = [
   starterKit,
   tiptapLink,
+  HardBreak,
   taskList,
   taskItem,
   horizontalRule,

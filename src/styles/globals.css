@@ -144,10 +144,20 @@
     }
   }
 
-  .muse-editor blockquote:dir(rtl) {
+  .muse-content blockquote p {
+    color: purple;
+  }
+  .muse-content blockquote:dir(rtl) p {
+    padding-right: 4px;
+  }
+  .muse-content blockquote:dir(ltr) p {
+    padding-left: 4px;
+  }
+
+  .muse-content blockquote:dir(rtl) {
     border-right-width: 4px;
   }
-  .muse-editor blockquote:dir(ltr) {
+  .muse-content blockquote:dir(ltr) {
     border-left-width: 4px;
   }
 }
@@ -156,49 +166,6 @@
   .app {
     @apply mx-auto w-full p-8 sm:max-w-[1216px];
   }
-}
-
-swiper-container {
-  width: 100%;
-}
-swiper-container::part(container) {
-  height: auto;
-}
-
-.posts_table td.cover {
-  max-width: 100px;
-  min-width: 100px;
-}
-.posts_table td.title {
-  width: 100%;
-}
-
-.quotes_table td.author_avatar {
-  max-width: 250px;
-  min-width: 250px;
-}
-.quotes_table td.author {
-  max-width: 150px;
-  min-width: 150px;
-  overflow: hidden;
-}
-
-.quotes_table td.quote {
-  width: 100%;
-}
-
-td.actions {
-  max-width: 150px;
-  min-width: 150px;
-}
-
-.dark article#content span,
-.dark article#content p {
-  color: #fff !important;
-}
-
-article#content blockquote p {
-  color: purple !important;
 }
 
 [cmdk-root] {
