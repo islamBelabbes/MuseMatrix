@@ -1,8 +1,6 @@
 "use client";
 import {
-  TiptapImage,
   TiptapLink,
-  UpdatedImage,
   TaskList,
   TaskItem,
   HorizontalRule,
@@ -13,10 +11,9 @@ import {
   TextStyle,
   CodeBlockLowlight,
 } from "novel/extensions";
+import TextDirection from "tiptap-text-direction";
 import TextAlign from "@tiptap/extension-text-align";
 import { createLowlight, common } from "lowlight";
-
-import { UploadImagesPlugin } from "novel/plugins";
 
 import { cx } from "class-variance-authority";
 
@@ -49,7 +46,23 @@ const Heading = BaseHeading.configure({ levels: [1, 2, 3] }).extend({
 
 const textAlign = TextAlign.configure({
   types: ["heading", "paragraph"],
-  defaultAlignment: "right",
+  alignments: ["center"],
+}).extend({
+  addKeyboardShortcuts() {
+    return {
+      "Mod-Shift-E": () => {
+        if (this.editor.isActive({ textAlign: "center" })) {
+          return this.editor.commands.unsetTextAlign();
+        }
+
+        return this.editor.commands.setTextAlign("center");
+      },
+    };
+  },
+});
+
+const textDirection = TextDirection.configure({
+  types: ["heading", "paragraph", "blockquote"],
 });
 
 const placeholder = Placeholder.configure({
@@ -67,27 +80,6 @@ const tiptapLink = TiptapLink.configure({
     class: cx(
       "text-muted-foreground underline underline-offset-[3px] hover:text-primary transition-colors cursor-pointer",
     ),
-  },
-});
-
-const tiptapImage = TiptapImage.extend({
-  addProseMirrorPlugins() {
-    return [
-      UploadImagesPlugin({
-        imageClass: cx("opacity-40 rounded-lg border border-stone-200"),
-      }),
-    ];
-  },
-}).configure({
-  allowBase64: true,
-  HTMLAttributes: {
-    class: cx("rounded-lg border border-muted"),
-  },
-});
-
-const updatedImage = UpdatedImage.configure({
-  HTMLAttributes: {
-    class: cx("rounded-lg border border-muted"),
   },
 });
 
@@ -129,16 +121,10 @@ const starterKit = StarterKit.configure({
   },
   blockquote: {
     HTMLAttributes: {
-      class: cx("border-r-4 border-primary"),
+      class: cx("border-primary"),
     },
   },
-  codeBlock: {
-    HTMLAttributes: {
-      class: cx(
-        "rounded-md bg-muted text-muted-foreground border p-5 font-mono font-medium",
-      ),
-    },
-  },
+  codeBlock: false,
   code: {
     HTMLAttributes: {
       class: cx("rounded-md bg-muted  px-1.5 py-1 font-mono font-medium"),
@@ -160,8 +146,6 @@ const codeBlockLowlight = CodeBlockLowlight.configure({
 export const defaultExtensions = [
   starterKit,
   tiptapLink,
-  tiptapImage,
-  updatedImage,
   taskList,
   taskItem,
   horizontalRule,
@@ -171,5 +155,6 @@ export const defaultExtensions = [
   Color,
   HighlightExtension,
   TextStyle,
+  textDirection,
   codeBlockLowlight,
 ];

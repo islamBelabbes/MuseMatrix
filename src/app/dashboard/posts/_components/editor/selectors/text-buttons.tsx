@@ -6,6 +6,7 @@ import {
   UnderlineIcon,
   StrikethroughIcon,
   CodeIcon,
+  AlignCenter,
 } from "lucide-react";
 import type { SelectorItem } from "./node-selector";
 import { Button } from "@/components/ui/button";
@@ -44,6 +45,17 @@ export const TextButtons = () => {
       isActive: (editor) => editor.isActive("code"),
       command: (editor) => editor.chain().focus().toggleCode().run(),
       icon: CodeIcon,
+    },
+    {
+      name: "center",
+      isActive: (editor) => editor.isActive({ textAlign: "center" }),
+      command: (editor) => {
+        if (editor.isActive({ textAlign: "center" })) {
+          return editor.chain().focus().unsetTextAlign().run();
+        }
+        return editor.chain().focus().setTextAlign("center").run();
+      },
+      icon: AlignCenter,
     },
   ];
 

@@ -95,16 +95,15 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
         >
           <Separator orientation="vertical" />
           <NodeSelector open={openNode} onOpenChange={setOpenNode} />
-          <Separator orientation="vertical" />
 
+          <Separator orientation="vertical" />
           <LinkSelector open={openLink} onOpenChange={setOpenLink} />
+
           <Separator orientation="vertical" />
           <TextButtons />
-          <Separator orientation="vertical" />
-          <ColorSelector open={openColor} onOpenChange={setOpenColor} />
 
           <Separator orientation="vertical" />
-          <TextAlignSelector open={openAlign} onOpenChange={setOpenAlign} />
+          <ColorSelector open={openColor} onOpenChange={setOpenColor} />
         </EditorBubble>
       </EditorContent>
     </EditorRoot>
