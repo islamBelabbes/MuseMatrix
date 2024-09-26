@@ -8,7 +8,14 @@ import {
   HorizontalRule,
   StarterKit,
   Placeholder,
+  Color,
+  HighlightExtension,
+  TextStyle,
+  CodeBlockLowlight,
 } from "novel/extensions";
+import TextAlign from "@tiptap/extension-text-align";
+import { createLowlight, common } from "lowlight";
+
 import { UploadImagesPlugin } from "novel/plugins";
 
 import { cx } from "class-variance-authority";
@@ -38,6 +45,11 @@ const Heading = BaseHeading.configure({ levels: [1, 2, 3] }).extend({
       0,
     ];
   },
+});
+
+const textAlign = TextAlign.configure({
+  types: ["heading", "paragraph"],
+  defaultAlignment: "right",
 });
 
 const placeholder = Placeholder.configure({
@@ -141,6 +153,10 @@ const starterKit = StarterKit.configure({
   gapcursor: false,
 });
 
+const codeBlockLowlight = CodeBlockLowlight.configure({
+  lowlight: createLowlight(common),
+});
+
 export const defaultExtensions = [
   starterKit,
   tiptapLink,
@@ -151,4 +167,9 @@ export const defaultExtensions = [
   horizontalRule,
   heading,
   placeholder,
+  textAlign,
+  Color,
+  HighlightExtension,
+  TextStyle,
+  codeBlockLowlight,
 ];

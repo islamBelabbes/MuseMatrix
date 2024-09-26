@@ -23,6 +23,7 @@ import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import { Separator } from "@/components/ui/separator";
 import useIsMounted from "@/hooks/use-is-mounted";
 import Spinner from "@/components/ui/spinner";
+import TextAlignSelector from "./selectors/text-align-selector";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -35,6 +36,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
+  const [openAlign, setOpenAlign] = useState(false);
 
   if (!isMounted) return <Spinner className="mx-auto" />;
   return (
@@ -100,6 +102,9 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
           <TextButtons />
           <Separator orientation="vertical" />
           <ColorSelector open={openColor} onOpenChange={setOpenColor} />
+
+          <Separator orientation="vertical" />
+          <TextAlignSelector open={openAlign} onOpenChange={setOpenAlign} />
         </EditorBubble>
       </EditorContent>
     </EditorRoot>
