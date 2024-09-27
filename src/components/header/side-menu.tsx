@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { Menu } from "lucide-react";
@@ -8,6 +7,7 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import ThemeToggle from "./theme-toggle";
 import { TNavMenu } from "@/types/types";
+import { useRouter } from "next-nprogress-bar";
 
 function SideMenu({ links }: { links: TNavMenu[] }) {
   const [isOpen, setIsOpen] = useState(false);

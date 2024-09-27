@@ -33,7 +33,6 @@ import {
   useUpdatePostMutation,
 } from "@/lib/react-query/mutations";
 import { safeAsync } from "@/lib/safe";
-import { useRouter } from "next/navigation";
 import { cn, getDirtyFields } from "@/lib/utils";
 import ImageUpload from "../../_components/image-upload";
 import GenreSelect from "../../_components/genre-select";
@@ -42,6 +41,7 @@ import Editor from "./editor/advanced-editor";
 
 import { generateJSON, generateHTML } from "@tiptap/react";
 import { defaultExtensions } from "./editor/extensions";
+import { useRouter } from "next-nprogress-bar";
 
 type TPostFormProps = {
   initialData?: Omit<TCreatePost, "cover"> & {

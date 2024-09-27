@@ -28,10 +28,10 @@ import {
   useCreateQuoteMutation,
   useUpdateQuoteMutation,
 } from "@/lib/react-query/mutations";
-import { useRouter } from "next/navigation";
 import { safeAsync } from "@/lib/safe";
 import toast from "react-hot-toast";
 import { getDirtyFields } from "@/lib/utils";
+import { useRouter } from "next-nprogress-bar";
 
 const DEFAULT_COLOR = "#000000";
 
