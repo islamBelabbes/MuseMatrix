@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   EditorRoot,
   EditorCommand,
@@ -18,12 +18,9 @@ import { ColorSelector } from "./selectors/color-selector";
 
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
-import { handleImageDrop, handleImagePaste } from "novel/plugins";
-// import { uploadFn } from "./image-upload";
 import { Separator } from "@/components/ui/separator";
 import useIsMounted from "@/hooks/use-is-mounted";
 import Spinner from "@/components/ui/spinner";
-import TextAlignSelector from "./selectors/text-align-selector";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -36,7 +33,6 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
-  const [openAlign, setOpenAlign] = useState(false);
 
   if (!isMounted) return <Spinner className="mx-auto" />;
   return (
