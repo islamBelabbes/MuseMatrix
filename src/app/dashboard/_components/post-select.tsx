@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import CreatableSelect, { TSelectData } from "./creatable-select";
 import { TPost } from "@/dto/posts";
 import { usePostsQuery } from "@/lib/react-query/queries";
@@ -10,39 +10,42 @@ type TPostSelectProps = {
   onChange: (value: TSelectData, post?: TPost) => void;
 };
 
-function PostSelect({ onChange, value }: TPostSelectProps) {
-  const { search, setSearch, debouncedSearch } = useSearch();
+const PostSelect = forwardRef<HTMLButtonElement, TPostSelectProps>(
+  ({ onChange, value }, ref) => {
+    const { search, setSearch, debouncedSearch } = useSearch();
 
-  const { data, isLoading, error, refetch } = usePostsQuery({
-    title: debouncedSearch,
-  });
-  const refinedData = data
-    ? data.data.map((item) => ({
-        label: item.title,
-        value: item.id.toString(),
-      }))
-    : [];
+    const { data, isLoading, error, refetch } = usePostsQuery({
+      title: debouncedSearch,
+    });
+    const refinedData = data
+      ? data.data.map((item) => ({
+          label: item.title,
+          value: item.id.toString(),
+        }))
+      : [];
 
-  const handleOnChange = (selected: TSelectData) => {
-    const selectedPost = data?.data.find(
-      (item) => String(item.id) === selected.value,
+    const handleOnChange = (selected: TSelectData) => {
+      const selectedPost = data?.data.find(
+        (item) => String(item.id) === selected.value,
+      );
+      return onChange(selected, selectedPost);
+    };
+
+    if (error) return <ErrorFullBack onRetry={refetch} />;
+    return (
+      <CreatableSelect
+        placeholder="اختر مقالة"
+        data={refinedData}
+        value={value}
+        onChange={handleOnChange}
+        search={search}
+        setSearch={setSearch}
+        isLoading={isLoading}
+        disabled={isLoading}
+        ref={ref}
+      />
     );
-    return onChange(selected, selectedPost);
-  };
-
-  if (error) return <ErrorFullBack onRetry={refetch} />;
-  return (
-    <CreatableSelect
-      placeholder="اختر مقالة"
-      data={refinedData}
-      value={value}
-      onChange={handleOnChange}
-      search={search}
-      setSearch={setSearch}
-      isLoading={isLoading}
-      disabled={isLoading}
-    />
-  );
-}
+  },
+);
 
 export default PostSelect;

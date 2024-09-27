@@ -205,6 +205,7 @@ function PostForm({ initialData }: TPostFormProps) {
                         setGenre(genre);
                         return field.onChange(selected.value);
                       }}
+                      ref={field.ref}
                     />
                   </FormControl>
                 </FormItem>
@@ -228,6 +229,7 @@ function PostForm({ initialData }: TPostFormProps) {
                         setAuthor(author);
                         return field.onChange(selected.value);
                       }}
+                      ref={field.ref}
                     />
                   </FormControl>
                 </FormItem>

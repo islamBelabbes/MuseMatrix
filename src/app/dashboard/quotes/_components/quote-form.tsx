@@ -164,6 +164,7 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                         setAuthor(author);
                         return field.onChange(selected.value ?? null);
                       }}
+                      ref={field.ref}
                     />
                   </FormControl>
                 </FormItem>
@@ -187,6 +188,7 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                           setPost(post);
                           field.onChange(selected.value ?? null);
                         }}
+                        ref={field.ref}
                       />
                     </FormControl>
                   </FormItem>
