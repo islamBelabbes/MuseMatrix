@@ -14,7 +14,7 @@ export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCo
 
 export const AuthorScalarFieldEnumSchema = z.enum(['id','avatar','name','createdAt','updatedAt']);
 
-export const PostScalarFieldEnumSchema = z.enum(['id','title','content','cover','legacy','status','authorId','genreId','createdAt','updatedAt']);
+export const PostScalarFieldEnumSchema = z.enum(['id','title','content','cover','status','authorId','genreId','createdAt','updatedAt']);
 
 export const GenreScalarFieldEnumSchema = z.enum(['id','title','createdAt','updatedAt']);
 
@@ -66,7 +66,6 @@ export const PostSchema = z.object({
   title: z.string(),
   content: z.string(),
   cover: z.string(),
-  legacy: z.boolean(),
   authorId: z.number().int(),
   genreId: z.number().int(),
   createdAt: z.coerce.date(),

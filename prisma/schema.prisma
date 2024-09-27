@@ -29,11 +29,11 @@ model Author {
 }
 
 model Post {
-    id      Int     @id @default(autoincrement())
+    id      Int    @id @default(autoincrement())
     title   String
     content String
     cover   String
-    status  STATUS  @default(Draft) // enum
+    status  STATUS @default(Draft) // enum
 
     authorId Int
     author   Author @relation(fields: [authorId], references: [id])
