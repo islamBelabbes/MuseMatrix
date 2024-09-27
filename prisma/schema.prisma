@@ -33,7 +33,6 @@ model Post {
     title   String
     content String
     cover   String
-    legacy  Boolean @default(false)
     status  STATUS  @default(Draft) // enum
 
     authorId Int
