@@ -16,15 +16,10 @@ export const env = createEnv({
     KINDE_SITE_URL: z.string().url(),
   },
 
-  client: {
-    NEXT_PUBLIC_BASE_URL: z.string().url(),
-  },
-
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
-    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
     KINDE_CLIENT_ID: process.env.KINDE_CLIENT_ID,
     KINDE_CLIENT_SECRET: process.env.KINDE_CLIENT_SECRET,
     KINDE_ISSUER_URL: process.env.KINDE_ISSUER_URL,
