@@ -153,12 +153,13 @@ export const createQuote = async (quote: TCreateQuote) => {
 };
 
 export const updateQuote = async (quote: TUpdateQuote) => {
-  const response = await fetch("/api/quotes/" + quote.id, {
+  const { id, ...rest } = quote;
+  const response = await fetch("/api/quotes/" + id, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(quote),
+    body: JSON.stringify(rest),
   });
 
   if (!response.ok) {
