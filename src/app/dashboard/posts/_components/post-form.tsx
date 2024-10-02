@@ -42,6 +42,7 @@ import Editor from "./editor/advanced-editor";
 import { generateJSON, generateHTML } from "@tiptap/react";
 import { defaultExtensions } from "./editor/extensions";
 import { useRouter } from "next-nprogress-bar";
+import useDebouncedCallback from "@/hooks/use-debounced-callback";
 
 type TPostFormProps = {
   initialData?: Omit<TCreatePost, "cover"> & {
@@ -77,6 +78,10 @@ function PostForm({ initialData }: TPostFormProps) {
 
   const createMutation = useCreatePostMutation();
   const updateMutation = useUpdatePostMutation();
+  const debouncedOnUpdate = useDebouncedCallback({
+    callback: () => handleOnUpdate(),
+    delay: 500,
+  });
 
   const handleSubmit = async (data: TCreatePost | TUpdatePost) => {
     if ("id" in data) {
@@ -108,6 +113,14 @@ function PostForm({ initialData }: TPostFormProps) {
     toast.success("تم إنشاء المقالة بنجاح");
     router.push(`/dashboard/posts/update/${post.data.id}`);
     return router.refresh();
+  };
+
+  const handleOnUpdate = () => {
+    if (!initialData?.id) return;
+    const value = form.getValues("content") ?? "";
+    return safeAsync(
+      updateMutation.mutateAsync({ content: value, id: initialData.id }),
+    );
   };
 
   const cover = form.watch("cover") ?? initialData?.coverUrl ?? undefined;
@@ -275,6 +288,7 @@ function PostForm({ initialData }: TPostFormProps) {
                   onChange={(value) =>
                     field.onChange(generateHTML(value, defaultExtensions))
                   }
+                  onUpdate={isUpdate ? debouncedOnUpdate : undefined}
                 />
               </FormControl>
             </FormItem>

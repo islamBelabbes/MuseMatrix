@@ -27,8 +27,9 @@ const extensions = [...defaultExtensions, slashCommand];
 interface EditorProp {
   initialValue?: JSONContent;
   onChange: (value: JSONContent) => void;
+  onUpdate?: (value: JSONContent) => void;
 }
-const Editor = ({ initialValue, onChange }: EditorProp) => {
+const Editor = ({ initialValue, onChange, onUpdate }: EditorProp) => {
   const isMounted = useIsMounted();
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
@@ -54,6 +55,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
         }}
         onUpdate={({ editor }) => {
           onChange(editor.getJSON());
+          return onUpdate?.(editor.getJSON());
         }}
         slotAfter={<ImageResizer />}
       >
