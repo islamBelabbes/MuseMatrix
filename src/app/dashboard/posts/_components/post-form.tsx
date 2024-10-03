@@ -43,6 +43,7 @@ import { generateJSON, generateHTML } from "@tiptap/react";
 import { defaultExtensions } from "./editor/extensions";
 import { useRouter } from "next-nprogress-bar";
 import useDebouncedCallback from "@/hooks/use-debounced-callback";
+import useIsMounted from "@/hooks/use-is-mounted";
 
 type TPostFormProps = {
   initialData?: Omit<TCreatePost, "cover"> & {
@@ -61,6 +62,8 @@ function PostForm({ initialData }: TPostFormProps) {
   const [author, setAuthor] = useState<TPost["author"] | undefined>(
     initialData?.author,
   );
+
+  const isMounted = useIsMounted();
 
   const router = useRouter();
 
@@ -130,10 +133,11 @@ function PostForm({ initialData }: TPostFormProps) {
   }, [cover]);
 
   const editorContent = useMemo(() => {
+    if (!isMounted) return;
     const content = form.watch("content");
     if (!content) return undefined;
     return generateJSON(content, defaultExtensions);
-  }, [form.watch("content")]);
+  }, [form.watch("content"), isMounted]);
 
   const isFormLoading =
     form.formState.isSubmitting || (createMutation.isSuccess && !isUpdate);
