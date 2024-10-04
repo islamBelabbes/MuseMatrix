@@ -11,15 +11,15 @@ const NAVBAR_LINKS = [
   },
   {
     name: "المقالات",
-    path: "/dashboard/posts",
+    path: "/dashboard/posts?page=1",
   },
   {
     name: "مسودات",
-    path: "/dashboard/drafts",
+    path: "/dashboard/drafts?page=1",
   },
   {
     name: "اقتباسات",
-    path: "/dashboard/quotes",
+    path: "/dashboard/quotes?page=1",
   },
 ];
 function NavBar() {
