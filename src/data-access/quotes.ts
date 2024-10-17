@@ -25,7 +25,12 @@ export const getQuotes = async ({
     },
     include: {
       author: true,
-      post: true,
+      post: {
+        select: {
+          id: true,
+          title: true,
+        },
+      },
     },
     take,
     skip,
