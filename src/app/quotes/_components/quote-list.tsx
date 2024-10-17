@@ -2,11 +2,9 @@
 
 import LoadMoreButton from "@/components/load-more-button";
 import Quote from "@/components/quote";
-import { Button } from "@/components/ui/button";
-import Spinner from "@/components/ui/spinner";
 import { TQuote } from "@/dto/quotes";
 import { MEDIA_URL } from "@/lib/constants";
-import { useQuotesQuery } from "@/lib/react-query/queries";
+import { useQuotesInfiniteQuery } from "@/lib/react-query/queries";
 import { TDataWithPagination } from "@/types/types";
 
 function QuoteList({
@@ -17,7 +15,7 @@ function QuoteList({
   limit: number;
 }) {
   const { data, isFetchingNextPage, isError, fetchNextPage, hasNextPage } =
-    useQuotesQuery(limit, quotes);
+    useQuotesInfiniteQuery(limit, quotes);
 
   const mappedQuotes = data?.pages.reduce<TQuote[]>((acc, current) => {
     return [...acc, ...current.data];

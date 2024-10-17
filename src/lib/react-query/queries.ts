@@ -69,7 +69,7 @@ export const usePostsInfiniteQuery = (
   });
 };
 
-export const useQuotesQuery = (
+export const useQuotesInfiniteQuery = (
   limit: number,
   initialData?: TDataWithPagination<TQuote[]>,
 ) => {
