@@ -72,8 +72,6 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
     // we check if we are on update form
     if ("id" in data) {
       const dirtyFields = form.formState.dirtyFields;
-      console.log(dirtyFields);
-
       const dirtyData = {
         ...(getDirtyFields(dirtyFields, data) as {}),
         id: data.id,
