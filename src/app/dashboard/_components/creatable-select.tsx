@@ -98,55 +98,51 @@ const CreatableSelect = forwardRef<HTMLButtonElement, TCreatableSelectProps>(
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent className="w-[200px] p-0" forceMount>
-          <CommandDialog open={open} onOpenChange={onOpenChange}>
-            <CommandInput
-              placeholder={placeholder}
-              className="outline-0"
-              onValueChange={setSearch}
-            />
-            <CommandList>
-              {!data.length && !isLoading && Boolean(search) && onCreate && (
+        <CommandDialog open={open} onOpenChange={onOpenChange}>
+          <CommandInput
+            placeholder={placeholder}
+            className="outline-0"
+            onValueChange={setSearch}
+          />
+          <CommandList>
+            {!data.length && !isLoading && Boolean(search) && onCreate && (
+              <CommandItem
+                className="cursor-pointer"
+                onSelect={() => onCreate?.(search, onOpenChange)}
+              >
+                انشاء: {search}
+              </CommandItem>
+            )}
+
+            {isLoading && (
+              <CommandLoading className="py-2 text-center">
+                جاري التحميل...
+              </CommandLoading>
+            )}
+
+            {/* Search Result */}
+            {!isLoading &&
+              data.map((item) => (
                 <CommandItem
-                  className="cursor-pointer"
-                  onSelect={() => onCreate?.(search, onOpenChange)}
+                  className="flex cursor-pointer justify-between"
+                  key={item.value}
+                  value={item.value}
+                  onSelect={(selected) => {
+                    return handleOnSelect(selected, item);
+                  }}
                 >
-                  انشاء: {search}
+                  {item.label}
+
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value?.value === item.value ? "opacity-100" : "opacity-0",
+                    )}
+                  />
                 </CommandItem>
-              )}
-
-              {isLoading && (
-                <CommandLoading className="py-2 text-center">
-                  جاري التحميل...
-                </CommandLoading>
-              )}
-
-              {/* Search Result */}
-              {!isLoading &&
-                data.map((item) => (
-                  <CommandItem
-                    className="flex cursor-pointer justify-between"
-                    key={item.value}
-                    value={item.value}
-                    onSelect={(selected) => {
-                      return handleOnSelect(selected, item);
-                    }}
-                  >
-                    {item.label}
-
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        value?.value === item.value
-                          ? "opacity-100"
-                          : "opacity-0",
-                      )}
-                    />
-                  </CommandItem>
-                ))}
-            </CommandList>
-          </CommandDialog>
-        </PopoverContent>
+              ))}
+          </CommandList>
+        </CommandDialog>
       </Popover>
     );
   },
