@@ -1,19 +1,17 @@
 import { useEffect, useRef } from "react";
 
-type TUseDebouncedCallback = {
-  callback: () => void;
-  delay: number;
-};
+const useDebouncedCallback = <T extends (...args: any[]) => void>(
+  callback: T,
+  delay: number,
+) => {
+  const handlerRef = useRef<NodeJS.Timeout>();
 
-const useDebouncedCallback = ({ callback, delay }: TUseDebouncedCallback) => {
-  const handlerRef = useRef<any>();
-
-  const callBack = () => {
+  const callBack = (...args: Parameters<T>) => {
     if (handlerRef.current) {
       clearTimeout(handlerRef.current);
     }
     handlerRef.current = setTimeout(() => {
-      callback();
+      callback(...args);
     }, delay);
   };
 

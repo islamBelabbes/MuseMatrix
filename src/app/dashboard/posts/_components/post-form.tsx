@@ -18,7 +18,6 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import PostContentViewer from "@/components/post-content-viewr";
 import {
   TCreatePost,
   TUpdatePost,
@@ -81,10 +80,11 @@ function PostForm({ initialData }: TPostFormProps) {
 
   const createMutation = useCreatePostMutation();
   const updateMutation = useUpdatePostMutation();
-  const debouncedOnUpdate = useDebouncedCallback({
-    callback: () => handleOnUpdate(),
-    delay: 500,
-  });
+
+  // use anonymous function to prevent Block-scoped variable error
+  const debouncedOnUpdate = useDebouncedCallback(() => handleOnUpdate, 500);
+
+  debouncedOnUpdate();
 
   const handleSubmit = async (data: TCreatePost | TUpdatePost) => {
     if ("id" in data) {
@@ -141,6 +141,7 @@ function PostForm({ initialData }: TPostFormProps) {
 
   const isFormLoading =
     form.formState.isSubmitting || (createMutation.isSuccess && !isUpdate);
+
   return (
     <Form {...form}>
       <form
