@@ -6,7 +6,7 @@ type TQuoteWithRelations = Quote & {
 };
 
 export const quotesDtoMapper = (quote: TQuoteWithRelations) => {
-  return quote;
+  return {...quote};
 };
 
 export type TQuote = ReturnType<typeof quotesDtoMapper>;

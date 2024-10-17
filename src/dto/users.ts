@@ -5,7 +5,7 @@ type TUserParams = KindeUserBase & {
 };
 
 export const usersDtoMapper = (user: TUserParams) => {
-  return user;
+  return {...user};
 };
 
 export type TUser = ReturnType<typeof usersDtoMapper>;

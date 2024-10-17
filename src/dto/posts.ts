@@ -6,7 +6,7 @@ type PostWithRelations = Post & {
 };
 
 export const postsDtoMapper = (post: PostWithRelations) => {
-  return post;
+  return { ...post };
 };
 
 export type TPost = ReturnType<typeof postsDtoMapper>;
