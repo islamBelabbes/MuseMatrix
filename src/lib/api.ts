@@ -1,5 +1,5 @@
 import { TCreateAuthor, TGetAuthors } from "@/schema/author";
-import { TDataWithPagination } from "@/types/types";
+import { TDataWithPagination, TPaginationQuery } from "@/types/types";
 import { generateSearchParams } from "./utils";
 import { TAuthor } from "@/dto/authors";
 import { TCreateGenre, TGetGenres } from "@/schema/genre";
@@ -80,7 +80,7 @@ export const createGenre = async (genre: TCreateGenre) => {
 };
 
 // Posts
-export const getPosts = async (params: TGetPosts) => {
+export const getPosts = async (params: TGetPosts & TPaginationQuery) => {
   const searchParams = generateSearchParams(params);
   const response = await fetch(`/api/posts?${searchParams.toString()}`);
   if (!response.ok) {
@@ -135,6 +135,18 @@ export const updatePost = async (post: TUpdatePost) => {
 };
 
 // Quotes
+
+export const getQuotes = async (params: TPaginationQuery) => {
+  const searchParams = generateSearchParams(params);
+  const response = await fetch(`/api/quotes?${searchParams.toString()}`);
+
+  if (!response.ok) {
+    throw new AppError("something went wrong", response.status);
+  }
+
+  const data = await response.json();
+  return data?.data as TDataWithPagination<TQuote[]>;
+};
 
 export const createQuote = async (quote: TCreateQuote) => {
   const response = await fetch("/api/quotes", {

@@ -7,6 +7,8 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { z } from "zod";
 
+const LIMIT_DATA = 10;
+
 const paramsSchema = z.coerce.number().catch(0);
 
 export async function generateMetadata({
@@ -40,9 +42,14 @@ async function Page({ params: { genreId } }: { params: { genreId: string } }) {
   const posts = await getPostsUseCase({
     genreId: _genreId,
     status: "Published",
+    limit: LIMIT_DATA,
   });
 
-  return <main className="app">{<PostList posts={posts.data} />}</main>;
+  return (
+    <main className="app">
+      <PostList posts={posts} limit={LIMIT_DATA} genreId={_genreId} />
+    </main>
+  );
 }
 
 export default Page;

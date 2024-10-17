@@ -5,7 +5,7 @@ import { IdSchema, ImageSchema } from "./schema";
 export const getPostsSchema = z.object({
   status: PostSchema.shape.status.optional(),
   title: PostSchema.shape.title.optional(),
-  genreId: PostSchema.shape.genreId.optional(),
+  genreId: IdSchema.optional(),
 });
 
 export const getPostByIdSchema = z.object({

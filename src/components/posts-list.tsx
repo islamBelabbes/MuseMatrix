@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
@@ -6,49 +8,82 @@ import Link from "next/link";
 import { TPost } from "@/dto/posts";
 import { MEDIA_URL } from "@/lib/constants";
 import AuthorAvatar from "./author-avatar";
+import { usePostsInfiniteQuery } from "@/lib/react-query/queries";
+import { TDataWithPagination } from "@/types/types";
+import LoadMoreButton from "./load-more-button";
+
+type TPostsListProps = {
+  posts: TDataWithPagination<TPost[]>;
+  withLoadMore?: boolean;
+  limit: number;
+  genreId: number;
+};
 
 // pick only the fields we need
-type TPostListProps = Pick<TPost, "id" | "title" | "cover"> & {
+type TPostCardProps = Pick<TPost, "id" | "title" | "cover"> & {
   genre: Pick<TPost["genre"], "title">;
   author: Pick<TPost["author"], "name" | "avatar">;
 };
 
-function PostList({ posts }: { posts: TPost[] }) {
+function PostList({
+  posts,
+  withLoadMore = true,
+  limit,
+  genreId,
+}: TPostsListProps) {
+  const { data, isFetchingNextPage, isError, fetchNextPage, hasNextPage } =
+    usePostsInfiniteQuery(limit, withLoadMore, genreId, posts);
+
+  const mappedQuotes = data?.pages.reduce<TPost[]>((acc, current) => {
+    return [...acc, ...current.data];
+  }, []);
+
+  if (isError) return;
+
   return (
-    <ul
-      className={cn(
-        "grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] justify-center gap-5",
-        {
-          "grid-cols-[1fr] text-center": !posts.length,
-        },
+    <div className="flex flex-col items-center gap-4">
+      <ul
+        className={cn(
+          "grid w-full grid-cols-[repeat(auto-fill,minmax(300px,1fr))] justify-center gap-5",
+          {
+            "grid-cols-[1fr] text-center": !mappedQuotes?.length,
+          },
+        )}
+      >
+        {mappedQuotes?.length ? (
+          mappedQuotes?.map((post) => (
+            <PostCard
+              key={post.id}
+              id={post.id}
+              title={post.title}
+              cover={`${MEDIA_URL}/${post.cover}`}
+              author={{
+                avatar: post.author.avatar,
+                name: post.author.name,
+              }}
+              genre={{
+                title: post.genre.title,
+              }}
+            />
+          ))
+        ) : (
+          <h1 className="my-5 text-center text-2xl">
+            لايوجد مقالات لهذا التصنيف
+          </h1>
+        )}
+      </ul>
+
+      {withLoadMore && hasNextPage && (
+        <LoadMoreButton
+          onClick={fetchNextPage}
+          isLoading={isFetchingNextPage}
+        />
       )}
-    >
-      {posts.length ? (
-        posts.map((post) => (
-          <PostCard
-            key={post.id}
-            id={post.id}
-            title={post.title}
-            cover={`${MEDIA_URL}/${post.cover}`}
-            author={{
-              avatar: post.author.avatar,
-              name: post.author.name,
-            }}
-            genre={{
-              title: post.genre.title,
-            }}
-          />
-        ))
-      ) : (
-        <h1 className="my-5 text-center text-2xl">
-          لايوجد مقالات لهذا التصنيف
-        </h1>
-      )}
-    </ul>
+    </div>
   );
 }
 
-const PostCard = ({ ...post }: TPostListProps) => {
+const PostCard = ({ ...post }: TPostCardProps) => {
   return (
     <li className="flex flex-col items-center gap-4 rounded-xl border border-secondary p-4">
       <div className="relative h-[240px] w-full">

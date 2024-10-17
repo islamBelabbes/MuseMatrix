@@ -3,6 +3,8 @@ import QuoteList from "./_components/quote-list";
 import { getQuotesUseCase } from "@/use-cases/quotes";
 import { generateSeoTitle } from "@/lib/utils";
 
+const DATA_LIMIT = 12;
+
 export async function generateMetadata() {
   return {
     title: generateSeoTitle(["اقتباسات"]),
@@ -10,10 +12,10 @@ export async function generateMetadata() {
 }
 
 async function QuotesPage() {
-  const quotes = await getQuotesUseCase({ limit: 10 });
+  const quotes = await getQuotesUseCase({ limit: DATA_LIMIT });
   return (
     <main className="app">
-      <QuoteList quotes={quotes.data} />
+      <QuoteList quotes={quotes} limit={DATA_LIMIT} />
     </main>
   );
 }
