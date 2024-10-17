@@ -26,11 +26,6 @@ const postHandler = async (req: NextRequest, params: {}, user: TUser) => {
 };
 
 const getHandler = async (req: NextRequest) => {
-  await new Promise<void>((resolve, reject) => {
-    return setTimeout(() => {
-      return resolve();
-    }, 1000);
-  });
   const url = new URL(req.url);
   const page = url.searchParams.get("page");
   const limit = url.searchParams.get("limit");
