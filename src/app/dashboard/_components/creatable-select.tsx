@@ -6,16 +6,11 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   CommandDialog,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import { forwardRef, useState } from "react";
 import { CommandLoading } from "cmdk";
 
