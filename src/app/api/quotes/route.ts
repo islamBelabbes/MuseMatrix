@@ -35,8 +35,8 @@ const getHandler = async (req: NextRequest) => {
 
   const response = apiResponse({
     success: true,
-    message: "quote created successfully",
-    status: 201,
+    message: "quote fetched successfully",
+    status: 200,
     data: quotes,
   });
   return NextResponse.json(response, { status: response.status });
