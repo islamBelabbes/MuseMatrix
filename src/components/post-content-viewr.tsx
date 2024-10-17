@@ -1,20 +1,11 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
 
 type PostContentViewerProps = {
   htmlContent: string;
-  initialization?: () => void;
 };
 
-function PostContentViewer({
-  htmlContent,
-  initialization,
-}: PostContentViewerProps) {
-  useEffect(() => {
-    initialization?.();
-  }, [initialization]);
-
+function PostContentViewer({ htmlContent }: PostContentViewerProps) {
   return (
     <article
       className={cn(
