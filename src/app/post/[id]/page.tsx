@@ -9,6 +9,7 @@ import React, { cache } from "react";
 import { z } from "zod";
 import { generateSeoTitle } from "@/lib/utils";
 import { MEDIA_URL } from "@/lib/constants";
+import readingTime from "reading-time";
 
 type TParams = {
   params: {
@@ -51,11 +52,18 @@ async function PostPage({ params: { id } }: TParams) {
 
   const post = await safeAsync(cachedPost(_id));
   if (!post.success) notFound();
+
+  const timeToRead = readingTime(post.data.content);
+
   return (
     <main className="app flex h-fit flex-col gap-5">
       <div className="flex flex-col items-center justify-between gap-y-2 md:flex-row">
         <div className="flex w-full flex-1 flex-col gap-5">
-          <Tag name={post.data.genre.title} variation="primary" />
+          <div className="flex gap-2">
+            <Tag name={post.data.genre.title} variation="primary" />
+            <Tag name={timeToRead.text} variation="secondary" dir="ltr" />
+          </div>
+
           <h1 className={`landscape-[50px] text-[18px] font-bold`}>
             {post.data.title}
           </h1>
