@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { z } from "zod";
 
-const LIMIT_DATA = 1;
+const LIMIT_DATA = 10;
 
 const paramsSchema = z.coerce.number().catch(0);
 

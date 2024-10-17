@@ -3,7 +3,7 @@ import QuoteList from "./_components/quote-list";
 import { getQuotesUseCase } from "@/use-cases/quotes";
 import { generateSeoTitle } from "@/lib/utils";
 
-const DATA_LIMIT = 10;
+const DATA_LIMIT = 12;
 
 export async function generateMetadata() {
   return {
