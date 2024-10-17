@@ -30,7 +30,7 @@ export const getPostsUseCase = async ({
   limit,
   page,
 }: TQueryWithPagination<TGetPosts> = {}) => {
-  const countPromise = countPosts({ status, title });
+  const countPromise = countPosts({ status, title, genreId });
   const dataPromise = getPosts({
     status,
     title,
