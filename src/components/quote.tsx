@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import AuthorAvatar from "@/components/author-avatar";
 import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog";
 import { TQuote } from "@/dto/quotes";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 const DEFAULT_COLOR = "#262D33";
 
@@ -31,11 +33,16 @@ function Quote({ className, showFullContent = false, ...quote }: TQuoteProps) {
 
       <Dialog open={showModal} onOpenChange={setShowModal}>
         <DialogContent className="color w-[90vw] rounded-none border-none bg-[none] bg-none p-0 shadow-none sm:w-[500px]">
+          <VisuallyHidden>
+            <DialogTitle hidden>محتوى الاقتباس</DialogTitle>
+          </VisuallyHidden>
+
           <QuoteContent
             className={className}
             showFullContent={showFullContent}
             {...quote}
           />
+
           <DialogClose className="hidden bg-white" />
         </DialogContent>
       </Dialog>
