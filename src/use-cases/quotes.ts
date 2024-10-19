@@ -9,10 +9,11 @@ import {
 import { AppError, AuthError } from "@/lib/error";
 import { TCreateQuote, TUpdateQuote } from "@/schema/quotes";
 import { TPaginationQuery } from "@/types/types";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import generatePagination from "@/lib/generate-pagination";
 import { TUser } from "@/dto/users";
 import { isAdminUseCase } from "@/use-cases/authorization";
+import { getAuthorByIdUseCase } from "./authors";
 
 export const getQuotesUseCase = async ({
   page = 1,
@@ -42,6 +43,8 @@ export const createQuoteUseCase = async ({
 }: TCreateQuote & { user: TUser }) => {
   if (!isAdminUseCase(user)) throw new AuthError();
 
+  await getAuthorByIdUseCase(data.authorId);
+
   const quote = await createQuote(data);
 
   // TODO : use dependency injection for Nextjs specific Apis
@@ -56,6 +59,11 @@ export const updateQuoteUseCase = async ({
   ...data
 }: TUpdateQuote & { user: TUser }) => {
   if (!isAdminUseCase(user)) throw new AuthError();
+
+  await Promise.all([
+    getQuoteByIdUseCase(data.id),
+    data.authorId && getAuthorByIdUseCase(data.authorId),
+  ]);
 
   const quote = await updateQuote(data);
 
