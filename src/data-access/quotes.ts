@@ -49,7 +49,12 @@ export const getQuoteById = async (id: number) => {
     },
     include: {
       author: true,
-      post: true,
+      post: {
+        select: {
+          id: true,
+          title: true,
+        },
+      },
     },
   });
 
@@ -77,7 +82,12 @@ export const createQuote = async (data: TCreateQuote) => {
     data,
     include: {
       author: true,
-      post: true,
+      post: {
+        select: {
+          id: true,
+          title: true,
+        },
+      },
     },
   });
 
@@ -92,7 +102,12 @@ export const updateQuote = async ({ id, ...data }: TUpdateQuote) => {
     data,
     include: {
       author: true,
-      post: true,
+      post: {
+        select: {
+          id: true,
+          title: true,
+        },
+      },
     },
   });
 
