@@ -2,9 +2,11 @@ import { z } from "zod";
 import { PostSchema } from "../../prisma/generated/zod";
 import { IdSchema, ImageSchema } from "./schema";
 
+const TitleSchema = PostSchema.shape.title.min(1);
+
 export const getPostsSchema = z.object({
   status: PostSchema.shape.status.optional(),
-  title: PostSchema.shape.title.optional(),
+  title: TitleSchema.optional(),
   genreId: IdSchema.optional(),
 });
 
@@ -14,10 +16,10 @@ export const getPostByIdSchema = z.object({
 });
 
 export const createPostSchema = PostSchema.pick({
-  title: true,
   content: true,
   status: true,
 }).extend({
+  title: TitleSchema,
   cover: ImageSchema,
   genreId: IdSchema,
   authorId: IdSchema,

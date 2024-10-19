@@ -15,7 +15,7 @@ async function putHandler(
   const formData = await req.formData();
   const body = {
     id,
-    title: formData.get("title") ?? undefined,
+    title: formData.get("title") || undefined,
     content: formData.get("content") ?? undefined,
     genreId: formData.get("genreId") ?? undefined,
     authorId: formData.get("authorId") ?? undefined,

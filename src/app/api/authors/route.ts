@@ -31,7 +31,7 @@ async function getHandler(req: NextRequest) {
 async function postHandler(req: NextRequest, params: {}, user: TUser) {
   const formData = await req.formData();
   const body = {
-    name: formData.get("name") ?? undefined,
+    name: formData.get("name") || undefined,
     avatar: formData.get("avatar"),
   };
 
