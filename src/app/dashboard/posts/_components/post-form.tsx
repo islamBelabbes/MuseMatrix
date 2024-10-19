@@ -82,9 +82,7 @@ function PostForm({ initialData }: TPostFormProps) {
   const updateMutation = useUpdatePostMutation();
 
   // use anonymous function to prevent Block-scoped variable error
-  const debouncedOnUpdate = useDebouncedCallback(() => handleOnUpdate, 500);
-
-  debouncedOnUpdate();
+  const debouncedOnUpdate = useDebouncedCallback(() => handleOnUpdate(), 500);
 
   const handleSubmit = async (data: TCreatePost | TUpdatePost) => {
     if ("id" in data) {
@@ -293,7 +291,7 @@ function PostForm({ initialData }: TPostFormProps) {
                   onChange={(value) =>
                     field.onChange(generateHTML(value, defaultExtensions))
                   }
-                  onUpdate={isUpdate ? debouncedOnUpdate : undefined}
+                  onUpdate={debouncedOnUpdate}
                 />
               </FormControl>
             </FormItem>
