@@ -165,6 +165,7 @@ function PostForm({ initialData }: TPostFormProps) {
                 alt="post_cover"
                 fill
                 className="rounded-xl object-cover"
+                priority
               />
             )}
           </div>

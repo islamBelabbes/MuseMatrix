@@ -39,6 +39,7 @@ const Editor = ({ initialValue, onChange, onUpdate }: EditorProp) => {
   return (
     <EditorRoot>
       <EditorContent
+        immediatelyRender={false}
         className="muse-content rounded-xl border p-4"
         {...(initialValue && { initialContent: initialValue })}
         extensions={extensions}
