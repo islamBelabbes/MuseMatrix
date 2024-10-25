@@ -10,8 +10,8 @@ import { NextRequest, NextResponse } from "next/server";
 async function getHandler(req: NextRequest) {
   const url = new URL(req.url);
   const status = "Published";
-  const title = url.searchParams.get("title") ?? undefined;
-  const genreId = url.searchParams.get("genreId") ?? undefined;
+  const title = url.searchParams.get("title") || undefined;
+  const genreId = url.searchParams.get("genreId") || undefined;
   const page = url.searchParams.get("page");
   const limit = url.searchParams.get("limit");
 
@@ -53,5 +53,5 @@ async function postHandler(req: NextRequest, params: {}, user: TUser) {
   return NextResponse.json(response, { status: response.status });
 }
 
-export const GET = withErrorHandler(getHandler);
+export const GET = withErrorHandler(withAuth(getHandler));
 export const POST = withErrorHandler(withAuth(postHandler));
