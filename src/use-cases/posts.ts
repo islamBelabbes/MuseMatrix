@@ -22,6 +22,7 @@ import { getAuthorByIdUseCase } from "./authors";
 import generatePagination from "@/lib/generate-pagination";
 import { TUser } from "@/dto/users";
 import { isAdminUseCase } from "@/use-cases/authorization";
+import { TPost } from "@/dto/posts";
 
 export const getPostsUseCase = async ({
   status,
@@ -29,10 +30,12 @@ export const getPostsUseCase = async ({
   genreId,
   limit,
   page,
-}: TQueryWithPagination<TGetPosts> = {}) => {
-  const countPromise = countPosts({ status, title, genreId });
+  user,
+}: TQueryWithPagination<TGetPosts> & { user?: TUser } = {}) => {
+  const _status = getAllowedStatusUseCase(status, user);
+  const countPromise = countPosts({ status: _status, title, genreId });
   const dataPromise = getPosts({
-    status,
+    status: _status,
     title,
     genreId,
     limit,
@@ -131,4 +134,16 @@ export const deletePostUseCase = async (id: number, user: TUser) => {
   revalidatePath(`/post/${post.id}`);
 
   return true;
+};
+
+export const getAllowedStatusUseCase = (
+  status?: TPost["status"],
+  user?: TUser,
+) => {
+  // if admin return
+  if (user && isAdminUseCase(user)) return status;
+
+  if (status === "Draft") throw new AppError("not allowed", 403);
+
+  return "Published";
 };

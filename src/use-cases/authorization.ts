@@ -1,3 +1,4 @@
+import { TPost } from "@/dto/posts";
 import { TUser } from "@/dto/users";
 
 export const isAdminUseCase = (user: TUser) => {
