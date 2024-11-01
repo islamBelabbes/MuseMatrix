@@ -82,7 +82,10 @@ function PostForm({ initialData }: TPostFormProps) {
   const updateMutation = useUpdatePostMutation();
 
   // use anonymous function to prevent Block-scoped variable error
-  const debouncedOnUpdate = useDebouncedCallback(() => handleOnUpdate(), 500);
+  const debouncedOnUpdate = useDebouncedCallback(
+    () => handleEditorOnUpdate(),
+    500,
+  );
 
   const handleSubmit = async (data: TCreatePost | TUpdatePost) => {
     if ("id" in data) {
@@ -116,7 +119,7 @@ function PostForm({ initialData }: TPostFormProps) {
     return router.refresh();
   };
 
-  const handleOnUpdate = () => {
+  const handleEditorOnUpdate = () => {
     if (!initialData?.id) return;
     const value = form.getValues("content") ?? "";
     return safeAsync(
@@ -124,7 +127,7 @@ function PostForm({ initialData }: TPostFormProps) {
     );
   };
 
-  const cover = form.watch("cover") ?? initialData?.coverUrl ?? undefined;
+  const cover = form.watch("cover") ?? initialData?.coverUrl;
   const fullCover = useMemo(() => {
     if (typeof cover === "object") return URL.createObjectURL(cover);
     return cover;
