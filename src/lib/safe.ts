@@ -31,7 +31,7 @@ export async function safeAsync<T>(
     if (err !== undefined) {
       return { success: false, error: err };
     }
-    return { success: false, error: "Something went wrong" };
+    return { success: false, error: e };
   }
 }
 export function safeSync<T>(func: () => T, err?: unknown): Safe<T> {
@@ -46,6 +46,6 @@ export function safeSync<T>(func: () => T, err?: unknown): Safe<T> {
     if (e instanceof Error) {
       return { success: false, error: e.message };
     }
-    return { success: false, error: "Something went wrong" };
+    return { success: false, error: e };
   }
 }
