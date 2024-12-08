@@ -8,7 +8,7 @@ import Footer from "@/components/footer/footer";
 
 const tajawal = Tajawal({
   weight: ["200", "300", "400", "500", "700", "800", "900"],
-  preload: false,
+  preload: true,
   subsets: ["arabic"],
 });
 export const metadata: Metadata = {
