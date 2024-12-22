@@ -58,6 +58,7 @@ const QuoteContent = ({
 }: TQuoteContentProps) => {
   return (
     <li
+       dir="auto"
       className={cn(
         "relative flex min-h-[370px] flex-col items-center gap-5 rounded-xl py-7",
         className,
