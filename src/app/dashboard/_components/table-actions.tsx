@@ -28,11 +28,13 @@ function TableActions({ deleteRoute, updateRoute }: TTableActionsProps) {
   };
 
   const handleDelete = async () => {
-    const deleted = await safeAsync(mutation.mutateAsync(deleteRoute));
-    if (!deleted.success) return toast.error("حصلت خطأ أثناء الحذف ");
+    if (confirm("are you sure?")) {
+      const deleted = await safeAsync(mutation.mutateAsync(deleteRoute));
+      if (!deleted.success) return toast.error("حصلت خطأ أثناء الحذف ");
 
-    toast.success("تم الحذف بنجاح");
-    return router.refresh();
+      toast.success("تم الحذف بنجاح");
+      return router.refresh();
+    }
   };
 
   return (
