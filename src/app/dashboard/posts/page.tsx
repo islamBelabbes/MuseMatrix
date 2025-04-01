@@ -8,9 +8,10 @@ const LIMIT = 10;
 export default async function PostsPage({
   searchParams,
 }: {
-  searchParams: { page: string };
+  searchParams: Promise<{ page: string }>;
 }) {
-  const page = PageSchema.parse(searchParams.page);
+  const _page = (await searchParams).page;
+  const page = PageSchema.parse(_page);
   const posts = await getPostsUseCase({
     status: "Published",
     limit: LIMIT,

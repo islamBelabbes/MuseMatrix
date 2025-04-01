@@ -62,7 +62,9 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
       color: isUpdate ? initialData?.color : DEFAULT_COLOR,
       quote: initialData?.quote,
     },
-    resolver: zodResolver(isUpdate ? updateQuoteSchema : createQuoteSchema),
+    resolver: zodResolver(
+      (isUpdate ? updateQuoteSchema : createQuoteSchema) as any,
+    ),
   });
 
   const createMutation = useCreateQuoteMutation();

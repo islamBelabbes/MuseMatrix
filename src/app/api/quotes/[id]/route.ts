@@ -13,9 +13,10 @@ type TParams = {
 
 const putHandler = async (
   req: NextRequest,
-  { params: { id } }: { params: TParams },
+  { params }: { params: Promise<TParams> },
   user: TUser,
 ) => {
+  const id = (await params).id;
   const body = await req.json();
   const validatedBody = updateQuoteSchema.parse({ ...body, id });
 
@@ -32,12 +33,13 @@ const putHandler = async (
 
 const deleteHandler = async (
   _: NextRequest,
-  { params: { id } }: { params: TParams },
+  { params }: { params: Promise<TParams> },
   user: TUser,
 ) => {
-  const _id = IdSchema.parse(id);
+  const _id = (await params).id;
+  const id = IdSchema.parse(_id);
 
-  await deleteQuoteUseCase(_id, user);
+  await deleteQuoteUseCase(id, user);
 
   return new Response(null, { status: 204 });
 };

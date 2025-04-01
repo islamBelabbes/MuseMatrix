@@ -20,5 +20,5 @@ export type TDataWithPagination<T> = TPagination & {
 
 export type TApiHandler<T extends object> = (
   req: NextRequest,
-  params: T,
+  segmentData: { params: T },
 ) => Promise<NextResponse<TApiResponse<unknown>> | Response>;

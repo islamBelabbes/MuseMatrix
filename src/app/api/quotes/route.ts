@@ -8,7 +8,7 @@ import { TPaginationQuery } from "@/types/types";
 import { createQuoteUseCase, getQuotesUseCase } from "@/use-cases/quotes";
 import { NextRequest, NextResponse } from "next/server";
 
-const postHandler = async (req: NextRequest, params: {}, user: TUser) => {
+const postHandler = async (req: NextRequest, _: any, user: TUser) => {
   const body = (await req.json()) as unknown;
   const validatedBody = createQuoteSchema.parse(body);
 

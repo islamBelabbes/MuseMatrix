@@ -9,9 +9,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 async function putHandler(
   req: NextRequest,
-  { params: { id } }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
   user: TUser,
 ) {
+  const id = (await params).id;
   const formData = await req.formData();
   const body = {
     id,
@@ -38,12 +39,13 @@ async function putHandler(
 
 async function deleteHandler(
   _: NextRequest,
-  { params: { id } }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
   user: TUser,
 ) {
-  const _id = IdSchema.parse(id);
+  const _id = (await params).id;
+  const id = IdSchema.parse(_id);
 
-  await deletePostUseCase(_id, user);
+  await deletePostUseCase(id, user);
   return new Response(null, { status: 204 });
 }
 

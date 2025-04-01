@@ -75,7 +75,9 @@ function PostForm({ initialData }: TPostFormProps) {
       status: initialData?.status ?? "Draft",
       content: initialData?.content ?? "",
     },
-    resolver: zodResolver(isUpdate ? updatePostSchema : createPostSchema),
+    resolver: zodResolver(
+      (isUpdate ? updatePostSchema : createPostSchema) as any,
+    ),
   });
 
   const createMutation = useCreatePostMutation();

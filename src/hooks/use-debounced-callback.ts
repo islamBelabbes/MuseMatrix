@@ -4,7 +4,7 @@ const useDebouncedCallback = <T extends (...args: any[]) => void>(
   callback: T,
   delay: number,
 ) => {
-  const handlerRef = useRef<NodeJS.Timeout>();
+  const handlerRef = useRef<NodeJS.Timeout>(null);
 
   const callBack = (...args: Parameters<T>) => {
     if (handlerRef.current) {

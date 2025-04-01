@@ -4,15 +4,11 @@ import {
   Heading1,
   Heading2,
   Heading3,
-  ImageIcon,
-  List,
-  ListOrdered,
-  MessageSquarePlus,
   Text,
   TextQuote,
 } from "lucide-react";
-import { createSuggestionItems } from "novel/extensions";
-import { Command, renderItems } from "novel/extensions";
+import { createSuggestionItems } from "novel";
+import { Command, renderItems } from "novel";
 // import { uploadFn } from "./image-upload";
 
 export const suggestionItems = createSuggestionItems([

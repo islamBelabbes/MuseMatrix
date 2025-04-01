@@ -5,10 +5,12 @@ import { ZodError } from "zod";
 import { flatZodError } from "./utils";
 import { TApiHandler } from "@/types/types";
 
-const withErrorHandler = <T extends object>(handler: TApiHandler<T>) => {
-  return async (req: NextRequest, params: T) => {
+const withErrorHandler = <T extends Promise<object>>(
+  handler: TApiHandler<T>,
+) => {
+  return async (req: NextRequest, segmentData: { params: T }) => {
     try {
-      return await handler(req, params);
+      return await handler(req, segmentData);
     } catch (error) {
       const response = apiResponse({
         success: false,
