@@ -27,7 +27,10 @@ async function Header() {
     })),
   ];
   return (
-    <header className="sticky inset-0 z-20 min-h-[112px] w-full bg-white dark:bg-[#161513]">
+    <header
+      className="sticky inset-0 z-20 min-h-[112px] w-full bg-white
+        dark:bg-[#161513]"
+    >
       <div className="app flex items-center justify-between">
         {/* Right */}
         <div className="flex items-center gap-x-8">

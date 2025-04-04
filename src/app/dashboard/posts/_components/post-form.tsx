@@ -151,12 +151,16 @@ function PostForm({ initialData }: TPostFormProps) {
         className="flex flex-col gap-3 text-lg"
         onSubmit={(e) => e.preventDefault()}
       >
-        <div className="flex flex-col gap-4 rounded-md border border-primary p-3 md:flex-row">
+        <div
+          className="border-primary flex flex-col gap-4 rounded-md border p-3
+            md:flex-row"
+        >
           <div className="relative h-[200px] w-full md:h-auto md:w-[400px]">
             {!fullCover ? (
               <span
                 className={cn(
-                  "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform select-none",
+                  `absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                    transform select-none`,
                   {
                     "text-red-700": form.formState.errors.cover,
                   },

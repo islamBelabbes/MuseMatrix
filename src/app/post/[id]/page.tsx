@@ -59,14 +59,17 @@ async function PostPage({ params }: TParams) {
   const timeToRead = readingTime(post.data.content);
   return (
     <main className="app flex h-fit flex-col gap-5">
-      <div className="flex flex-col items-center justify-between gap-y-2 md:flex-row">
+      <div
+        className="flex flex-col items-center justify-between gap-y-2
+          md:flex-row"
+      >
         <div className="flex w-full flex-1 flex-col gap-5">
           <div className="flex gap-2">
             <Tag name={post.data.genre.title} variation="primary" />
             <Tag name={timeToRead.text} variation="secondary" dir="ltr" />
           </div>
 
-          <h1 className={`landscape-[50px] text-[18px] font-bold`}>
+          <h1 className={"landscape-[50px] text-[18px] font-bold"}>
             {post.data.title}
           </h1>
 

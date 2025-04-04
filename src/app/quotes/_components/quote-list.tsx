@@ -24,7 +24,10 @@ function QuoteList({
   if (isError) return;
   return (
     <div className="flex flex-col items-center gap-4">
-      <ul className="grid w-full grid-cols-[repeat(auto-fill,minmax(263px,1fr))] justify-center gap-5">
+      <ul
+        className="grid w-full grid-cols-[repeat(auto-fill,minmax(263px,1fr))]
+          justify-center gap-5"
+      >
         {mappedQuotes?.map((quote) => (
           <Quote
             key={quote.id}

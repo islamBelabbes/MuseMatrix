@@ -44,7 +44,8 @@ function PostList({
     <div className="flex flex-col items-center gap-4">
       <ul
         className={cn(
-          "grid w-full grid-cols-[repeat(auto-fill,minmax(300px,1fr))] justify-center gap-5",
+          `grid w-full grid-cols-[repeat(auto-fill,minmax(300px,1fr))]
+          justify-center gap-5`,
           {
             "grid-cols-[1fr] text-center": !mappedQuotes?.length,
           },
@@ -85,7 +86,10 @@ function PostList({
 
 const PostCard = ({ ...post }: TPostCardProps) => {
   return (
-    <li className="flex flex-col items-center gap-4 rounded-xl border border-secondary p-4">
+    <li
+      className="border-secondary flex flex-col items-center gap-4 rounded-xl
+        border p-4"
+    >
       <div className="relative h-[240px] w-full">
         <Link className="mr-auto" href={`/post/${post.id}`}>
           <Image
@@ -106,7 +110,7 @@ const PostCard = ({ ...post }: TPostCardProps) => {
           <Tag name={post.genre.title} variation="secondary" />
         </div>
         <Link href={`/post/${post.id}`}>
-          <h1 className={`landscape-[50px] text-[18px] font-bold`}>
+          <h1 className={"landscape-[50px] text-[18px] font-bold"}>
             {post.title}
           </h1>
         </Link>

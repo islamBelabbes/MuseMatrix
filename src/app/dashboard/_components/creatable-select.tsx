@@ -82,7 +82,8 @@ const CreatableSelect = forwardRef<HTMLButtonElement, TCreatableSelectProps>(
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="my-0! w-full justify-between px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            className="focus:ring-ring my-0! w-full justify-between px-3 py-2
+              focus:ring-2 focus:ring-offset-2 focus:outline-hidden"
           >
             {value.label ? (
               value.label

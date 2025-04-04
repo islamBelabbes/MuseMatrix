@@ -110,7 +110,10 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
         className="flex flex-col gap-3 text-lg"
         onSubmit={form.handleSubmit(handleOnSubmit)}
       >
-        <div className="flex flex-col gap-4 rounded-md border border-primary p-3 md:flex-row">
+        <div
+          className="border-primary flex flex-col gap-4 rounded-md border p-3
+            md:flex-row"
+        >
           <Quote
             author={{
               avatar: `${MEDIA_URL}/${author?.avatar}`,
@@ -176,7 +179,10 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                 name="postId"
                 control={form.control}
                 render={({ field }) => (
-                  <FormItem className="mt-0 flex w-full grow items-center gap-2 xl:w-auto">
+                  <FormItem
+                    className="mt-0 flex w-full grow items-center gap-2
+                      xl:w-auto"
+                  >
                     <FormLabel className="w-16 shrink-0">المصدر</FormLabel>{" "}
                     <FormControl>
                       <PostSelect
