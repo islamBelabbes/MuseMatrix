@@ -203,7 +203,7 @@ function PostForm({ initialData }: TPostFormProps) {
                       placeholder="عنوان المقالة"
                       {...field}
                       value={field.value ?? ""}
-                      className="!m-0 h-full"
+                      className="m-0! h-full"
                     />
                   </FormControl>
                 </FormItem>
@@ -239,7 +239,7 @@ function PostForm({ initialData }: TPostFormProps) {
               control={form.control}
               name="authorId"
               render={({ field }) => (
-                <FormItem className="!mt-0 flex items-center gap-2">
+                <FormItem className="mt-0! flex items-center gap-2">
                   <FormLabel className="w-16 shrink-0">المصدر</FormLabel>{" "}
                   <FormControl>
                     <AuthorSelect
@@ -271,7 +271,7 @@ function PostForm({ initialData }: TPostFormProps) {
                       value={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger className="!my-0">
+                      <SelectTrigger className="my-0!">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-none shadow-none">

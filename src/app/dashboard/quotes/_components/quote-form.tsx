@@ -141,7 +141,7 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                       placeholder="اقتباس الاقتباس"
                       {...field}
                       value={field.value}
-                      className="!m-0"
+                      className="m-0!"
                     />
                   </FormControl>
                 </FormItem>
@@ -204,7 +204,7 @@ function QuoteForm({ initialData }: TQuoteFormProps) {
                       <HexColorPicker
                         color={field.value ?? DEFAULT_COLOR}
                         onChange={field.onChange}
-                        className="!w-full xl:!w-52"
+                        className="w-full! xl:w-52!"
                       />
                     </FormControl>
                   </FormItem>
