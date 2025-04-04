@@ -32,7 +32,8 @@ function SideMenu({ links }: { links: TNavMenu[] }) {
           {links.map((link) => (
             <li
               key={link.href}
-              className={`text-secondary/600 w-full border-b p-3 text-base font-medium leading-6`}
+              className={`text-secondary/600 w-full border-b p-3 text-base
+              leading-6 font-medium`}
             >
               <Link href={link.href} onClick={(e) => handleOnClick(e)}>
                 {link.name}

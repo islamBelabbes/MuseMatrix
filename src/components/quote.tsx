@@ -32,7 +32,10 @@ function Quote({ className, showFullContent = false, ...quote }: TQuoteProps) {
       />
 
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="color w-[90vw] rounded-none border-none bg-[none] bg-none p-0 shadow-none sm:w-[500px]">
+        <DialogContent
+          className="color w-[90vw] rounded-none border-none bg-[none] bg-none
+            p-0 shadow-none sm:w-[500px]"
+        >
           <VisuallyHidden>
             <DialogTitle hidden>محتوى الاقتباس</DialogTitle>
           </VisuallyHidden>
@@ -58,9 +61,10 @@ const QuoteContent = ({
 }: TQuoteContentProps) => {
   return (
     <li
-       dir="auto"
+      dir="auto"
       className={cn(
-        "relative flex min-h-[370px] flex-col items-center gap-5 rounded-xl py-7",
+        `relative flex min-h-[370px] flex-col items-center gap-5 rounded-xl
+        py-7`,
         className,
         {
           "cursor-pointer": onClick,
@@ -74,11 +78,11 @@ const QuoteContent = ({
       <AuthorAvatar avatar={quote.author.avatar} />
 
       <div className="px-3 text-center text-white">
-        <p className={cn("line-clamp-1 text-xs font-medium leading-4")}>
+        <p className={cn("line-clamp-1 text-xs leading-4 font-medium")}>
           {quote.author.name}
         </p>
         <span
-          className={cn("text-base font-bold leading-6", {
+          className={cn("text-base leading-6 font-bold", {
             "line-clamp-3": !showFullContent,
           })}
           style={{ overflowWrap: "anywhere" }}
@@ -89,7 +93,8 @@ const QuoteContent = ({
 
       {quote.post && (
         <div
-          className="mt-auto flex items-center justify-center self-stretch border-t px-2 text-center text-white"
+          className="mt-auto flex items-center justify-center self-stretch
+            border-t px-2 text-center text-white"
           onClick={(e) => e.stopPropagation()}
         >
           <Link href={`/post/${quote.post.id}`} className="mt-2 line-clamp-1">

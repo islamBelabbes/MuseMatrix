@@ -7,7 +7,8 @@ function NavMenu({ links }: { links: TNavMenu[] }) {
       {links.map((link) => (
         <li
           key={link.href}
-          className="text-secondary/600 text-base font-medium leading-6 dark:text-[#F0F2F5]"
+          className="text-secondary/600 text-base leading-6 font-medium
+            dark:text-[#F0F2F5]"
         >
           <Link href={link.href}>{link.name}</Link>
         </li>

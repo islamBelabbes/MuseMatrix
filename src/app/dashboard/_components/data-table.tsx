@@ -135,7 +135,7 @@ function TablePagination({ total, limit }: TablePaginationProps) {
     <div className="flex items-center justify-between py-2">
       <ReactPaginate
         initialPage={page - 1} // react-paginate starts from 0;
-        className="flex select-none items-center justify-start gap-4"
+        className="flex items-center justify-start gap-4 select-none"
         nextLinkClassName={buttonVariants({ variant: "default" })}
         previousLinkClassName={buttonVariants({ variant: "default" })}
         activeClassName="text-primary"

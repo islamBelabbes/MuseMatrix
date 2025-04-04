@@ -60,8 +60,12 @@ const Editor = ({ initialValue, onChange, onUpdate }: EditorProp) => {
         }}
         slotAfter={<ImageResizer />}
       >
-        <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
-          <EditorCommandEmpty className="px-2 text-muted-foreground">
+        <EditorCommand
+          className="border-muted bg-background z-50 h-auto max-h-[330px]
+            overflow-y-auto rounded-md border px-1 py-2 shadow-md
+            transition-all"
+        >
+          <EditorCommandEmpty className="text-muted-foreground px-2">
             لايوجد نتيجة
           </EditorCommandEmpty>
           <EditorCommandList>
@@ -69,15 +73,19 @@ const Editor = ({ initialValue, onChange, onUpdate }: EditorProp) => {
               <EditorCommandItem
                 value={item.title}
                 onCommand={(val) => item.command?.(val)}
-                className={`flex w-full items-center gap-1 space-x-2 rounded-md px-2 py-1 text-sm hover:bg-accent aria-selected:bg-accent`}
+                className={`hover:bg-accent aria-selected:bg-accent flex w-full
+                items-center gap-1 space-x-2 rounded-md px-2 py-1 text-sm`}
                 key={item.title}
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-md border border-muted bg-background">
+                <div
+                  className="border-muted bg-background flex h-10 w-10
+                    items-center justify-center rounded-md border"
+                >
                   {item.icon}
                 </div>
                 <div>
                   <p className="font-medium">{item.title}</p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     {item.description}
                   </p>
                 </div>
@@ -90,7 +98,8 @@ const Editor = ({ initialValue, onChange, onUpdate }: EditorProp) => {
           tippyOptions={{
             placement: "bottom",
           }}
-          className="flex w-fit max-w-[90vw] overflow-hidden rounded-md border border-muted bg-background shadow-xl"
+          className="border-muted bg-background flex w-fit max-w-[90vw]
+            overflow-hidden rounded-md border shadow-xl"
         >
           <Separator orientation="vertical" />
           <NodeSelector open={openNode} onOpenChange={setOpenNode} />
