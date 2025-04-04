@@ -14,9 +14,10 @@ const paramsSchema = z.coerce.number().catch(0);
 export async function generateMetadata({
   params,
 }: {
-  params: { genreId: string };
+  params: Promise<{ genreId: string }>;
 }) {
-  const _genreId = paramsSchema.parse(params.genreId);
+  const _params = await params;
+  const _genreId = paramsSchema.parse(_params.genreId);
   if (!_genreId) notFound();
 
   const genre = await safeAsync(getGenreByIdUseCase(_genreId));
@@ -35,7 +36,8 @@ export async function generateStaticParams() {
   }));
 }
 
-async function Page({ params: { genreId } }: { params: { genreId: string } }) {
+async function Page({ params }: { params: Promise<{ genreId: string }> }) {
+  const genreId = (await params).genreId;
   const _genreId = paramsSchema.parse(genreId);
   if (!_genreId) notFound();
 

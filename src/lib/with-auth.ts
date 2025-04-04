@@ -4,35 +4,37 @@ import { TUser } from "@/dto/users";
 import { safeAsync } from "./safe";
 import { getCurrentUser } from "./kinde-auth";
 
-type TApiHandlerWithAuth<T extends object> = (
+type TApiHandlerWithAuth<T extends Promise<object>> = (
   req: NextRequest,
-  params: T,
+  segmentData: { params: T },
   user: TUser,
 ) => Promise<NextResponse<TApiResponse<unknown>> | Response>;
 
-type TApiHandlerWithOptionalAuth<T extends object> = (
+type TApiHandlerWithOptionalAuth<T extends Promise<object>> = (
   req: NextRequest,
-  params: T,
+  segmentData: { params: T },
   user: TUser | undefined,
 ) => Promise<NextResponse<TApiResponse<unknown>> | Response>;
 
-const withAuth = <T extends object>(handler: TApiHandlerWithAuth<T>) => {
-  return async (req: NextRequest, params: T) => {
+const withAuth = <T extends Promise<object>>(
+  handler: TApiHandlerWithAuth<T>,
+) => {
+  return async (req: NextRequest, segmentData: { params: T }) => {
     const user = await getCurrentUser(); // this will throw if the user is not authenticated
-    return handler(req, params, user);
+    return handler(req, segmentData, user);
   };
 };
 
-export const withOptionalAuth = <T extends object>(
+export const withOptionalAuth = <T extends Promise<object>>(
   handler: TApiHandlerWithOptionalAuth<T>,
 ) => {
-  return async (req: NextRequest, params: T) => {
+  return async (req: NextRequest, segmentData: { params: T }) => {
     const user = await safeAsync(getCurrentUser());
 
     let _user: TUser | undefined = undefined;
     if (user.success) _user = user.data;
 
-    return handler(req, params, _user);
+    return handler(req, segmentData, _user);
   };
 };
 

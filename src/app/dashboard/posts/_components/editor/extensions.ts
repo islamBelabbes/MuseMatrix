@@ -10,7 +10,7 @@ import {
   HighlightExtension,
   TextStyle,
   CodeBlockLowlight,
-} from "novel/extensions";
+} from "novel";
 import TextDirection from "tiptap-text-direction";
 import TextAlign from "@tiptap/extension-text-align";
 

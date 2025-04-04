@@ -2,78 +2,78 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["fullTextSearch"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearchPostgres"]
 }
 
 datasource db {
-    provider  = "postgresql"
-    url       = env("DATABASE_URL")
-    directUrl = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 generator zod {
-    provider         = "zod-prisma-types"
-    createInputTypes = false // default is true
+  provider         = "zod-prisma-types"
+  createInputTypes = false // default is true
 }
 
 model Author {
-    id     Int    @id @default(autoincrement())
-    avatar String
-    name   String
+  id     Int    @id @default(autoincrement())
+  avatar String
+  name   String
 
-    posts  Post[]
-    quotes Quote[]
+  posts  Post[]
+  quotes Quote[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Post {
-    id      Int    @id @default(autoincrement())
-    title   String
-    content String
-    cover   String
-    status  STATUS @default(Draft) // enum
+  id      Int    @id @default(autoincrement())
+  title   String
+  content String
+  cover   String
+  status  STATUS @default(Draft) // enum
 
-    authorId Int
-    author   Author @relation(fields: [authorId], references: [id])
+  authorId Int
+  author   Author @relation(fields: [authorId], references: [id])
 
-    genreId Int
-    genre   Genre @relation(fields: [genreId], references: [id])
+  genreId Int
+  genre   Genre @relation(fields: [genreId], references: [id])
 
-    quotes Quote[]
+  quotes Quote[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Genre {
-    id    Int    @id @default(autoincrement())
-    title String
+  id    Int    @id @default(autoincrement())
+  title String
 
-    posts Post[]
+  posts Post[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Quote {
-    id    Int    @id @default(autoincrement())
-    quote String
-    color String
+  id    Int    @id @default(autoincrement())
+  quote String
+  color String
 
-    postId Int?
-    post   Post? @relation(fields: [postId], references: [id])
+  postId Int?
+  post   Post? @relation(fields: [postId], references: [id])
 
-    authorId Int
-    author   Author @relation(fields: [authorId], references: [id])
+  authorId Int
+  author   Author @relation(fields: [authorId], references: [id])
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 enum STATUS {
-    Draft
-    Published
+  Draft
+  Published
 }

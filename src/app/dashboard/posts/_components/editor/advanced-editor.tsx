@@ -10,7 +10,7 @@ import {
   EditorCommandList,
   EditorBubble,
 } from "novel";
-import { ImageResizer, handleCommandNavigation } from "novel/extensions";
+import { ImageResizer, handleCommandNavigation } from "novel";
 import { defaultExtensions } from "./extensions";
 import { NodeSelector } from "./selectors/node-selector";
 import { LinkSelector } from "./selectors/link-selector";
@@ -51,7 +51,7 @@ const Editor = ({ initialValue, onChange, onUpdate }: EditorProp) => {
           // handleDrop: (view, event, _slice, moved) =>
           //   handleImageDrop(view, event, moved, uploadFn),
           attributes: {
-            class: `prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full`,
+            class: `prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-hidden max-w-full`,
           },
         }}
         onUpdate={({ editor }) => {

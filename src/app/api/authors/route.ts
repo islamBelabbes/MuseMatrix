@@ -28,7 +28,7 @@ async function getHandler(req: NextRequest) {
   return NextResponse.json(response, { status: response.status });
 }
 
-async function postHandler(req: NextRequest, params: {}, user: TUser) {
+async function postHandler(req: NextRequest, _: any, user: TUser) {
   const formData = await req.formData();
   const body = {
     name: formData.get("name") || undefined,

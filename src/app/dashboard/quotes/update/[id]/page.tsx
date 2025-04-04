@@ -9,9 +9,10 @@ import QuoteForm from "../../_components/quote-form";
 export default async function UpdateQuotePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const id = IdSchema.parse(params.id);
+  const _id = (await params).id;
+  const id = IdSchema.parse(_id);
   const quote = await safeAsync(getQuoteByIdUseCase(id));
 
   if (!quote.success) {

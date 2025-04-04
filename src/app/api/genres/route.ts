@@ -27,7 +27,7 @@ async function getHandler(req: NextRequest) {
   return NextResponse.json(response, { status: response.status });
 }
 
-async function postHandler(req: NextRequest, params: {}, user: TUser) {
+async function postHandler(req: NextRequest, _: any, user: TUser) {
   const body = (await req.json()) as unknown;
   const validatedBody = createGenreSchema.parse(body);
 

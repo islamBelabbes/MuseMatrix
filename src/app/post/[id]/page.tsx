@@ -13,9 +13,9 @@ import { MEDIA_URL } from "@/lib/constants";
 import readingTime from "reading-time";
 
 type TParams = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 const paramsSchema = z.coerce.number().catch(0);
@@ -36,10 +36,11 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: TParams): Promise<Metadata> {
-  const _id = paramsSchema.parse(params.id);
-  if (!_id) notFound();
+  const _id = (await params).id;
+  const id = paramsSchema.parse(_id);
+  if (!id) notFound();
 
-  const post = await safeAsync(cachedPost(_id));
+  const post = await safeAsync(cachedPost(id));
   if (!post.success) notFound();
   return {
     title: generateSeoTitle([post.data.title]),
@@ -47,11 +48,12 @@ export async function generateMetadata({ params }: TParams): Promise<Metadata> {
   };
 }
 
-async function PostPage({ params: { id } }: TParams) {
-  const _id = paramsSchema.parse(id);
-  if (!_id) notFound();
+async function PostPage({ params }: TParams) {
+  const _id = (await params).id;
+  const id = paramsSchema.parse(_id);
+  if (!id) notFound();
 
-  const post = await safeAsync(cachedPost(_id));
+  const post = await safeAsync(cachedPost(id));
   if (!post.success) notFound();
 
   const timeToRead = readingTime(post.data.content);
