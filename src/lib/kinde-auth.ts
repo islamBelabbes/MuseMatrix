@@ -10,5 +10,7 @@ export const getCurrentUser = async () => {
   const user = await getUser();
   const roles = await getRoles();
 
+  if (!user) throw new AuthError();
+
   return usersDtoMapper({ ...user, roles: roles ?? [] });
 };
