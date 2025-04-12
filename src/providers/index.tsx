@@ -3,7 +3,7 @@
 import { ReachQueryProvider } from "./react-query-provider";
 import { ThemeProvider } from "./theme-provider";
 import { Toaster } from "react-hot-toast";
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { ProgressProvider } from "@bprogress/next/app";
 
 function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -14,14 +14,15 @@ function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
       disableTransitionOnChange
     >
       <ReachQueryProvider>
-        {children}
-        <Toaster />
-        <ProgressBar
+        <ProgressProvider
           height="4px"
           color="#2563eb"
           options={{ showSpinner: false }}
           shallowRouting
-        />
+        >
+          {children}
+          <Toaster />
+        </ProgressProvider>
       </ReachQueryProvider>
     </ThemeProvider>
   );

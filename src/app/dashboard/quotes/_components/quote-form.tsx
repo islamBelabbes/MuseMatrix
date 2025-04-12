@@ -31,7 +31,7 @@ import {
 import { safeAsync } from "@/lib/safe";
 import toast from "react-hot-toast";
 import { getDirtyFields } from "@/lib/utils";
-import { useRouter } from "next-nprogress-bar";
+import { useRouter } from "@bprogress/next/app";
 
 const DEFAULT_COLOR = "#000000";
 

@@ -40,7 +40,7 @@ import Editor from "./editor/advanced-editor";
 
 import { generateJSON, generateHTML } from "@tiptap/react";
 import { defaultExtensions } from "./editor/extensions";
-import { useRouter } from "next-nprogress-bar";
+import { useRouter } from "@bprogress/next/app";
 import useDebouncedCallback from "@/hooks/use-debounced-callback";
 import useIsMounted from "@/hooks/use-is-mounted";
 
