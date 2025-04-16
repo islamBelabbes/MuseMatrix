@@ -23,9 +23,9 @@ export default async function DraftPage({
     user: user.success ? user.data : undefined,
   });
   return (
-    <div>
+    <>
       <CreateButton href="/dashboard/posts/create">إنشاء مقالة</CreateButton>
       <PostsTable posts={posts} limit={LIMIT} />
-    </div>
+    </>
   );
 }

@@ -8,9 +8,9 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="app flex flex-col gap-3">
+    <main className="app flex flex-col gap-3">
       <NavBar />
       <div>{children}</div>
-    </div>
+    </main>
   );
 }

@@ -17,9 +17,9 @@ export default async function QuotesPage({
     page,
   });
   return (
-    <div>
+    <>
       <CreateButton href="/dashboard/quotes/create">إنشاء اقتباس</CreateButton>
       <QuotesTable limit={LIMIT} quotes={quotes} />
-    </div>
+    </>
   );
 }

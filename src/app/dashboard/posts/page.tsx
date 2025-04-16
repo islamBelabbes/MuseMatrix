@@ -18,9 +18,9 @@ export default async function PostsPage({
     page,
   });
   return (
-    <div>
+    <>
       <CreateButton href="/dashboard/posts/create">إنشاء مقالة</CreateButton>
       <PostsTable posts={posts} limit={LIMIT} />
-    </div>
+    </>
   );
 }
