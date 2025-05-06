@@ -122,12 +122,14 @@ function TablePagination({ total, limit }: TablePaginationProps) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const onPageChange = (nextPage: number) => {
-    return startTransition(() => router.push(`?page=${nextPage}`));
+    const params = new URLSearchParams({ page: nextPage.toString() });
+    nextPage === 1 && params.delete("page");
+    return startTransition(() => router.push(`?${params.toString()}`));
   };
 
-  const pageCount = total ? Math.ceil(total / limit) : 0;
-
+  const pageCount = Math.ceil(total / limit);
   const page = PageSchema.parse(searchParams.get("page"));
 
   if (pageCount === 1) return null;
@@ -142,6 +144,7 @@ function TablePagination({ total, limit }: TablePaginationProps) {
         breakLabel="..."
         nextLabel="التالي"
         onPageChange={(param) => onPageChange(param.selected + 1)}
+        disableInitialCallback
         pageRangeDisplayed={5}
         pageCount={pageCount}
         previousLabel="السابق"
