@@ -24,7 +24,7 @@ function SideMenu({ links }: { links: TNavMenu[] }) {
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger className="lg:hidden">
+      <SheetTrigger className="lg:hidden" aria-label="Open navigation menu">
         <Menu />
       </SheetTrigger>
       <SheetContent className="w-full border-none md:w-[30%]">
