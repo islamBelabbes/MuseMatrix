@@ -1,10 +1,15 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 
 import { cn } from "@/lib/utils";
 import AuthorAvatar from "@/components/author-avatar";
-import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { TQuote } from "@/dto/quotes";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
@@ -15,23 +20,24 @@ type TQuoteProps = Pick<TQuote, "color" | "quote"> & {
   post?: Pick<NonNullable<TQuote["post"]>, "id" | "title">;
   author: Pick<NonNullable<TQuote["author"]>, "name" | "avatar">;
   className?: string;
-  showFullContent?: boolean;
 };
 
-type TQuoteContentProps = TQuoteProps & { onClick?: () => void };
+type QuoteContentProps = TQuoteProps & { showFullContent?: boolean };
 
-function Quote({ className, showFullContent = false, ...quote }: TQuoteProps) {
-  const [showModal, setShowModal] = useState(false);
+// TODO : Make Quote Trigger accessible via keyboard
+
+function Quote({ className, ...quote }: TQuoteProps) {
   return (
     <>
-      <QuoteContent
-        className={className}
-        showFullContent={showFullContent}
-        onClick={() => setShowModal(true)}
-        {...quote}
-      />
+      <Dialog>
+        <DialogTrigger asChild>
+          <QuoteContent
+            className={cn("cursor-pointer", className)}
+            tabIndex={0}
+            {...quote}
+          />
+        </DialogTrigger>
 
-      <Dialog open={showModal} onOpenChange={setShowModal}>
         <DialogContent
           className="color w-[90vw] rounded-none border-none bg-[none] bg-none
             p-0 shadow-none sm:w-[500px]"
@@ -42,7 +48,7 @@ function Quote({ className, showFullContent = false, ...quote }: TQuoteProps) {
 
           <QuoteContent
             className={className}
-            showFullContent={showFullContent}
+            showFullContent={true}
             {...quote}
           />
 
@@ -53,57 +59,66 @@ function Quote({ className, showFullContent = false, ...quote }: TQuoteProps) {
   );
 }
 
-const QuoteContent = ({
-  className,
-  showFullContent = false,
-  onClick,
-  ...quote
-}: TQuoteContentProps) => {
-  return (
-    <li
-      dir="auto"
-      className={cn(
-        `relative flex min-h-[370px] flex-col items-center gap-5 rounded-xl
-        py-7`,
-        className,
-        {
-          "cursor-pointer": onClick,
-        },
-      )}
-      style={{ background: quote.color ?? DEFAULT_COLOR }}
-      onClick={onClick}
-    >
-      {/* <div className="w-full top__bar">{children}</div> */}
+const QuoteContent = React.forwardRef<
+  HTMLLIElement,
+  React.LiHTMLAttributes<HTMLLIElement> & QuoteContentProps
+>(
+  (
+    {
+      className,
+      showFullContent = false,
+      author,
+      color,
+      quote,
+      post,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <li
+        dir="auto"
+        className={cn(
+          `relative flex min-h-[370px] flex-col items-center gap-5 rounded-xl
+          py-7`,
+          className,
+        )}
+        style={{ background: color ?? DEFAULT_COLOR }}
+        ref={ref}
+        {...props}
+      >
+        {/* <div className="w-full top__bar">{children}</div> */}
 
-      <AuthorAvatar avatar={quote.author.avatar} />
+        <AuthorAvatar avatar={author.avatar} />
 
-      <div className="px-3 text-center text-white">
-        <p className={cn("line-clamp-1 text-xs leading-4 font-medium")}>
-          {quote.author.name}
-        </p>
-        <span
-          className={cn("text-base leading-6 font-bold", {
-            "line-clamp-3": !showFullContent,
-          })}
-          style={{ overflowWrap: "anywhere" }}
-        >
-          {quote.quote}
-        </span>
-      </div>
-
-      {quote.post && (
-        <div
-          className="mt-auto flex items-center justify-center self-stretch
-            border-t px-2 text-center text-white"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <Link href={`/post/${quote.post.id}`} className="mt-2 line-clamp-1">
-            {quote.post.title}
-          </Link>
+        <div className="px-3 text-center text-white">
+          <p className={cn("line-clamp-1 text-xs leading-4 font-medium")}>
+            {author.name}
+          </p>
+          <span
+            className={cn("text-base leading-6 font-bold", {
+              "line-clamp-3": !showFullContent,
+            })}
+            style={{ overflowWrap: "anywhere" }}
+          >
+            {quote}
+          </span>
         </div>
-      )}
-    </li>
-  );
-};
+
+        {post && (
+          <div
+            className="mt-auto flex items-center justify-center self-stretch
+              border-t px-2 text-center text-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Link href={`/post/${post.id}`} className="mt-2 line-clamp-1">
+              {post.title}
+            </Link>
+          </div>
+        )}
+      </li>
+    );
+  },
+);
 
 export default Quote;
