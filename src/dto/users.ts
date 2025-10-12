@@ -1,11 +1,13 @@
 import { KindeRoles, KindeUserBase } from "@kinde-oss/kinde-auth-nextjs/types";
 
+// TODO : Design DTO
+
 type TUserParams = KindeUserBase & {
   roles: KindeRoles;
 };
 
 export const usersDtoMapper = (user: TUserParams) => {
-  return {...user};
+  return { ...user };
 };
 
 export type TUser = ReturnType<typeof usersDtoMapper>;

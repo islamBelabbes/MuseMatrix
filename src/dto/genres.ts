@@ -1,9 +1,9 @@
-import {  Genre } from "@prisma/client";
+import { Genre } from "@prisma/client";
 
-
+// TODO : Design DTO
 
 export const genresDtoMapper = (genre: Genre) => {
-  return {...genre};
+  return { ...genre };
 };
 
 export type TGenre = ReturnType<typeof genresDtoMapper>;
